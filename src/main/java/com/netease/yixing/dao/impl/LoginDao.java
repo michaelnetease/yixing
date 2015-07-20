@@ -1,5 +1,7 @@
 package com.netease.yixing.dao.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -10,10 +12,19 @@ import com.netease.yixing.model.User;
 public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 
 	@Override
-	public User getUserById(User user) {		
+	public List<User> getAllUser() {		
 		System.out.println("mybatis");
-		return null;
-		//return (User) getSqlSession().selectOne("com.xxt.ibatis.dbcp.domain.User.getUser", user); 
+		return getSqlSession().selectList("com.netease.yixing.model.User.getAllUser"); 
+	}
+
+	@Override
+	public void insertUser(User user) {
+		getSqlSession().insert("com.netease.yixing.model.User.insertUser",user);		
+	}
+
+	@Override
+	public User queryUser(User user) {
+		return getSqlSession().selectOne("com.netease.yixing.model.User.getUser", user);
 	}
 
 }

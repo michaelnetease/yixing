@@ -1,8 +1,11 @@
 package com.netease.yixing.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.netease.yixing.dao.ILoginDao;
+import com.netease.yixing.model.User;
 import com.netease.yixing.service.ILoginService;
 
 @Service
@@ -19,9 +22,29 @@ public class LoginService implements ILoginService {
 		this.loginDao = loginDao;
 	}
 
-	public void test(){
-		loginDao.getUserById(null);
-		System.out.println("hello");
+	@Override
+	public List<User> queryUser(User user) {
+		List<User> userList = loginDao.getAllUser();
+		System.out.println(userList.size());
+		return null;
 	}
+
+	@Override
+	public void register(User user) throws Exception{
+		loginDao.insertUser(user);		
+	}
+
+	@Override
+	public User login(User user) {
+		return loginDao.queryUser(user);
+
+	}
+
+	@Override
+	public void loginout(User user) {
+		// TODO Auto-generated method stub
+
+	}
+
 	
 }

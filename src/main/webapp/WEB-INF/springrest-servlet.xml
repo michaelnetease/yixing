@@ -11,13 +11,16 @@
            http://www.springframework.org/schema/mvc   
            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
            
-           
+    <!--       
     <mvc:resources location="/images/" mapping="/images/**"/> 
     <mvc:resources location="/touch/" mapping="/touch/**"/>   
     <mvc:resources location="/css/" mapping="/css/**"/>      
     <mvc:resources location="/main/" mapping="/main/**"/> 
     <mvc:resources location="/" mapping="/index.html"/>
-    <mvc:resources location="/" mapping="/mainApp.js"/>          
+    <mvc:resources location="/" mapping="/mainApp.js"/>     
+     -->      
+     <mvc:resources location="/" mapping="/index.html"/>
+     <mvc:resources location="/js/" mapping="/js/**"/>
 
     <!-- 修改包名 -->
     <context:component-scan base-package="com.netease.yixing" use-default-filters="false">
@@ -53,6 +56,7 @@
 		<property name="ignoreAcceptHeader" value="true" />
 		<property name="defaultContentType" value="application/json" />
 		 -->
+		
 		<property name="mediaTypes">  
 		  <map>  
 		    <entry key="html" value="text/html"/>   
@@ -62,9 +66,11 @@
             <entry key="xml" value="application/xml" /> 
 		  </map>  
 		</property>
+		
 		<property name="favorParameter" value="false" /> 
-		<!-- 
-			<property name="viewResolvers">  
+		 
+		 <!-- 
+		 	<property name="viewResolvers">  
 			  <list>
 			   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
 			        <property name="prefix" value="/view/"></property>  
@@ -72,7 +78,9 @@
 			   </bean> 
 			  </list>
 			</property>
-		 -->
+		  -->
+
+		 
 
 		<property name="defaultViews">
 			<list>
