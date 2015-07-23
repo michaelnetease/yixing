@@ -28,6 +28,13 @@ public class LoginCotroller {
 		this.loginServ = loginServ;
 	}
 
+	@RequestMapping(value="/login/test")
+	public Map<String,Object> test(HttpServletRequest request){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		System.out.println("test ok!!!!!!!!!!!");
+		return modelMap;
+	}
+	
 	@RequestMapping(value="/login/register",method=RequestMethod.POST)
 	public Map<String,Object> register(HttpServletRequest request, @RequestBody User user){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
@@ -39,7 +46,12 @@ public class LoginCotroller {
 			success = false;
 			message = e.getMessage();
 			e.printStackTrace();
-		}		
+		}
+		
+		//云信注册
+		
+		
+		
 		modelMap.put("success", success);
 		modelMap.put("message", message);
 		return modelMap;
