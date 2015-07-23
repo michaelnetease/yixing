@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.Equipment">
+	
+	<resultMap type="com.netease.yixing.model.Equipment" id="equipmentResult">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="travelId" column="travelId" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="type" column="type" />
+		<result property="items" column="items" />
+		<result property="selectedItems" column="selectedItems"/>
+	</resultMap>
+	
+	<select id="getItems"  parameterType="int"  resultMap="equipmentResult">
+		select * from equipment where travelId=#{travelId}
+	</select>
+	
+	<select id="getSelectedItems"  parameterType="int"  resultType="string">
+		select selectedItems from equipment where travelId=#{travelId}
+	</select>
+	
+ 	
+ 	<insert id="updateSelectedItems" parameterType="equipment">
+	 <![CDATA[
+		update equipment set selectedItems=#{selectedItems} where  travelId=#{travelId} and type=#{type}
+		]]>
+ 	</insert>
+ 	
+ 	
+ 	<insert id="insertBasicItems" parameterType="equipment">
+	 <![CDATA[
+		insert into equipment (travelId, type, items ) values (#{travelId},#{type},#{items})
+		]]>
+ 	</insert>
+
+</mapper>
+
