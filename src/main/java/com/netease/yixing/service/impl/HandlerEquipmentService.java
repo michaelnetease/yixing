@@ -13,9 +13,6 @@ public class HandlerEquipmentService implements IHandlerEquipmentService {
 
 	private IHandlerEquipmentDao handlerEquipmentDao;
 	
-	
-
-
 	public IHandlerEquipmentDao getHandlerEquipmentDao() {
 		return handlerEquipmentDao;
 	}
@@ -25,35 +22,34 @@ public class HandlerEquipmentService implements IHandlerEquipmentService {
 	}
 
 	@Override
-	public List<Equipment> getItems(int travelId){
+	public List<Equipment> getItems(int travelId)throws Exception{
 		List<Equipment> equipmentList=handlerEquipmentDao.getItems(travelId);
 		return equipmentList;
 	}
 
 	@Override
-	public void updateSelectedItems(Equipment equipment)  {
+	public void updateSelectedItems(Equipment equipment) throws Exception {
 		
 		handlerEquipmentDao.updateSelectedItems(equipment);
 		
 	}
 
 	@Override
-	public void updateSelectedItems(List<Equipment> equipmentList) {
+	public void updateSelectedItems(List<Equipment> equipmentList) throws Exception{
 		for(Equipment temp:equipmentList)
 		{
 			handlerEquipmentDao.updateSelectedItems(temp);
 		}
-		
 	}
 
 	@Override
-	public void insertBasicItems(Equipment equipment) {
+	public void insertBasicItems(Equipment equipment) throws Exception{
 		handlerEquipmentDao.insertBasicItems(equipment);
 		
 	}
 
 	@Override
-	public void insertBasicItems(List<Equipment> equipmentList){
+	public void insertBasicItems(List<Equipment> equipmentList)throws Exception{
 		for(Equipment temp:equipmentList)
 		{
 			handlerEquipmentDao.insertBasicItems(temp);
@@ -62,7 +58,7 @@ public class HandlerEquipmentService implements IHandlerEquipmentService {
 	}
 	
 	@Override
-	public String getSelectedItems(int travelId)
+	public String getSelectedItems(int travelId)throws Exception
 	{
 		List<String> tempList=handlerEquipmentDao.getSelectedItems(travelId);
 		StringBuffer sb=new StringBuffer();

@@ -39,12 +39,28 @@ public class LoginService implements ILoginService {
 		return loginDao.queryUser(user);
 
 	}
+	
+	
+
+	@Override
+	public void deleteUser(User user) throws Exception {
+		loginDao.deleteUser(user);
+		
+	}
 
 	@Override
 	public void loginout(User user) {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public User selectUserByPhone(String phoneNum) throws Exception {
+		User u=loginDao.selectUserByPhone(phoneNum);
+		return u;
+	}
+	
+	
 
 	
 }

@@ -12,4 +12,8 @@ public interface ILoginDao {
 	
 	public User queryUser(User user);
 	
+	public void deleteUser(User user);
+	
+	public User selectUserByPhone(String phoneNum);
+	
 }

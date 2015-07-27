@@ -58,7 +58,9 @@
     <!-- 自动扫描组件，这里要把web下面的 controller去除，他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。-->  
     <context:component-scan base-package="com.netease.yixing">  
         <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/> 
-    </context:component-scan> 
+    </context:component-scan>
+
+
     
     <!-- transaction -->
     <!-- 
@@ -102,7 +104,15 @@
 		<property name="sqlSessionTemplate" ref="sqlSession" />     
 		  <!--也可直接注入SqlSessionFactory实例，二者都指定时，SqlSessionFactory失效 -->     
 		 <!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" />    -->  
-	 </bean>  
+	 </bean>
+
+
+	<bean id="handlerEquipmentDao" class="com.netease.yixing.dao.impl.HandlerEquipmentDao">
+		<!--注入SqlSessionTemplate实例 -->
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+		<!--也可直接注入SqlSessionFactory实例，二者都指定时，SqlSessionFactory失效 -->
+		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
+	</bean>  
 	 
      
 </beans>

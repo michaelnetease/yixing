@@ -12,11 +12,16 @@
 		<result property="gender" column="gender" />
 		<result property="location" column="location" />
 		<result property="token" column="token" />
+		<result property="picId" column="picId" />
 	</resultMap>
 	
 	<select id="getUser" parameterType="user" resultMap="userResult">
 		select * from user 
 		where username=#{username} and password=#{password} 
+	</select>
+	
+	<select id="selectUserByPhone" parameterType="string"  resultMap="userResult">
+		select * from user  where phoneNum=#{phoneNum} 
 	</select>
 	
 	<insert id="insertUser" parameterType="user">
@@ -27,6 +32,10 @@
 		    (#{username},#{password},#{nickname},#{phoneNum},#{gender},#{location})
 		]]>
  	</insert>
+ 	
+ 	<delete id="deleteUser" parameterType="user">
+ 		delete from user where phoneNum=#{phoneNum}
+ 	</delete>
 
 <!-- 
 

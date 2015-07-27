@@ -13,5 +13,9 @@ public interface ILoginService {
 	public User login(User user) throws Exception;
 	
 	public void loginout(User user) throws Exception;
+	
+	public void deleteUser(User user) throws Exception;
+	
+	public User selectUserByPhone(String phoneNum) throws Exception;
 
 }

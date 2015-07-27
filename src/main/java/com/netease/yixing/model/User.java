@@ -17,6 +17,42 @@ public class User {
 	private int gender;
 	
 	private String token;
+	
+	private String picId;
+	
+	private String signature;
+	
+	private String join_travel_schedule;
+	
+	
+	
+	
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+	public String getJoin_travel_schedule() {
+		return join_travel_schedule;
+	}
+
+	public void setJoin_travel_schedule(String join_travel_schedule) {
+		this.join_travel_schedule = join_travel_schedule;
+	}
+
+
+
+	public String getPicId() {
+		return picId;
+	}
+
+	public void setPicId(String picId) {
+		this.picId = picId;
+	}
 
 	public int getId() {
 		return id;

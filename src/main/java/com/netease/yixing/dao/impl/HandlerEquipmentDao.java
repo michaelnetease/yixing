@@ -13,25 +13,25 @@ public class HandlerEquipmentDao extends SqlSessionDaoSupport implements IHandle
 
 
 	@Override
-	public List<Equipment> getItems(int travelId) {
+	public List<Equipment> getItems(int travelId)throws Exception {
 		
 		return getSqlSession().selectList("getItems", travelId);
 	}
 
 	@Override
-	public void updateSelectedItems(Equipment equipment) {
+	public void updateSelectedItems(Equipment equipment) throws Exception{
 		getSqlSession().update("updateSelectedItems", equipment);
 		
 	}
 
 	@Override
-	public void insertBasicItems(Equipment equipment) {
+	public void insertBasicItems(Equipment equipment) throws Exception{
 		getSqlSession().insert("insertBasicItems", equipment);
 		
 	}
 	
 	@Override
-	public List<String> getSelectedItems(int travelId)
+	public List<String> getSelectedItems(int travelId) throws Exception
 	{
 		return getSqlSession().selectList("getSelectedItems", travelId);
 	}
