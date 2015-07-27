@@ -27,6 +27,7 @@
 	</bean>
 	
 	
+	
 
     <!-- 2.Spring Manage  Hibernate -->
 
@@ -113,6 +114,29 @@
 		<!--也可直接注入SqlSessionFactory实例，二者都指定时，SqlSessionFactory失效 -->
 		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
 	</bean>  
+	
+	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxActive" value="50" />
+        <property name="maxIdle" value="8" />
+        <property name="maxWait" value="1000" />
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+    </bean>
+
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool"  scope="singleton">
+        <constructor-arg index="0" ref="jedisPoolConfig" />
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="223.252.223.10" />
+                    <constructor-arg name="port" value="6379" />
+                    <constructor-arg name="timeout" value="300" />
+                    <constructor-arg name="weight" value="1" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
 	 
      
 </beans>
