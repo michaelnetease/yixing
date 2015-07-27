@@ -1,7 +1,7 @@
 package com.netease.yixing.dao;
 
 import java.util.List;
-
+  
 import com.netease.yixing.model.Equipment;
 
 public interface IHandlerEquipmentDao {
