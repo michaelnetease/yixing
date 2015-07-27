@@ -3,7 +3,6 @@ package com.netease.yixing.service;
 import java.util.List;
 
 import com.netease.yixing.model.Equipment;
-import com.netease.yixing.model.TravelSchedule;
 
 public interface IHandlerEquipmentService {
 	
