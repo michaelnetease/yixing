@@ -37,12 +37,19 @@
            	<result column="items" property="items"/>  
            	<result property="selectedItems" column="selectedItems"/>            	         
        	</collection> 
+       	<collection property="recordList" ofType="com.netease.yixing.model.TravelRecord" column="id">  
+           	<id column="id" property="id"/>  
+           	<result column="text" property="text"/>
+           	<result column="picture_key" property="pictureKey"/>  
+           	<result property="location" column="location"/>            	         
+       	</collection> 
 	</resultMap>
 	
 	<select id="getScheduleById" parameterType="int" resultMap="scheduleResult">
-		select a.*,b.*,c.*,d.*,e.* from travel_schedule a, travel_schedule_agenda b,travel_agenda_arrange c,travel_agenda_hotel d,equipment e
-		where a.schedule_id=b.schedule_id and b.agenda_id=c.agenda_id and b.agenda_id=d.agenda_id and e.travelId=a.schedule_id
-		and a.visable = 1 and b.visable = 1 and c.visable = 1 and d.visable = 1 and a.schedule_id=#{scheduleId}
+		select a.*,b.*,c.*,d.*,e.*,f.* 
+		from travel_schedule a left join travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id
+		left join travel_agenda_hotel d on c.agenda_id=d.agenda_id left join equipment e on e.travelId=a.schedule_id left join travel_record f on f.travel_id=a.schedule_id
+		where  a.visable = 1 and b.visable = 1 and c.visable = 1 and d.visable = 1 and f.valid = 1 and a.schedule_id=#{scheduleId} 
 	</select>
 	
 	<insert id="insertSchedule" parameterType="schedule">
@@ -69,16 +76,26 @@
 		visable=#{visable},update_time=#{updateTime}   where schedule_id=#{scheduleId}
 	</update>
 
- 	<select id="getAllJoinSchedules" resultType="com.netease.yixing.model.TravelSchedule">
-	    select *
-	    from travel_schedule
-	    where visable = 1 and id in
-	    <foreach item="item" index="index" collection="array"
+ 	<select id="getAllJoinSchedules" resultMap="scheduleResult">	    
+		select a.*,b.*,c.*,d.*,e.*,f.* 
+		from travel_schedule a left join travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id
+		left join travel_agenda_hotel d on c.agenda_id=d.agenda_id left join equipment e on a.schedule_id = e.travelId left join travel_record f on a.schedule_id = f.travel_id
+		where  a.visable = 1 and b.visable = 1 and c.visable = 1 and d.visable = 1 and f.valid = 1 and a.schedule_id in
+		<foreach item="item" index="index" collection="array"
 	             open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
 	</select>
 	
+	<select id="getTopKVisitedSchedule" parameterType="int" resultMap="scheduleResult">
+	    select * from travel_schedule where visable = 1
+	    order by visit desc limit 0,#{k}
+	</select>
+	
+	<select id="getTopKMarkedSchedule" parameterType="int" resultMap="scheduleResult">
+	    select * from travel_schedule where visable = 1
+	    order by mark desc limit 0,#{k}
+	</select>
 	
 </mapper>
 

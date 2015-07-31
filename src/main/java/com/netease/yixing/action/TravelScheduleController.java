@@ -1,6 +1,7 @@
 package com.netease.yixing.action;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.ITravelScheduleService;
+import com.netease.yixing.utils.Constant;
 
 @Controller
 public class TravelScheduleController {
@@ -76,7 +79,7 @@ public class TravelScheduleController {
 	@RequestMapping(value="/travel/schedule/update",method = RequestMethod.PUT)
 	public Map<String,Object> updateTravelSchedule(HttpServletRequest request, @RequestBody TravelSchedule entity){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		boolean success = false;
+		boolean success = true;
 		String message = "ok";
 		try {
 			travelScheduleServ.updateTravelSchedule(entity);
@@ -95,7 +98,7 @@ public class TravelScheduleController {
 	@RequestMapping(value="/travel/schedule/delete",method = RequestMethod.POST)
 	public Map<String,Object> deleteTravelSchedule(HttpServletRequest request, @RequestBody TravelSchedule entity){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		boolean success = false;
+		boolean success = true;
 		String message = "ok";
 		try {
 			travelScheduleServ.deleteTravelSchedule(entity);
@@ -115,7 +118,7 @@ public class TravelScheduleController {
 	public Map<String,Object> queryAllJoinTravelSchedule(HttpServletRequest request, @RequestBody Map<String,Object> requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		List<TravelSchedule> scheduleInfos = null;
-		boolean success = false;
+		boolean success = true;
 		int userId = Integer.parseInt((String)requestMap.get("userId"));		
 		try{
 			scheduleInfos = travelScheduleServ.queryTravelInfoByUserId(userId);
@@ -129,23 +132,46 @@ public class TravelScheduleController {
 		return modelMap;
 	}
 	
-	@RequestMapping(value="/travel/schedule/pageQuery", method = RequestMethod.GET)
+	@RequestMapping(value="/travel/schedule/pageQuery", method = RequestMethod.POST)
 	public Map<String,Object> queryFixedNumJoinTravelSchedule(HttpServletRequest request, 
 			@RequestBody Map<String,Object> map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		List<TravelSchedule> scheduleInfos = null;
-		boolean success = false;
+		boolean success = true;
 		int userId = Integer.parseInt((String)map.get("userId"));	
-		int startIndex = Integer.parseInt((String)map.get("startIndex"));
-		int length = Integer.parseInt((String)map.get("length"));
+		int startIndex = (Integer)map.get("startIndex");
+		int length = (Integer)map.get("length");
+		String title = null;
+		Date startTime = null;
+		String pictureKey = null;
+		String location = null;
+		int createUser = 0;
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		try{
 			scheduleInfos = travelScheduleServ.queryFixedLengthTravelInfoByUserId(userId,startIndex,length);
+			for(TravelSchedule schedule:scheduleInfos){
+				Map<String,Object> resultMap = new HashMap<String,Object>();
+				resultMap.put("title", schedule.getTitle());
+				resultMap.put("startTime", schedule.getStartTime());
+				User user = schedule.getCreateUser();
+				createUser = user!=null?user.getId():0;
+				resultMap.put("createUser", createUser);
+				
+				List<TravelRecord> recordList = schedule.getRecordList();
+				TravelRecord firstRecord = recordList!=null?recordList.get(0):null;
+				pictureKey = firstRecord!=null? firstRecord.getPictureKey(): null;
+				location = firstRecord!=null? firstRecord.getLocation():null;
+				resultMap.put("pictureKey", pictureKey);				
+				resultMap.put("location", location);
+				
+				result.add(resultMap);
+			}
 		}catch(Exception e){
 			success = false;
 			e.printStackTrace();
 		}finally{
 			modelMap.put("success", success);
-			modelMap.put("schedules", scheduleInfos);
+			modelMap.put("schedules", result);
 		}
 		return modelMap;
 	}
@@ -153,7 +179,7 @@ public class TravelScheduleController {
 	@RequestMapping(value="/travel/schedule/querydetails", method = RequestMethod.POST)
 	public Map<String,Object> queryTravelScheduleDetailsByScheduleId(HttpServletRequest request, @RequestBody Map<String,Object> requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		boolean success = false;
+		boolean success = true;
 		TravelSchedule schedule = null;
 		int scheduleId = Integer.parseInt((String)requestMap.get("scheduleId"));		
 		try{
@@ -164,6 +190,63 @@ public class TravelScheduleController {
 		}finally{
 			modelMap.put("success", success);
 			modelMap.put("schedule", schedule);
+		}
+		return modelMap;
+	}
+	
+	@RequestMapping(value="/travel/schedule/querylatest", method = RequestMethod.POST)
+	public Map<String,Object> queryLateastTravelScheduleDetailsByUserId(HttpServletRequest request, @RequestBody Map<String,Object> requestMap){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		TravelSchedule schedule = null;
+		int userId = Integer.parseInt((String)requestMap.get("userId"));		
+		try{
+			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
+		}catch(Exception e){
+			success = false;
+			e.printStackTrace();
+		}finally{
+			modelMap.put("success", success);
+			modelMap.put("schedule", schedule);
+		}
+		return modelMap;
+	}
+	
+	
+	@RequestMapping(value="/travel/schedule/querytopvisit", method = RequestMethod.POST)
+	public Map<String,Object> queryTopKVistedSchedule(@RequestBody Map params){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		int k = (Integer)params.get("k");
+		boolean success = true;
+		List<TravelSchedule> schedules = null;	
+		try{
+			schedules = travelScheduleServ.queryTopKVisitedTravelSchedule(k);
+		}catch(Exception e){
+			success = false;
+			e.printStackTrace();
+		}finally{
+			modelMap.put("success", success);
+			modelMap.put("schedules", schedules);
+		}
+		return modelMap;
+	}
+	
+	
+	@RequestMapping(value="/travel/schedule/querytopmark", method = RequestMethod.POST)
+	public Map<String,Object> queryTopKMarkedSchedule(@RequestBody Map<String,Object> map){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		int k = (Integer)map.get("k");
+		Constant.TOP_K_TRAVEL_SCHEDULE = k;
+		boolean success = true;
+		List<TravelSchedule> schedules = null;	
+		try{
+			schedules = travelScheduleServ.queryTopKMarkedTravelSchedule(k);
+		}catch(Exception e){
+			success = false;
+			e.printStackTrace();
+		}finally{
+			modelMap.put("success", success);
+			modelMap.put("schedules", schedules);
 		}
 		return modelMap;
 	}

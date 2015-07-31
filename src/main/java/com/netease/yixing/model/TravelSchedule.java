@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
  
-import java.util.List;
- 
 public class TravelSchedule implements Serializable{
 
 	/**
@@ -118,4 +116,30 @@ public class TravelSchedule implements Serializable{
 	public void setVisable(boolean visable) {
 		this.visable = visable;
 	}
+	
+	public List<TravelScheduleAgenda> getAgendaList() {
+		return agendaList;
+	}
+
+	public void setAgendaList(List<TravelScheduleAgenda> agendaList) {
+		this.agendaList = agendaList;
+	}
+
+	public List<Equipment> getEquipmentList() {
+		return equipmentList;
+	}
+
+	public void setEquipmentList(List<Equipment> equipmentList) {
+		this.equipmentList = equipmentList;
+	}
+
+	public List<TravelRecord> getRecordList() {
+		return recordList;
+	}
+
+	public void setRecordList(List<TravelRecord> recordList) {
+		this.recordList = recordList;
+	}
+	
+	
 }

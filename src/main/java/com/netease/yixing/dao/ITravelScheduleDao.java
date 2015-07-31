@@ -17,5 +17,7 @@ public interface ITravelScheduleDao {
 	
 	public TravelSchedule queryScheduleDetailsByScheduleId(int scheduleId);
 	
+	public List<TravelSchedule> queryTopKVisitedTravelSchedule(int k);
 	
+	public List<TravelSchedule> queryTopKMarkedTravelSchedule(int k);
 }

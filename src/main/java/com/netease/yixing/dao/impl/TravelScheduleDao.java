@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.netease.yixing.dao.ITravelScheduleDao;
 import com.netease.yixing.model.TravelSchedule;
-import com.netease.yixing.model.TravelScheduleAgenda;
-import com.netease.yixing.model.User;
 
 @Repository
 public class TravelScheduleDao extends SqlSessionDaoSupport implements ITravelScheduleDao {
@@ -38,6 +36,16 @@ public class TravelScheduleDao extends SqlSessionDaoSupport implements ITravelSc
 	@Override
 	public TravelSchedule queryScheduleDetailsByScheduleId(int scheduleId) {
 		return getSqlSession().selectOne("com.netease.yixing.model.TravelSchedule.getScheduleById",scheduleId);
+	}
+
+	@Override
+	public List<TravelSchedule> queryTopKVisitedTravelSchedule(int k) {
+		return getSqlSession().selectList("com.netease.yixing.model.TravelSchedule.getTopKVisitedSchedule", k);
+	}
+
+	@Override
+	public List<TravelSchedule> queryTopKMarkedTravelSchedule(int k) {
+		return getSqlSession().selectList("com.netease.yixing.model.TravelSchedule.getTopKMarkedSchedule", k);
 	}
 
 

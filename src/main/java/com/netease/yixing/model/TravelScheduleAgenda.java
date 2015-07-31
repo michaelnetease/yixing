@@ -1,11 +1,17 @@
 package com.netease.yixing.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-public class TravelScheduleAgenda {
+public class TravelScheduleAgenda implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8856917976564909085L;
 
 	private int agendaId;
 	

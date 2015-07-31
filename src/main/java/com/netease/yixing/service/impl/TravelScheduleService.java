@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.netease.yixing.dao.ILoginDao;
 import com.netease.yixing.dao.ITravelScheduleAgendaDao;
 import com.netease.yixing.dao.ITravelScheduleDao;
+import com.netease.yixing.dao.ITravelScheduleRedisDao;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.TravelScheduleAgenda;
 import com.netease.yixing.model.User;
@@ -26,6 +27,9 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 	@Autowired
 	private ILoginDao loginDao;
+	
+	@Autowired
+	private ITravelScheduleRedisDao redisDao;
 		
 	public ITravelScheduleDao getTravelScheduleDao() {
 		return travelScheduleDao;
@@ -49,6 +53,14 @@ public class TravelScheduleService implements ITravelScheduleService {
 
 	public void setLoginDao(ILoginDao loginDao) {
 		this.loginDao = loginDao;
+	}
+
+	public ITravelScheduleRedisDao getRedisDao() {
+		return redisDao;
+	}
+
+	public void setRedisDao(ITravelScheduleRedisDao redisDao) {
+		this.redisDao = redisDao;
 	}
 
 	@Override
@@ -84,6 +96,24 @@ public class TravelScheduleService implements ITravelScheduleService {
 	public TravelSchedule queryScheduleDetailsByScheduleId(int scheduleId) throws Exception {		
 		return travelScheduleDao.queryScheduleDetailsByScheduleId(scheduleId);
 	}
+	
+	
+	public TravelSchedule queryLatestScheduleDetailsByUserId(int userId) throws Exception {	
+		User user = loginDao.queryUserById(userId);
+		List<TravelSchedule> ls = null;
+		int latestScheduleId = 0;
+		if(user!=null){
+			String joinSchedulesStr = user.getJoinTravelSchedule();
+			if(joinSchedulesStr!=null && joinSchedulesStr.length()>0){
+				String[] joinSchedules = joinSchedulesStr.split(";;;");
+				if(joinSchedules.length>0){
+					latestScheduleId = Integer.parseInt(joinSchedules[joinSchedules.length-1]);
+					return travelScheduleDao.queryScheduleDetailsByScheduleId(latestScheduleId);
+				}					
+			}
+		}		
+		return null;
+	}
 
 	@Override
 	public void deleteTravelSchedule(TravelSchedule entity) throws Exception {
@@ -95,40 +125,67 @@ public class TravelScheduleService implements ITravelScheduleService {
 	@Override
 	public List<TravelSchedule> queryFixedLengthTravelInfoByUserId(int userId, int startIndex, int length)
 			throws Exception {
-		User user = new User();
-		user.setId(userId);
-		user = loginDao.queryUser(user);
+		User user = loginDao.queryUserById(userId);
 		List<TravelSchedule> ls = null;
-		String joinSchedulesStr = user.getJoinTravelSchedule();
-		if(joinSchedulesStr!=null || joinSchedulesStr.length()>0){
-			String[] joinSchedules = joinSchedulesStr.split(";;;");
-			int[] scheduleIds = new int[length];
-			int index = 0;
-			for(int i=scheduleIds.length-1;i>=0;i--){
-				if(i>=startIndex && i<startIndex+length){
-					scheduleIds[index++] = Integer.parseInt(joinSchedules[i]);
-				}			
+		if(user!=null){
+			String joinSchedulesStr = user.getJoinTravelSchedule();
+			if(joinSchedulesStr!=null && joinSchedulesStr.length()>0){
+				String[] joinSchedules = joinSchedulesStr.split(";;;");
+				length = joinSchedules.length < length? joinSchedules.length : length;
+				int[] scheduleIds = new int[length];
+				int index = 0;
+				for(int i=scheduleIds.length-1;i>=0;i--){
+					if(i>=startIndex && i<startIndex+length){
+						scheduleIds[index++] = Integer.parseInt(joinSchedules[i]);
+					}			
+				}
+				ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);		
 			}
-			ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);		
 		}
+
 		return ls;
 	}
 
 	@Override
 	public List<TravelSchedule> queryTravelInfoByUserId(int userId) throws Exception {
-		User user = new User();
-		user.setId(userId);
-		user = loginDao.queryUser(user);
+		User user = loginDao.queryUserById(userId);
 		List<TravelSchedule> ls = null;
-		String joinSchedulesStr = user.getJoinTravelSchedule();
-		if(joinSchedulesStr!=null || joinSchedulesStr.length()>0){
-			String[] joinSchedules = joinSchedulesStr.split(";;;");
-			int[] scheduleIds = new int[joinSchedules.length];
-			for(int i=0;i<scheduleIds.length;i++){
-				scheduleIds[i] = Integer.parseInt(joinSchedules[i]);
+		if(user!=null){
+			String joinSchedulesStr = user.getJoinTravelSchedule();
+			if(joinSchedulesStr!=null && joinSchedulesStr.length()>0){
+				String[] joinSchedules = joinSchedulesStr.split(";;;");
+				int[] scheduleIds = new int[joinSchedules.length];
+				for(int i=0; i < scheduleIds.length;i++){
+					scheduleIds[i] = Integer.parseInt(joinSchedules[i]);
+				}
+				ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);			
 			}
-			ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);			
 		}
+		
 		return ls;
+	}
+
+	@Override
+	public List<TravelSchedule> queryTopKVisitedTravelSchedule(int k) {
+		List<TravelSchedule> result = redisDao.queryTopKVisitedTravelScheduleInMemory(k);
+		if(result==null || result.size() ==0){
+			result = travelScheduleDao.queryTopKVisitedTravelSchedule(k);
+			if(result!=null){
+				redisDao.saveTopKVisitedTravelScheduleToMemory(result,k);
+			}			
+		}
+		return result;
+	}
+
+	@Override
+	public List<TravelSchedule> queryTopKMarkedTravelSchedule(int k) {
+		List<TravelSchedule> result = redisDao.queryTopKMarkedTravelScheduleInMemory(k);
+		if(result==null || result.size()==0){
+			result = travelScheduleDao.queryTopKMarkedTravelSchedule(k);
+			if(result !=null){
+				redisDao.saveTopKMarkedTravelScheduleToMemory(result,k);
+			}
+		}
+		return result;
 	}
 }

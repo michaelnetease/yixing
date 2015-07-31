@@ -15,6 +15,12 @@
 	<mvc:resources location="/" mapping="/index.html" />
 	<mvc:resources location="/js/" mapping="/js/**" />
 	
+	<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*/*/create-test" />
+            <bean class="com.netease.yixing.intercepator.TokenValidInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
 	<!-- 修改包名 -->
