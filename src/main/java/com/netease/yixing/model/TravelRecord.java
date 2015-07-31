@@ -25,7 +25,7 @@ public class TravelRecord {
 	private Date uptime; // 时间
 	private String valid; //  是否展示 
 	public String toString(){
-		return "[id="+id+",uid="+uid+",travelID="+travelId+",text="+text+".Picturekey="+pictureKey+",location="+location+",uptime="+uptime+",valid="+valid+"]";
+		return "[id="+id+",uid="+uid+",travelID="+travelId+",text="+text+",Picturekey="+pictureKey+",location="+location+",uptime="+uptime+",valid="+valid+"]";
 	}
 	
 	public String getLocation() {

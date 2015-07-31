@@ -16,18 +16,16 @@ public class User {
 	
 	private int gender;
 	
+	private String accessToken;
+	
 	private String token;
 	
 	private String picId;
 	
 	private String signature;
 	
-	private String join_travel_schedule;
+	private String joinTravelSchedule;
 	
-	
-	
-	
-
 	public String getSignature() {
 		return signature;
 	}
@@ -36,15 +34,31 @@ public class User {
 		this.signature = signature;
 	}
 
-	public String getJoin_travel_schedule() {
-		return join_travel_schedule;
+
+	public String getToken() {
+		return token;
 	}
 
-	public void setJoin_travel_schedule(String join_travel_schedule) {
-		this.join_travel_schedule = join_travel_schedule;
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 
+	public String getJoinTravelSchedule() {
+		return joinTravelSchedule;
+	}
+
+	public void setJoinTravelSchedule(String joinTravelSchedule) {
+		this.joinTravelSchedule = joinTravelSchedule;
+	}
 
 	public String getPicId() {
 		return picId;
@@ -109,16 +123,6 @@ public class User {
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
-	
 	
 	
 }

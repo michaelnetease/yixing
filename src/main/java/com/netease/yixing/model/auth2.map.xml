@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.Auth2">
+	<resultMap type="com.netease.yixing.model.Auth2" id="auth2Result">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="uid" column="uid" />
+		<result property="rnd" column="rnd" />
+		<result property="accessToken" column="accesstoken" />
+		<result property="validTime" column="validtime" />
+	</resultMap>
+	
+	
+	<select id="queryAuth" parameterType="int" resultMap="auth2Result">
+		select * from auth 
+		      where uid=#{uid}
+	</select>
+	
+
+	<insert id="insertAuth" parameterType="auth2">
+	  <![CDATA[
+		insert into
+			auth(uid,rnd,accesstoken,validtime) 
+		values
+		    (#{uid},#{rnd},#{accessToken},#{validTime})
+		]]>
+ 	</insert>
+    <update id="updateAuth" parameterType="auth2">
+ 		update auth set rnd=#{rnd} , accesstoken=#{accessToken}, validtime=#{validTime} where uid=#{uid}
+ 	</update>
+</mapper>

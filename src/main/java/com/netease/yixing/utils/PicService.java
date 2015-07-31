@@ -11,7 +11,7 @@ import java.util.Properties;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.util.*;
-
+import com.qiniu.util.Auth;
 public class PicService {
 	
 	Auth auth ;

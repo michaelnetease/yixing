@@ -13,6 +13,7 @@ public class Constant {
 	public	static String SECRET_KEY;
 	public	static String BUCKET ;
 	public	static String PICDOMAIN ;
+	public  static String  LOGINCONSTANT;
 	
 	static{
 		String path = Thread.currentThread().getContextClassLoader().getResource("/").getPath()+"com/netease/yixing/utils/QiNiuConfig";
@@ -27,5 +28,6 @@ public class Constant {
 	    SECRET_KEY=p.getProperty("SECRET_KEY");
 	    BUCKET=p.getProperty("BUCKET");
 	    PICDOMAIN=p.getProperty("PICDOMAIN");
+	    LOGINCONSTANT=p.getProperty("LOGINCONSTANT");
 	}
 }

@@ -32,6 +32,12 @@ public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 		getSqlSession().delete("com.netease.yixing.model.User.deleteUser", user);
 	}
 	
+	@Override
+	public User selectUserById(String id)
+	{
+		User u=getSqlSession().selectOne("com.netease.yixing.model.User.selectUserById", id);
+		return u;
+	}
 	
 	@Override
 	public User selectUserByPhone(String phoneNum)
@@ -40,6 +46,43 @@ public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 		return u;
 	}
 	
+	@Override
+	public void updatesignature(User user) {
+		getSqlSession().update("com.netease.yixing.model.User.updatesignature",user);	
+	}
 
+	@Override
+	public void updatenickname(User user) {
+		// TODO Auto-generated method stub
+		getSqlSession().update("com.netease.yixing.model.User.updatenickname",user);
+	}
 
+	@Override
+	public void updatelocation(User user) {
+		// TODO Auto-generated method stub
+		getSqlSession().update("com.netease.yixing.model.User.updatelocation",user);
+	}
+
+	@Override
+	public void updategender(User user) {
+		// TODO Auto-generated method stub
+		getSqlSession().update("com.netease.yixing.model.User.updategender",user);
+	}
+
+	@Override
+	public void updatepicId(User user) {
+		// TODO Auto-generated method stub
+		getSqlSession().update("com.netease.yixing.model.User.updatepicId",user);
+	}
+
+	@Override
+	public User selectUserByUsername(String username) {
+		// TODO Auto-generated method stub
+		User u=getSqlSession().selectOne("com.netease.yixing.model.User.selectUserByUsername", username);
+		return u;
+	}
+	@Override
+	public void updatePass(User user){
+		getSqlSession().update("com.netease.yixing.model.User.updatePass", user);
+	}
 }
