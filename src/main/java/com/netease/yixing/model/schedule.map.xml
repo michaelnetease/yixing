@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.TravelSchedule">
+	
+	<resultMap type="com.netease.yixing.model.TravelSchedule" id="scheduleResult">
+		<id property="scheduleId" column="schedule_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="title" column="title" />
+		<result property="startTime" column="start_time" javaType="java.util.Date"/>
+		<result property="endTime" column="end_time" javaType="java.util.Date"/>		
+		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
+		<result property="groupMembers" column="group_members" />
+		<result property="mark" column="mark" javaType="java.lang.Integer"/>
+		<result property="visit" column="visit" javaType="java.lang.Integer"/>
+		<association property="createUser" column="create_user" javaType="com.netease.yixing.model.User" select="com.netease.yixing.model.User.getUserById"/> 
+		<collection property="agendaList"  ofType="com.netease.yixing.model.TravelScheduleAgenda" column="agenda_id" >  
+            <id column="agenda_id" property="agendaId"/>  
+            <result column="travel_day" property="travelDay"/>
+            <result column="update_time" property="updateTime"/>  
+            <collection property="arrangeList" ofType="com.netease.yixing.model.TravelAgendaArrange" column="arrange_id">  
+            	<id column="arrange_id" property="arrangeId" javaType="java.lang.Integer"/>  
+            	<result column="time_point" property="timePoint"/>
+            	<result column="event" property="event"/>  
+            	<result column="info" property="info"/> 
+            	<result property="updateTime" column="update_time" javaType="java.util.Date"/>             	         
+        	</collection> 
+        	<collection property="hotelList" ofType="com.netease.yixing.model.TravelAgendaHotel" column="arrange_id">  
+            	<id column="hotel_id" property="hotelId"/>  
+            	<result column="hotelName" property="hotelName"/>
+            	<result column="hotelInfo" property="hotelInfo"/>  
+            	<result property="updateTime" column="update_time" javaType="java.util.Date"/>            	         
+        	</collection> 
+        </collection>
+        <collection property="equipmentList" ofType="com.netease.yixing.model.Equipment" column="id">  
+           	<id column="id" property="id"/>  
+           	<result column="type" property="type"/>
+           	<result column="items" property="items"/>  
+           	<result property="selectedItems" column="selectedItems"/>            	         
+       	</collection> 
+	</resultMap>
+	
+	<select id="getScheduleById" parameterType="int" resultMap="scheduleResult">
+		select a.*,b.*,c.*,d.*,e.* from travel_schedule a, travel_schedule_agenda b,travel_agenda_arrange c,travel_agenda_hotel d,equipment e
+		where a.schedule_id=b.schedule_id and b.agenda_id=c.agenda_id and b.agenda_id=d.agenda_id and e.travelId=a.schedule_id
+		and a.visable = 1 and b.visable = 1 and c.visable = 1 and d.visable = 1 and a.schedule_id=#{scheduleId}
+	</select>
+	
+	<insert id="insertSchedule" parameterType="schedule">
+	  <![CDATA[
+		insert into
+			travel_schedule(title,start_time,end_time,create_user,update_time,group_members) 
+		values
+		    (#{title},#{startTime},#{endTime},#{createUser.id},#{updateTime},#{groupMembers})
+		]]>
+		
+	   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="scheduleId" >  
+          SELECT LAST_INSERT_ID()  
+       </selectKey> 
+ 	</insert>
+ 	
+ 	
+ 	<update id="updateSchedule" parameterType="schedule">
+		update schedule set
+		title=#{title},update_time=#{updateTime}   where schedule_id=#{scheduleId}
+ 	</update>
+
+	<update id="deleteSchedule" parameterType="schedule">
+		update schedule set
+		visable=#{visable},update_time=#{updateTime}   where schedule_id=#{scheduleId}
+	</update>
+
+ 	<select id="getAllJoinSchedules" resultType="com.netease.yixing.model.TravelSchedule">
+	    select *
+	    from travel_schedule
+	    where visable = 1 and id in
+	    <foreach item="item" index="index" collection="array"
+	             open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</select>
+	
+	
+</mapper>
+

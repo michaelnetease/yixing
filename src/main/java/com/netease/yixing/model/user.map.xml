@@ -9,15 +9,30 @@
 		<result property="password" column="password" />
 		<result property="nickname" column="nickname" />
 		<result property="phoneNum" column="phoneNum" />
-		<result property="gender" column="gender" />
+		<result property="gender" column="gender" javaType="java.lang.Integer"/>
 		<result property="location" column="location" />
 		<result property="token" column="token" />
+		<result property="accessToken" column="access_token" />
+		<result property="joinTravelSchedule" column="join_travel_schedule"/>
 		<result property="picId" column="picId" />
 	</resultMap>
 	
 	<select id="getUser" parameterType="user" resultMap="userResult">
 		select * from user 
 		where username=#{username} and password=#{password} 
+	</select>
+	
+	<select id="selectUserById" parameterType="string" resultMap="userResult">
+		select * from user 
+		where id=#{id}
+	</select>
+	<select id="selectUserByUsername" parameterType="string" resultMap="userResult">
+		select * from user 
+		where uasername=#{username}
+	</select>
+	<select id="getUserById" parameterType="int" resultMap="userResult">
+		select * from user 
+		where id=#{id}
 	</select>
 	
 	<select id="selectUserByPhone" parameterType="string"  resultMap="userResult">
@@ -33,9 +48,25 @@
 		]]>
  	</insert>
  	
- 	<delete id="deleteUser" parameterType="user">
- 		delete from user where phoneNum=#{phoneNum}
- 	</delete>
+	<update id="updatenickname" parameterType="user">
+ 		update user set nickname=#{nickname} where id=#{id}
+ 	</update>
+ 	<update id="updatepicId" parameterType="user">
+ 		update user set picId=#{picId} where id=#{id}
+ 	</update>
+    <update id="updategender" parameterType="user">
+ 		update user set gender=#{gender} where id=#{id}
+ 	</update>
+ 	<update id="updatelocation" parameterType="user">
+ 		update user set location=#{location} where id=#{id}
+ 	</update>
+ 	<update id="updatesignature" parameterType="user">
+ 		update user set signature=#{signature} where id=#{id}
+ 	</update>
+ 	 	<update id="updatePass" parameterType="user">
+ 		UPDATE user set password=#{password} WHERE phoneNum=#{phoneNum}
+ 	</update>
+ 	
 
 <!-- 
 
@@ -79,4 +110,3 @@
 
 
 </mapper>
-

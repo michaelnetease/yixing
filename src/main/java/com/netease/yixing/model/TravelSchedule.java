@@ -1,8 +1,7 @@
 package com.netease.yixing.model;
 
 import java.util.Date;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import java.util.List;
  
 public class TravelSchedule {
 
@@ -25,6 +24,10 @@ public class TravelSchedule {
 	private int visit;
 	
 	private boolean visable;
+	
+	private List<TravelScheduleAgenda> agendaList;
+	
+	private List<Equipment> equipmentList;
 
 	public int getScheduleId() {
 		return scheduleId;
@@ -106,6 +109,21 @@ public class TravelSchedule {
 		this.visable = visable;
 	}
 	
+	public List<TravelScheduleAgenda> getAgendaList() {
+		return agendaList;
+	}
+
+	public void setAgendaList(List<TravelScheduleAgenda> agendaList) {
+		this.agendaList = agendaList;
+	}
+
+	public List<Equipment> getEquipmentList() {
+		return equipmentList;
+	}
+
+	public void setEquipmentList(List<Equipment> equipmentList) {
+		this.equipmentList = equipmentList;
+	}
 	
 	
 }

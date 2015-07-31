@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.TravelAgendaHotel">
+	
+	<resultMap type="com.netease.yixing.model.TravelAgendaHotel" id="agendaHotel">
+		<result property="hotelId" column="hotel_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="hotelName" column="hotelName" />
+		<result property="hotelInfo" column="hotelInfo" />
+		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
+		<result property="visable" column="visable" />
+		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda" select="com.netease.yixing.model.TravelScheduleAgenda.getAgendaById"/> 
+		<association property="user" column="user_id" javaType="com.netease.yixing.model.User" select="com.netease.yixing.model.User.getUserById"/>   
+	</resultMap>
+	
+	<insert id="insertHotel" parameterType="agendaHotel">
+	  <![CDATA[
+		insert into
+			travel_agenda_hotel(hotelName,hotelInfo,agenda_id,user_id,update_time) 
+		values
+		    (#{hotelName},#{hotelInfo},#{agenda.agendaId},#{user.id},#{updateTime})
+		]]>
+		
+	   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="hotelId" >  
+          SELECT LAST_INSERT_ID()  
+       </selectKey> 
+ 	</insert>
+ 	
+ 	<update id="updateHotel" parameterType="agendaHotel">
+		update travel_agenda_hotel set
+		  hotelName=#{hotelName},hotelInfo=#{hotelInfo},update_time=#{updateTime} 
+		where hotel_id=#{hotelId}
+ 	</update>
+ 	
+ 	<delete id="deleteHotelByHotelId" parameterType="agendaHotel">
+		update travel_agenda_hotel set
+		  visable=0,update_time=#{updateTime} 
+		where hotel_id=#{hotelId}
+ 	</delete>
+ 	
+ 	 <delete id="deleteHotelByAgendaId" parameterType="int">
+		update travel_agenda_hotel set
+		  visable=0
+		where agenda_id=#{agendaId}
+ 	</delete>
+ 	
+ 	<select id="selectHotel"  parameterType="int" resultMap="agendaHotel">
+		select * from travel_agenda_hotel 
+		where agenda_id=#{agendaId} and visable=1
+	</select>
+
+
+</mapper>
+

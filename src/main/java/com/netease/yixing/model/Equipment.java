@@ -1,8 +1,16 @@
 package com.netease.yixing.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnore;
+public class Equipment implements Serializable{
 
-public class Equipment {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2747728702378380485L;
 	public int id;
 	public int travelId;
 	public String type;

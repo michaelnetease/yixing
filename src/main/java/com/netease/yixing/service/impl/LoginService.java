@@ -60,7 +60,52 @@ public class LoginService implements ILoginService {
 		return u;
 	}
 	
-	
+	@Override
+	public void updatesignature(User user) throws Exception {
+		loginDao.updatesignature(user);
+		
+	}
 
+	@Override
+	public void updatelocation(User user) throws Exception {
+		// TODO Auto-generated method stub
+		loginDao.updatelocation(user);
+	}
+
+	@Override
+	public void updategender(User user) throws Exception {
+		// TODO Auto-generated method stub
+		loginDao.updategender(user);
+	}
+
+	@Override
+	public void updatenickname(User user) throws Exception {
+		// TODO Auto-generated method stub
+		loginDao.updatenickname(user);
+	}
+
+	@Override
+	public void updatepicId(User user) throws Exception {
+		// TODO Auto-generated method stub
+		loginDao.updatepicId(user);
+	}
+
+	@Override
+	public User selectUserById(String id) throws Exception {
+		// TODO Auto-generated method stub
+		User u=loginDao.selectUserById(id);
+		return u;
+	}
+
+	@Override
+	public User selectUserByUsername(String username) throws Exception {
+		// TODO Auto-generated method stub
+		User u=loginDao.selectUserByUsername(username);
+		return u;
+	}
 	
+	@Override
+	public void updatePass(User user) {
+		loginDao.updatePass(user); 
+	}
 }

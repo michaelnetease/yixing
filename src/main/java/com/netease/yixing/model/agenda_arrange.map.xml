@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.AgendaArrange">
+	
+	<resultMap type="com.netease.yixing.model.TravelAgendaArrange" id="agendaArrange">
+		<id property="arrangeId" column="arrange_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="timePoint" column="time_point" />
+		<result property="event" column="event" />
+		<result property="info" column="info" />
+		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
+		<result property="visable" column="visable" javaType="java.lang.Boolean"/>
+		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda" select="com.netease.yixing.model.ScheduleAgenda.getAgendaById"/> 
+        <association property="user" column="user_id" javaType="com.netease.yixing.model.User"/> 
+	</resultMap>
+	
+	<select id="queryAllArrangeByAgendaId" parameterType="scheduleAgenda" resultMap="agendaArrange">
+		select * from travel_agenda_arrange 
+		where agenda_id= #{agendaId} and visable=1
+	</select>
+	
+	<select id="queryArrangeById" parameterType="int" resultMap="agendaArrange">
+		select * from travel_agenda_arrange 
+		where arrange_id= #{arrangeId} and visable=1
+	</select>
+	
+	
+	<insert id="insertArrange" parameterType="agendaArrange">
+	  <![CDATA[
+		insert into
+			travel_agenda_arrange(time_point,event,info,update_time,agenda_id,user_id) 
+		values
+		    (#{timePoint},#{event},#{info},#{updateTime},#{agenda.agendaId},#{user.id})
+		]]>
+				
+	   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="agendaId" >  
+          SELECT LAST_INSERT_ID()  
+       </selectKey> 
+ 	</insert>
+ 	
+ 	<update id="updateArrange" parameterType="agendaArrange">
+		update travel_agenda_arrange set
+		time_point=#{timePoint},event=#{event},info=#{info},agenda_id=#{agenda.agendaId},user_id=#{user.id} 
+		where arrange_id=#{arrangeId}
+ 	</update>
+
+     <update id="deleteArrangeByArrangeId" parameterType="int">
+		update travel_agenda_arrange set visable=#{visable}
+		where arrange_id=#{arrangeId}
+ 	</update>
+ 	
+ 	<update id="deleteArrangeByAgendaId" parameterType="int">
+		update travel_agenda_arrange set visable=0
+		where agenda_id=#{agendaId}
+ 	</update>
+
+</mapper>
+
