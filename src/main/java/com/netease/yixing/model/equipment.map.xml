@@ -9,6 +9,10 @@
 		<result property="type" column="type" />
 		<result property="items" column="items" />
 		<result property="selectedItems" column="selectedItems"/>
+		<association property="schedule" javaType="com.netease.yixing.model.TravelSchedule">
+			<id column="schedule_id" property="scheduleId"/>
+		    <result property="title" column="title" />
+		</association>
 	</resultMap>
 	
 	<select id="getItems"  parameterType="int"  resultMap="equipmentResult">

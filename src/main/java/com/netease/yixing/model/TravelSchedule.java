@@ -1,10 +1,17 @@
 package com.netease.yixing.model;
 
+import java.io.Serializable;
 import java.util.Date;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
+import java.util.List;
  
-public class TravelSchedule {
+import java.util.List;
+ 
+public class TravelSchedule implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1920165662411898143L;
 
 	private int scheduleId;
 	
@@ -25,6 +32,12 @@ public class TravelSchedule {
 	private int visit;
 	
 	private boolean visable;
+	
+	private List<TravelScheduleAgenda> agendaList;
+	
+	private List<Equipment> equipmentList;
+	
+	private List<TravelRecord> recordList;
 
 	public int getScheduleId() {
 		return scheduleId;
@@ -106,6 +119,31 @@ public class TravelSchedule {
 		this.visable = visable;
 	}
 	
+
+
+	public List<TravelScheduleAgenda> getAgendaList() {
+		return agendaList;
+	}
+
+	public void setAgendaList(List<TravelScheduleAgenda> agendaList) {
+		this.agendaList = agendaList;
+	}
+
+	public List<Equipment> getEquipmentList() {
+		return equipmentList;
+	}
+
+	public void setEquipmentList(List<Equipment> equipmentList) {
+		this.equipmentList = equipmentList;
+	}
+
+	public List<TravelRecord> getRecordList() {
+		return recordList;
+	}
+
+	public void setRecordList(List<TravelRecord> recordList) {
+		this.recordList = recordList;
+	}
 	
 	
 }

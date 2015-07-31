@@ -1,13 +1,23 @@
 package com.netease.yixing.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import java.io.Serializable;
 
-
-public class Equipment {
+import org.codehaus.jackson.annotate.JsonIgnore;
+public class Equipment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2747728702378380485L;
 	public int id;
 	public int travelId;
 	public String type;
 	public String items;
 	public String selectedItems;
+	
+	@JsonIgnore
+	private TravelSchedule schedule;
+	
 	public int getId() {
 		return id;
 	}
@@ -37,6 +47,12 @@ public class Equipment {
 	}
 	public void setSelectedItems(String selectedItems) {
 		this.selectedItems = selectedItems;
+	}
+	public TravelSchedule getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(TravelSchedule schedule) {
+		this.schedule = schedule;
 	}
 	
 

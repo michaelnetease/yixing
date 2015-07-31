@@ -1,6 +1,13 @@
 package com.netease.yixing.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 288345333311358079L;
 
 	private int id;
 	
@@ -25,48 +32,6 @@ public class User {
 	private String signature;
 	
 	private String joinTravelSchedule;
-	
-	public String getSignature() {
-		return signature;
-	}
-
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
-
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
-
-	public String getJoinTravelSchedule() {
-		return joinTravelSchedule;
-	}
-
-	public void setJoinTravelSchedule(String joinTravelSchedule) {
-		this.joinTravelSchedule = joinTravelSchedule;
-	}
-
-	public String getPicId() {
-		return picId;
-	}
-
-	public void setPicId(String picId) {
-		this.picId = picId;
-	}
 
 	public int getId() {
 		return id;
@@ -123,6 +88,52 @@ public class User {
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getPicId() {
+		return picId;
+	}
+
+	public void setPicId(String picId) {
+		this.picId = picId;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+	public String getJoinTravelSchedule() {
+		return joinTravelSchedule;
+	}
+
+	public void setJoinTravelSchedule(String joinTravelSchedule) {
+		this.joinTravelSchedule = joinTravelSchedule;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 	
 	
 }

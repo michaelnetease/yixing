@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.TravelScheduleAgenda">
+	
+	<resultMap type="com.netease.yixing.model.TravelScheduleAgenda" id="scheduleAgenda">
+		<id property="agendaId" column="agenda_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="travelDay" column="travel_day" javaType="java.util.Date"/>
+		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
+		<result property="visable" column="visable" javaType="java.lang.Boolean"/>
+		<association property="schedule" javaType="com.netease.yixing.model.TravelSchedule" >
+		    <id column="schedule_id" property="scheduleId"/>
+		    <result property="title" column="title" />
+		</association> 
+		<association property="user" column="user_id" javaType="com.netease.yixing.model.User" select="com.netease.yixing.model.User.getUserById"/>
+		
+		   
+	</resultMap>
+	
+	
+    <select id="getAgendaById" parameterType="int" resultMap="scheduleAgenda">
+		select * from travel_schedule_agenda
+		where agenda_id=#{agendaId}
+	</select>
+
+	
+	<insert id="insertAgenda" parameterType="scheduleAgenda" useGeneratedKeys="true" keyProperty="agendaId"> 
+	  <![CDATA[
+		insert into
+			travel_schedule_agenda(travel_day,schedule_id,update_time,user_id) 
+		values
+		    (#{travelDay},#{schedule.scheduleId},#{updateTime},#{user.id})
+		]]>
+		
+	   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="agendaId" >  
+          SELECT LAST_INSERT_ID()  
+       </selectKey> 
+ 	</insert>
+
+	<update id="deleteAgendaById" parameterType="int">
+		update travel_schedule_agenda set
+		visable=0 where agenda_id=#{agendaId}
+ 	</update>
+
+	
+	
+</mapper>
+

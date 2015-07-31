@@ -39,6 +39,8 @@ public class TravelRecordCotroller {
 	
 	@Autowired
 	private RedisClientTemplate redisClient;
+
+	//private Logger logger = Logger.getLogger("TravelRecordCotroller.class");
 	
 	@Autowired
 	private ILoginService loginServ;

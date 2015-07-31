@@ -30,6 +30,11 @@
 		select * from user 
 		where uasername=#{username}
 	</select>
+	<select id="getUserById" parameterType="int" resultMap="userResult">
+		select * from user 
+		where id=#{id}
+	</select>
+	
 	<select id="selectUserByPhone" parameterType="string"  resultMap="userResult">
 		select * from user  where phoneNum=#{phoneNum} 
 	</select>
@@ -62,6 +67,7 @@
  		UPDATE user set password=#{password} WHERE phoneNum=#{phoneNum}
  	</update>
  	
+
 <!-- 
 
 	<select id="getUser"  parameterType="user" resultMap="userResult">

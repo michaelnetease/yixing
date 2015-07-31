@@ -45,6 +45,11 @@ public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 		User u=getSqlSession().selectOne("com.netease.yixing.model.User.selectUserByPhone", phoneNum);
 		return u;
 	}
+
+	@Override
+	public User queryUserById(int userId) {
+		return getSqlSession().selectOne("com.netease.yixing.model.User.getUserById", userId);
+	}
 	
 	@Override
 	public void updatesignature(User user) {
