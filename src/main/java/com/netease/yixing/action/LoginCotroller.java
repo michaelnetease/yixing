@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
+import net.sf.*;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -104,7 +105,13 @@ public class LoginCotroller {
 		String message = "ok";
 		User result = null;
 		try{
+			
 			result = loginServ.login(user);
+			if(result==null){
+				modelMap.put("success", false);
+				modelMap.put("message", "用户名或密码错误");
+				return modelMap;
+			}
 		}catch(Exception e){
 			success = false;
 			message = e.getMessage();
@@ -145,5 +152,247 @@ public class LoginCotroller {
 		}
 		return modelMap;
 	}
+	
+
+	@RequestMapping(value="/login/updatenickname",method=RequestMethod.POST)
+	public Map<String,Object> updatenickname(HttpServletRequest request, @RequestBody User user){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		String message = "isSuccess";
+		try{
+			
+			loginServ.updatenickname(user);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}		
+		modelMap.put("success", success);
+		modelMap.put("message", message);
+		return modelMap;
+	}
+	
+	@RequestMapping(value="/login/updatelocation",method=RequestMethod.POST)
+	public Map<String,Object> updatelocation(HttpServletRequest request, @RequestBody User user){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		String message = "isSuccess";
+		try{
+			
+			loginServ.updatelocation(user);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}		
+		modelMap.put("success", success);
+		modelMap.put("message", message);
+		return modelMap;
+	}
+	@RequestMapping(value="/login/updatesignature",method=RequestMethod.POST)
+	public Map<String,Object> updatesignature(HttpServletRequest request, @RequestBody User user){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		String message = "isSuccess";
+		try{
+			
+			loginServ.updatesignature(user);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}		
+		modelMap.put("success", success);
+		modelMap.put("message", message);
+		return modelMap;
+	}
+	@RequestMapping(value="/login/updatepicId",method=RequestMethod.POST)
+	public Map<String,Object> updatepicId(HttpServletRequest request, @RequestBody User user){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		String message = "isSuccess";
+		try{
+			
+			loginServ.updatepicId(user);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}		
+		modelMap.put("success", success);
+		modelMap.put("message", message);
+		return modelMap;
+	}
+	@RequestMapping(value="/login/updategender",method=RequestMethod.POST)
+	public Map<String,Object> updategender(HttpServletRequest request, @RequestBody User user){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		String message = "isSuccess";
+		try{			
+			loginServ.updategender(user);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}		
+		modelMap.put("success", success);
+		modelMap.put("message", message);
+		return modelMap;
+	}
+	@RequestMapping(value="/login/updatePass",method=RequestMethod.POST)
+	public Map<String, Object> updatePass(HttpServletRequest request,@RequestBody User user){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		String message = "ok";
+		try{
+			loginServ.updatePass(user);
+			System.out.println("ing");
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}		
+		modelMap.put("issuccess", success);
+		modelMap.put("message", message);
+		return modelMap;
+	}
+	
+	@RequestMapping(value="/login/forgetPass",method=RequestMethod.POST)
+	public Map<String, Object> forgetPass(HttpServletRequest request,@RequestBody JSONObject string) throws Exception{
+		boolean nstep=true;
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success=false;
+		String message="";
+		String pass="";
+		String phone="";
+		JSONObject json;
+		SmsVerifyKit smsV;
+		try {
+			json=JSONObject.fromObject(string);
+			phone=json.getString("phone");
+			String code=json.getString("code");	
+			pass=json.getString("password");
+			smsV=new SmsVerifyKit("9079ceadd30d", phone, "86", code);
+			JSONObject tmp=JSONObject.fromObject(smsV.go());
+			int temp=tmp.getInt("status");
+			switch(temp){
+			case 200:
+				success=true;
+				message="登陆成功";
+				break;
+			case 512:
+				message="服务器拒绝访问，或者拒绝操作";
+				break;
+			case 513:
+				message="求Appkey不存在或被禁用";
+				break;
+			case 514:
+				message="权限不足";
+				break;
+			case 515:
+				message="服务器内部错误";
+				break;
+			case 517:
+				message="缺少必要的请求参数";
+				break;
+			case 518:
+				message="请求中用户的手机号格式不正确（包括手机的区号）";
+				break;
+			case 519:
+				message="请求发送验证码次数超出限制";
+				break;
+			case 520:
+				message="无效验证码。";
+				break;
+			case 526:
+				message="余额不足";
+				break;
+			default:
+				message="未知错误";
+				break;
+			}			
+		} catch (Exception e) {
+			// TODO: handle exception
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}
+		if (nstep) {
+			User temp=new User();
+			temp.setPhoneNum(phone);
+			temp.setPassword(pass);
+			Map<String, Object>tmp=updatePass(request, temp);
+		}else {
+			success=false;
+		}
+		new String(message.getBytes("UTF-8"));
+		modelMap.put("success", success);
+		modelMap.put("message", message);	
+		return modelMap;
+	}
+	@RequestMapping(value="/login/smsVerify",method=RequestMethod.POST)
+	public Map<String, Object> smsVerify(HttpServletRequest request,@RequestBody JSONObject string) throws Exception{
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success=false;
+		String message="";
+		String phone="";
+		JSONObject json;
+		SmsVerifyKit smsV;
+		try {
+			json=JSONObject.fromObject(string);
+			phone=json.getString("phone");
+			String code=json.getString("code");	
+			smsV=new SmsVerifyKit("9079ceadd30d", phone, "86", code);
+			JSONObject tmp=JSONObject.fromObject(smsV.go());
+			int temp=tmp.getInt("status");
+			switch(temp){
+			case 200:
+				success=true;
+				message="登陆成功";
+				break;
+			case 512:
+				message="服务器拒绝访问，或者拒绝操作";
+				break;
+			case 513:
+				message="求Appkey不存在或被禁用";
+				break;
+			case 514:
+				message="权限不足";
+				break;
+			case 515:
+				message="服务器内部错误";
+				break;
+			case 517:
+				message="缺少必要的请求参数";
+				break;
+			case 518:
+				message="请求中用户的手机号格式不正确（包括手机的区号）";
+				break;
+			case 519:
+				message="请求发送验证码次数超出限制";
+				break;
+			case 520:
+				message="无效验证码。";
+				break;
+			case 526:
+				message="余额不足";
+				break;
+			default:
+				message="未知错误";
+				break;
+			}			
+		} catch (Exception e) {
+			// TODO: handle exception
+			success = false;
+			message = e.getMessage();
+			e.printStackTrace();
+		}
+		new String(message.getBytes("UTF-8"));
+		modelMap.put("success", success);
+		modelMap.put("message", message);	
+		return modelMap;
+	}
+	
+	
 
 }

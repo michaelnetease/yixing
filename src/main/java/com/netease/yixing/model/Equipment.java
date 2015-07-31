@@ -1,11 +1,12 @@
 package com.netease.yixing.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import java.io.Serializable;
 import org.codehaus.jackson.annotate.JsonIgnore;
-public class Equipment implements Serializable{
 
+public class Equipment implements Serializable{
 
 	/**
 	 * 

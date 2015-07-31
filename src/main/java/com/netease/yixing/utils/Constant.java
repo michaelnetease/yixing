@@ -15,14 +15,15 @@ public class Constant {
 	public	static String PICDOMAIN ;
 	public  static String  LOGINCONSTANT;
 	
+    
+    public static final String TOP_K_MARK_TRAVEL_SCHEDULE = "Top.K.Mark.Schedule";
+    
+    public static int TOP_K_TRAVEL_SCHEDULE = 5;
+	
     public static final String DEFAULT_TOKEN_NAME = "Dup.token";
     
     public static final String TOP_K_VISIT_TRAVEL_SCHEDULE = "Top.K.Visit.Schedule";
     
-    
-    public static int TOP_K_TRAVEL_SCHEDULE = 5;
-    
-    public static final String TOP_K_MARK_TRAVEL_SCHEDULE = "Top.K.Mark.Schedule";
     
 	public static String HANDLERMAP;
 	static{
@@ -40,6 +41,6 @@ public class Constant {
 	    PICDOMAIN=p.getProperty("PICDOMAIN");
 	    HANDLERMAP=p.getProperty("HANDLERMAP");
 	    LOGINCONSTANT=p.getProperty("LOGINCONSTANT");
-	    LOGINCONSTANT=p.getProperty("LOGINCONSTANT");
+
 	}
 }
