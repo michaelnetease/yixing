@@ -2,6 +2,7 @@ package com.netease.yixing.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.netease.yixing.dao.IHandlerEquipmentDao;
@@ -11,6 +12,7 @@ import com.netease.yixing.service.IHandlerEquipmentService;
 @Service
 public class HandlerEquipmentService implements IHandlerEquipmentService {
 
+	@Autowired
 	private IHandlerEquipmentDao handlerEquipmentDao;
 	
 	public IHandlerEquipmentDao getHandlerEquipmentDao() {
@@ -69,7 +71,10 @@ public class HandlerEquipmentService implements IHandlerEquipmentService {
 			for(String s:temps)
 				sb.append(s+",");
 		}
-		sb.delete(sb.toString().length()-1, sb.toString().length());
+		
+		int index=sb.lastIndexOf(",");
+		if(index>=0)
+			sb.deleteCharAt(index);
 		return sb.toString();
 	}
 

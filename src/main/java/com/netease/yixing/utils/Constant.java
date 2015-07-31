@@ -13,10 +13,19 @@ public class Constant {
 	public	static String SECRET_KEY;
 	public	static String BUCKET ;
 	public	static String PICDOMAIN ;
+	public  static String  LOGINCONSTANT;
 	
+    public static final String DEFAULT_TOKEN_NAME = "Dup.token";
+    
+    public static final String TOP_K_VISIT_TRAVEL_SCHEDULE = "Top.K.Visit.Schedule";
+    
+    public static final String TOP_K_MARK_TRAVEL_SCHEDULE = "Top.K.Mark.Schedule";
+    
+    public static int TOP_K_TRAVEL_SCHEDULE = 5;
+	public static String HANDLERMAP;
 	static{
 		String path = Thread.currentThread().getContextClassLoader().getResource("/").getPath()+"com/netease/yixing/utils/QiNiuConfig";
-		//System.out.println(path);
+		System.out.println(path);
 	    Properties p = new Properties();   
 	    try {   
 	       p.load(new FileInputStream(path));   
@@ -27,5 +36,7 @@ public class Constant {
 	    SECRET_KEY=p.getProperty("SECRET_KEY");
 	    BUCKET=p.getProperty("BUCKET");
 	    PICDOMAIN=p.getProperty("PICDOMAIN");
+	    HANDLERMAP=p.getProperty("HANDLERMAP");
+	    LOGINCONSTANT=p.getProperty("LOGINCONSTANT");
 	}
 }

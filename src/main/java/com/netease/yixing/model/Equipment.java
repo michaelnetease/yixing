@@ -1,6 +1,6 @@
 package com.netease.yixing.model;
 
-
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Equipment {
 	public int id;
@@ -8,6 +8,10 @@ public class Equipment {
 	public String type;
 	public String items;
 	public String selectedItems;
+	
+	@JsonIgnore
+	private TravelSchedule schedule;
+	
 	public int getId() {
 		return id;
 	}
@@ -37,6 +41,12 @@ public class Equipment {
 	}
 	public void setSelectedItems(String selectedItems) {
 		this.selectedItems = selectedItems;
+	}
+	public TravelSchedule getSchedule() {
+		return schedule;
+	}
+	public void setSchedule(TravelSchedule schedule) {
+		this.schedule = schedule;
 	}
 	
 

@@ -3,13 +3,24 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="user" type="com.netease.yixing.model.User"/>
+		<typeAlias alias="schedule" type="com.netease.yixing.model.TravelSchedule"/>		
+		<typeAlias alias="scheduleAgenda" type="com.netease.yixing.model.TravelScheduleAgenda"/>
+		<typeAlias alias="agendaArrange" type="com.netease.yixing.model.TravelAgendaArrange"/>	
+		<typeAlias alias="agendaHotel" type="com.netease.yixing.model.TravelAgendaHotel"/>		
 		<typeAlias alias="equipment" type="com.netease.yixing.model.Equipment"/>
 		<typeAlias alias="members" type="com.netease.yixing.model.TravelSchedule"/>
-		
+		<typeAlias alias="travelrecord" type="com.netease.yixing.model.TravelRecord"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/netease/yixing/model/user.map.xml" />
+		<mapper resource="com/netease/yixing/model/schedule.map.xml" />			
+		<mapper resource="com/netease/yixing/model/schedule_agenda.map.xml" />
+		<mapper resource="com/netease/yixing/model/agenda_arrange.map.xml" />
+		<mapper resource="com/netease/yixing/model/agenda_hotel.map.xml" />
 		<mapper resource="com/netease/yixing/model/equipment.map.xml"/>
 		<mapper resource="com/netease/yixing/model/members.map.xml"/>
+		<mapper resource="com/netease/yixing/model/travelRecord.map.xml"/>
 	</mappers>
+
 </configuration>	
+	

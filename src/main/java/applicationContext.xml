@@ -29,31 +29,7 @@
 	
 	
 
-    <!-- 2.Spring Manage  Hibernate -->
 
-	 
-	 
-    <!-- 
-	        <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-	       <property name="dataSource" ref="dataSource"></property>
-	       <property name="hibernateProperties">
-	           <props>
-	              <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
-	              <prop key="hibernate.hbm2ddl.auto">update</prop>
-	              <prop key="hibernate.show_sql">true</prop>
-	           </props>
-	       </property>
-	 
-	 
-	        nedd jar package of hibernate-annotations-3.3.0.ga,hibernate-commons-annotations-3.3.0.ga.jar 
-	 
-	       <property name="annotatedClasses">
-	          <list>
-	             <value>com.ospsoft.hospitalinfo.model.common.GlobalData</value>         
-	          </list>
-	       </property>
-	    </bean>
-     -->
 
     
     <!-- 自动扫描组件，这里要把web下面的 controller去除，他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。-->  
@@ -63,12 +39,6 @@
 
 
     
-    <!-- transaction -->
-    <!-- 
-    	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"/>
-		</bean>
-     -->
      
      
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -80,14 +50,6 @@
 
     <context:annotation-config></context:annotation-config>   
     
-    
-    <!-- 4.创建业务类 -->
-<!-- 
-     <bean id="loginServ" class="com.netease.yixing.service.impl.LoginService">
-         <property name="loginDao" ref="loginDao"></property>    
-    </bean>
- -->
-
 
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">      
@@ -107,13 +69,6 @@
 		 <!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" />    -->  
 	 </bean>
 
-
-	<bean id="handlerEquipmentDao" class="com.netease.yixing.dao.impl.HandlerEquipmentDao">
-		<!--注入SqlSessionTemplate实例 -->
-		<property name="sqlSessionTemplate" ref="sqlSession" />
-		<!--也可直接注入SqlSessionFactory实例，二者都指定时，SqlSessionFactory失效 -->
-		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
-	</bean>  
 	
 	
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -137,6 +92,9 @@
             </list>
         </constructor-arg>
     </bean>
+
+
 	 
+
      
 </beans>
