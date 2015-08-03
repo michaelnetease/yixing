@@ -32,14 +32,12 @@ public class MemberManageController {
 
 	@RequestMapping(value = "/memberManage/addMember", method = RequestMethod.POST)
 	public Map<String, Object> addMember(HttpServletRequest request, @RequestBody Map data) {
-		System.out.println("***********************测试添加成员**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
 			int schedule_id = Integer.parseInt(String.valueOf(data.get("travelId")));
 			String addId = String.valueOf(data.get("uId"));
 			String oldId = this.getMemberManageService().getMembersByTravelId(schedule_id);
 			boolean isNum = addId.matches("[0-9]*");
-			System.out.println(isNum);
 			if (!isNum) {
 				modelMap.put("success", 0);
 				modelMap.put("message", "非法输入");
@@ -58,14 +56,13 @@ public class MemberManageController {
 			}
 		} catch (Exception e) {
 			modelMap.put("success", 0);
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return modelMap;
 	}
 
 	@RequestMapping(value = "/memberManage/delMember", method = RequestMethod.POST)
 	public Map<String, Object> delMember(HttpServletRequest request, @RequestBody Map data) {
-		System.out.println("***********************测试删除成员**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
 			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
@@ -82,8 +79,6 @@ public class MemberManageController {
 				modelMap.put("success", 1);
 				modelMap.put("message", "数据库中没有该用户信息");
 			} else {
-				System.out.println(delId);
-				System.out.println(oldId);
 				String[] temp = oldId.split(";;;");
 				StringBuffer sb = new StringBuffer();
 				for (int i = 0; i < temp.length; i++) {
@@ -93,23 +88,22 @@ public class MemberManageController {
 						sb.append(temp[i] + ";;;");
 				}
 				sb.delete(sb.length() - 3, sb.length());
-				Map<String, String> insertData = new HashMap<String, String>();
-				insertData.put("group_members", sb.toString());
-				insertData.put("scheduleId", String.valueOf(id));
-				this.getMemberManageService().updateMembers(insertData);
+				Map<String, String> updateData = new HashMap<String, String>();
+				updateData.put("group_members", sb.toString());
+				updateData.put("scheduleId", String.valueOf(id));
+				this.getMemberManageService().updateMembers(updateData);
 				modelMap.put("success", 1);
 
 			}
 		} catch (Exception e) {
 			modelMap.put("success", 0);
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return modelMap;
 	}
 	
 	@RequestMapping(value = "/memberManage/getMembers", method = RequestMethod.POST)
 	public Map<String, Object> getMembers(HttpServletRequest request, @RequestBody Map data) {
-		System.out.println("***********************测试获取成员**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
 			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
@@ -118,7 +112,7 @@ public class MemberManageController {
 			modelMap.put("data", membersId);
 		} catch (Exception e) {
 			modelMap.put("success", 0);
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return modelMap;
 	}
@@ -169,10 +163,7 @@ public class MemberManageController {
 		try {
 			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
 			String membersIdStr = this.getMemberManageService().getMembersByTravelId(id);
-			
 			String[] membersId=membersIdStr.split(";;;");
-			
-			
 			if(membersIdStr==null || membersIdStr.length()==0 || membersId==null  || membersId.length==0)
 			{
 				modelMap.put("success", 1);
@@ -183,10 +174,10 @@ public class MemberManageController {
 			List<Map<String,Object>> membersList=new LinkedList<Map<String,Object>>();
 			for(String str:membersId)
 			{
-				int temp=Integer.parseInt(str);
- 				User u=this.memberManageService.getUserById(temp);
+				int uid=Integer.parseInt(str);
+ 				User u=this.memberManageService.getUserById(uid);
 				Map<String,Object> memberMap=new HashMap<String,Object>();
-				memberMap.put("userId", temp);
+				memberMap.put("userId", uid);
 				memberMap.put("picId", u.getPicId());
 				memberMap.put("nickName", u.getNickname());
 				membersList.add(memberMap);
@@ -195,7 +186,7 @@ public class MemberManageController {
 			modelMap.put("data", membersList);
 		} catch (Exception e) {
 			modelMap.put("success", 0);
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return modelMap;
 	}
