@@ -28,7 +28,7 @@ public class HandlerEquipmentController {
 	public IHandlerEquipmentService getHandlerEquipentService() {
 		return handlerEquipmentService;
 	}
-
+   
 	public void setHandlerEquipentService(IHandlerEquipmentService handlerEquipentService) {
 		this.handlerEquipmentService = handlerEquipentService;
 	}
