@@ -111,20 +111,13 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 	
 	public TravelSchedule queryLatestScheduleDetailsByUserId(int userId) throws Exception {	
-		User user = loginDao.queryUserById(userId);
 		List<TravelSchedule> ls = null;
-		int latestScheduleId = 0;
-		if(user!=null){
-			String joinSchedulesStr = user.getJoinTravelSchedule();
-			if(joinSchedulesStr!=null && joinSchedulesStr.length()>0){
-				String[] joinSchedules = joinSchedulesStr.split(";;;");
-				if(joinSchedules.length>0){
-					latestScheduleId = Integer.parseInt(joinSchedules[joinSchedules.length-1]);
-					return travelScheduleDao.queryScheduleDetailsByScheduleId(latestScheduleId);
-				}					
-			}
-		}		
-		return null;
+		List<TravelSchedule> scheduleList = travelScheduleDao.querySchedulesByUserId(userId);
+		TravelSchedule latestSchedule = null;
+		if(scheduleList!=null && scheduleList.size() > 0){
+			latestSchedule = scheduleList.get(0);
+		}	
+		return latestSchedule;
 	}
 
 	@Override

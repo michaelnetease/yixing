@@ -36,4 +36,6 @@ public interface ILoginDao {
 	
 	public void updateJoinSchedule(User user);
 	
+	public List<User> queryMembersByIds(int[] userIds);
+	
 }

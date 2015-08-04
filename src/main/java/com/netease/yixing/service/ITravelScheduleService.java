@@ -18,7 +18,7 @@ public interface ITravelScheduleService {
 	
 	public TravelSchedule queryScheduleDetailsByScheduleId(int scheduleId) throws Exception;
 	
-	public TravelSchedule queryLatestScheduleDetailsByUserId(int scheduleId) throws Exception;
+	public TravelSchedule queryLatestScheduleDetailsByUserId(int userId) throws Exception;
 	
 	public List<TravelSchedule> queryTopKVisitedTravelSchedule(int k);
 	

@@ -53,6 +53,12 @@
 		 and a.schedule_id=#{scheduleId}  order by a.schedule_id desc
 	</select>
 	
+	<select id="getSchedulesByUserId" parameterType="int" resultMap="scheduleResult">
+		select * from travel_schedule 
+		where visable = 1 and create_user=#{userId}  
+		order by update_time desc
+	</select>
+	
 	<insert id="insertSchedule" parameterType="schedule">
 	  <![CDATA[
 		insert into

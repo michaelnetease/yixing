@@ -97,6 +97,11 @@ public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 		getSqlSession().update("com.netease.yixing.model.User.updateJoinSchedule", user);
 		
 	}
+
+	@Override
+	public List<User> queryMembersByIds(int[] userIds) {
+		return getSqlSession().selectList("com.netease.yixing.model.User.selectMembersByIds", userIds);
+	}
 	
 	
 }

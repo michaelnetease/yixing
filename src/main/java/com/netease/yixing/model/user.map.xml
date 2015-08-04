@@ -26,6 +26,16 @@
 		select * from user 
 		where id=#{id}
 	</select>
+	
+	<select id="selectMembersByIds" resultMap="userResult">	    
+		select * from user
+		where id in
+		<foreach item="item" index="index" collection="array"
+	             open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</select>
+	
 	<select id="selectUserByUsername" parameterType="string" resultMap="userResult">
 		select * from user 
 		where uasername=#{username}

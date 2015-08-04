@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IMemberManageService;
+import com.netease.yixing.service.ITravelScheduleService;
 
 @Controller
 public class MemberManageController {
 
 	@Autowired
 	private IMemberManageService memberManageService;
+	
+	@Autowired
+	private ITravelScheduleService travelScheduleService;
 
 	public IMemberManageService getMemberManageService() {
 		return memberManageService;
@@ -28,6 +32,14 @@ public class MemberManageController {
 
 	public void setMemberManageService(IMemberManageService memberManageService) {
 		this.memberManageService = memberManageService;
+	}
+
+	public ITravelScheduleService getTravelScheduleService() {
+		return travelScheduleService;
+	}
+
+	public void setTravelScheduleService(ITravelScheduleService travelScheduleService) {
+		this.travelScheduleService = travelScheduleService;
 	}
 
 	@RequestMapping(value = "/memberManage/addMember", method = RequestMethod.POST)
@@ -191,4 +203,26 @@ public class MemberManageController {
 		return modelMap;
 	}
 	
+	
+	@RequestMapping(value = "/memberManage/getLatestScheduleMembersByUserId", method = RequestMethod.POST)
+	public Map<String, Object> getLatestScheduleMembersByUserId(@RequestBody Map map) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		List<User> members = null;
+		boolean success = true;
+		try {
+			int userId = Integer.parseInt((String)map.get("userId"));
+			members = memberManageService.queryLatestScheduleMembersByUserId(userId);	
+			for(User user:members){
+				user.setPassword(null);
+				user.setJoinTravelSchedule(null);
+			}
+		} catch (Exception e) {
+			success = false;
+			e.printStackTrace();
+		} finally{
+			modelMap.put("success", success);
+			modelMap.put("members", members);
+		}
+		return modelMap;
+	}
 }

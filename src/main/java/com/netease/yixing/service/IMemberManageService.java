@@ -1,5 +1,6 @@
 package com.netease.yixing.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.netease.yixing.model.User;
@@ -11,4 +12,5 @@ public interface IMemberManageService {
 	public String getPicByUserId(int userId) throws Exception;
 	public User getUserById(int userId) throws Exception;
 
+	public List<User> queryLatestScheduleMembersByUserId(int userId) throws Exception;
 }
