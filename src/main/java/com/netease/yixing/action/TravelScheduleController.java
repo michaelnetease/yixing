@@ -158,7 +158,7 @@ public class TravelScheduleController {
 				resultMap.put("createUser", createUser);
 				
 				List<TravelRecord> recordList = schedule.getRecordList();
-				TravelRecord firstRecord = recordList!=null?recordList.get(0):null;
+				TravelRecord firstRecord = (recordList!=null && recordList.size()>0)?recordList.get(0):null;
 				pictureKey = firstRecord!=null? firstRecord.getPictureKey(): null;
 				location = firstRecord!=null? firstRecord.getLocation():null;
 				resultMap.put("pictureKey", pictureKey);				
