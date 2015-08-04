@@ -21,6 +21,10 @@
 			where travel_id=#{travelId} and valid= 1
 	</select>
 	
+	<select id="queryTravelRecordByTravelIdAndPage"  parameterType="map" resultMap="travelRecordResult">
+		select * from travel_record 
+			where travel_id=#{id} and valid= 1 limit #{skip},#{length}
+	</select>
 	<insert id="insertTravelRecord" parameterType="travelrecord" useGeneratedKeys="true" keyProperty="id">
 	  <![CDATA[
 		INSERT INTO `travel_record` 

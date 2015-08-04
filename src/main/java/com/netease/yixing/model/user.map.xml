@@ -28,7 +28,7 @@
 	</select>
 	<select id="selectUserByUsername" parameterType="string" resultMap="userResult">
 		select * from user 
-		where uasername=#{username}
+		where username=#{username}
 	</select>
 	<select id="getUserById" parameterType="int" resultMap="userResult">
 		select * from user 
