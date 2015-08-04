@@ -141,11 +141,9 @@ public class TravelScheduleController {
 		int userId = Integer.parseInt((String)map.get("userId"));	
 		int startIndex = (Integer)map.get("startIndex");
 		int length = (Integer)map.get("length");
-		String title = null;
-		Date startTime = null;
 		String pictureKey = null;
 		String location = null;
-		int createUser = 0;
+
 		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		try{
 			scheduleInfos = travelScheduleServ.queryFixedLengthTravelInfoByUserId(userId,startIndex,length);
@@ -154,11 +152,12 @@ public class TravelScheduleController {
 				resultMap.put("title", schedule.getTitle());
 				resultMap.put("startTime", schedule.getStartTime());
 				User user = schedule.getCreateUser();
-				createUser = user!=null?user.getId():0;
-				resultMap.put("createUser", createUser);
-				
+				if(user!=null){
+					user.setPassword(null);
+				}
+				resultMap.put("createUser", user);				
 				List<TravelRecord> recordList = schedule.getRecordList();
-				TravelRecord firstRecord = recordList!=null?recordList.get(0):null;
+				TravelRecord firstRecord = (recordList!=null && recordList.size()>0)?recordList.get(0):null;
 				pictureKey = firstRecord!=null? firstRecord.getPictureKey(): null;
 				location = firstRecord!=null? firstRecord.getLocation():null;
 				resultMap.put("pictureKey", pictureKey);				
@@ -184,6 +183,10 @@ public class TravelScheduleController {
 		int scheduleId = Integer.parseInt((String)requestMap.get("scheduleId"));		
 		try{
 			schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(scheduleId);
+			if(schedule!=null && schedule.getCreateUser()!=null){
+				User user = schedule.getCreateUser();
+				user.setPassword(null);
+			}
 		}catch(Exception e){
 			success = false;
 			e.printStackTrace();
@@ -202,6 +205,10 @@ public class TravelScheduleController {
 		int userId = Integer.parseInt((String)requestMap.get("userId"));		
 		try{
 			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
+			if(schedule!=null && schedule.getCreateUser()!=null){
+				User user = schedule.getCreateUser();
+				user.setPassword(null);
+			}
 		}catch(Exception e){
 			success = false;
 			e.printStackTrace();

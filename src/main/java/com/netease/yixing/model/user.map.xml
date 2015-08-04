@@ -26,6 +26,16 @@
 		select * from user 
 		where id=#{id}
 	</select>
+	
+	<select id="selectMembersByIds" resultMap="userResult">	    
+		select * from user
+		where id in
+		<foreach item="item" index="index" collection="array"
+	             open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</select>
+	
 	<select id="selectUserByUsername" parameterType="string" resultMap="userResult">
 		select * from user 
 		where username=#{username}
@@ -66,7 +76,10 @@
  	 	<update id="updatePass" parameterType="user">
  		UPDATE user set password=#{password} WHERE phoneNum=#{phoneNum}
  	</update>
- 	
+
+ 	<update id="updateJoinSchedule" parameterType="user">
+ 		UPDATE user set join_travel_schedule=#{joinTravelSchedule} WHERE id=#{id}
+ 	</update> 	
 
 <!-- 
 

@@ -49,7 +49,14 @@
 		select a.*,b.*,c.*,d.*,e.*,f.* 
 		from travel_schedule a left join travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id
 		left join travel_agenda_hotel d on c.agenda_id=d.agenda_id left join equipment e on e.travelId=a.schedule_id left join travel_record f on f.travel_id=a.schedule_id
-		where  a.visable = 1 and b.visable = 1 and c.visable = 1 and d.visable = 1 and f.valid = 1 and a.schedule_id=#{scheduleId} 
+		where (a.visable = 1 || a.visable is NULL) and (b.visable = 1 || b.visable is NULL) and (c.visable = 1 || c.visable is NULL) and (d.visable = 1 || d.visable is NULL) and (f.valid = 1 || f.valid is NULL) 
+		 and a.schedule_id=#{scheduleId}  order by a.schedule_id desc
+	</select>
+	
+	<select id="getSchedulesByUserId" parameterType="int" resultMap="scheduleResult">
+		select * from travel_schedule 
+		where visable = 1 and create_user=#{userId}  
+		order by update_time desc
 	</select>
 	
 	<insert id="insertSchedule" parameterType="schedule">
@@ -77,14 +84,16 @@
 	</update>
 
  	<select id="getAllJoinSchedules" resultMap="scheduleResult">	    
-		select a.*,b.*,c.*,d.*,e.*,f.* 
-		from travel_schedule a left join travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id
-		left join travel_agenda_hotel d on c.agenda_id=d.agenda_id left join equipment e on a.schedule_id = e.travelId left join travel_record f on a.schedule_id = f.travel_id
-		where  a.visable = 1 and b.visable = 1 and c.visable = 1 and d.visable = 1 and f.valid = 1 and a.schedule_id in
+		select a.*,b.*,c.*,d.*,e.*,f.*
+		from travel_schedule a LEFT JOIN travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id left join travel_agenda_hotel d on c.agenda_id=d.agenda_id 
+		left join equipment e on a.schedule_id = e.travelId left join travel_record f on a.schedule_id = f.travel_id
+		where (a.visable = 1 || a.visable is NULL) and (b.visable = 1 || b.visable is NULL) and (c.visable = 1 || c.visable is NULL) and (d.visable = 1 || d.visable is NULL) and (f.valid = 1 || f.valid is NULL) 
+		and a.schedule_id in
 		<foreach item="item" index="index" collection="array"
 	             open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
+	     order by a.schedule_id desc
 	</select>
 	
 	<select id="getTopKVisitedSchedule" parameterType="int" resultMap="scheduleResult">

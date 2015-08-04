@@ -3,7 +3,6 @@ package com.netease.yixing.dao;
 import java.util.List;
 
 import com.netease.yixing.model.TravelSchedule;
-import com.netease.yixing.model.User;
 
 public interface ITravelScheduleDao {
 
@@ -16,6 +15,8 @@ public interface ITravelScheduleDao {
 	public List<TravelSchedule> getAllJoinTravelSchedules(int[] scheduleIds) ;
 	
 	public TravelSchedule queryScheduleDetailsByScheduleId(int scheduleId);
+	
+	public List<TravelSchedule> querySchedulesByUserId(int userId);
 	
 	public List<TravelSchedule> queryTopKVisitedTravelSchedule(int k);
 	
