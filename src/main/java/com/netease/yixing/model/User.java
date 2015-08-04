@@ -2,6 +2,8 @@ package com.netease.yixing.model;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class User implements Serializable{
 
 	/**
@@ -13,6 +15,7 @@ public class User implements Serializable{
 	
 	private String username;
 	
+	@JsonIgnore
 	private String password;
 	
 	private String phoneNum;
