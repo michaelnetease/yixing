@@ -90,4 +90,13 @@ public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 	public void updatePass(User user){
 		getSqlSession().update("com.netease.yixing.model.User.updatePass", user);
 	}
+	
+
+	@Override
+	public void updateJoinSchedule(User user) {
+		getSqlSession().update("com.netease.yixing.model.User.updateJoinSchedule", user);
+		
+	}
+	
+	
 }

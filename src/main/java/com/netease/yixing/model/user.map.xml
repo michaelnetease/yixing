@@ -66,7 +66,10 @@
  	 	<update id="updatePass" parameterType="user">
  		UPDATE user set password=#{password} WHERE phoneNum=#{phoneNum}
  	</update>
- 	
+
+ 	<update id="updateJoinSchedule" parameterType="user">
+ 		UPDATE user set join_travel_schedule=#{joinTravelSchedule} WHERE id=#{id}
+ 	</update> 	
 
 <!-- 
 

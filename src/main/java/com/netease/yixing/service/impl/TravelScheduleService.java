@@ -68,6 +68,18 @@ public class TravelScheduleService implements ITravelScheduleService {
 	public int createTravelSchedule(TravelSchedule entity) throws Exception {
 		travelScheduleDao.insertTravelSchedule(entity);
 
+		User user = loginDao.queryUserById(entity.getCreateUser().getId());
+		if(user!=null){
+			String schedules = user.getJoinTravelSchedule();
+			if(schedules==null || schedules.length()==0){
+				schedules = ""+ entity.getScheduleId();
+			}else{
+				schedules+= ";;;"+ entity.getScheduleId();
+			}
+			user.setJoinTravelSchedule(schedules);
+			loginDao.updateJoinSchedule(user);
+		}
+		
 		TravelScheduleAgenda firstDay = new TravelScheduleAgenda();
 		firstDay.setSchedule(entity);
 		firstDay.setTravelDay(entity.getStartTime());
