@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.netease.yixing.model.TravelAgendaArrange;
+import com.netease.yixing.model.TravelAgendaHotel;
 import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
+import com.netease.yixing.model.TravelScheduleAgenda;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.ITravelScheduleService;
 import com.netease.yixing.utils.Constant;
@@ -138,7 +141,7 @@ public class TravelScheduleController {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		List<TravelSchedule> scheduleInfos = null;
 		boolean success = true;
-		int userId = Integer.parseInt((String)map.get("userId"));	
+		int userId = (Integer)map.get("userId");	
 		int startIndex = (Integer)map.get("startIndex");
 		int length = (Integer)map.get("length");
 		String pictureKey = null;
@@ -208,6 +211,35 @@ public class TravelScheduleController {
 			if(schedule!=null && schedule.getCreateUser()!=null){
 				User user = schedule.getCreateUser();
 				user.setPassword(null);
+				user.setJoinTravelSchedule(null);
+				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
+				if(agendaList!=null && agendaList.size() > 0){
+					for(TravelScheduleAgenda agenda:agendaList){
+						List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
+						List<TravelAgendaHotel> hotelList = agenda.getHotelList();
+						List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
+						List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
+						if(arrangeList!=null && arrangeList.size()>0){
+							for(TravelAgendaArrange arrange : arrangeList){
+								if(arrange.getArrangeId()!=0){
+									arrangeListData.add(arrange);
+								}
+							}
+
+						}
+						
+						if(hotelList!=null && hotelList.size()>0){
+							for(TravelAgendaHotel hotel: hotelList){
+								if(hotel.getHotelId()!=0){
+									hotelListData.add(hotel);
+								}
+							}
+						}
+						
+						agenda.setArrangeList(arrangeListData);
+						agenda.setHotelList(hotelListData);
+					}
+				}
 			}
 		}catch(Exception e){
 			success = false;
