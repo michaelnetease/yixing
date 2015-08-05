@@ -216,7 +216,7 @@ public class MemberManageController {
 		List<User> members = null;
 		boolean success = true;
 		try {
-			int userId = Integer.parseInt((String)map.get("userId"));
+			int userId = (Integer)map.get("userId");
 			members = memberManageService.queryLatestScheduleMembersByUserId(userId);	
 			for(User user:members){
 				user.setPassword(null);
