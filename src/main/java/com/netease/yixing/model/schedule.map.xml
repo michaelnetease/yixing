@@ -50,7 +50,7 @@
 		from travel_schedule a left join travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id
 		left join travel_agenda_hotel d on c.agenda_id=d.agenda_id left join equipment e on e.travelId=a.schedule_id left join travel_record f on f.travel_id=a.schedule_id
 		where (a.visable = 1 || a.visable is NULL) and (b.visable = 1 || b.visable is NULL) and (c.visable = 1 || c.visable is NULL) and (d.visable = 1 || d.visable is NULL) and (f.valid = 1 || f.valid is NULL) 
-		 and a.schedule_id=#{scheduleId}  order by a.schedule_id desc
+		 and a.schedule_id=#{scheduleId}  order by a.update_time desc
 	</select>
 	
 	<select id="getSchedulesByUserId" parameterType="int" resultMap="scheduleResult">
@@ -93,7 +93,7 @@
 	             open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
-	     order by a.schedule_id desc
+	     order by a.update_time desc
 	</select>
 	
 	<select id="getTopKVisitedSchedule" parameterType="int" resultMap="scheduleResult">

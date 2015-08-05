@@ -39,11 +39,11 @@ public class TravelAgendaArrangeController {
 		boolean success = true;
 		String message = "ok";
 		int arrangeId = 0;
-		int agendaId = Integer.parseInt((String)map.get("agendaId"));
-		String timePoint = (String)map.get("timePoint");
-		String event = (String)map.get("event");
-		String info = (String)map.get("info");
-		int userId = Integer.parseInt((String)map.get("userId"));
+		int agendaId = Integer.parseInt(String.valueOf(map.get("agendaId")));
+		String timePoint = String.valueOf(map.get("timePoint"));
+		String event = String.valueOf(map.get("event"));
+		String info = String.valueOf(map.get("info"));
+		int userId = Integer.parseInt(String.valueOf(map.get("userId")));
 		TravelAgendaArrange entity = new TravelAgendaArrange();
 		entity.setEvent(event);
 		entity.setInfo(info);
@@ -53,8 +53,8 @@ public class TravelAgendaArrangeController {
 		entity.setAgenda(agenda);
 		User user = new User();
 		user.setId(userId);
-		entity.setUpdateTime(new Date());
 		entity.setUser(user);
+		entity.setUpdateTime(new Date());		
 		try {
 			arrangeId = arrangeServ.createTravelAgendaArrange(entity);
 		} catch (Exception e) {
@@ -72,8 +72,18 @@ public class TravelAgendaArrangeController {
 	
 	
 	@RequestMapping(value="/travel/arrange/update",method=RequestMethod.PUT)
-	public Map<String,Object> updateAgendaArrange(HttpServletRequest request, @RequestBody TravelAgendaArrange entity){
+	public Map<String,Object> updateAgendaArrange(@RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
+		int arrangeId = Integer.parseInt(String.valueOf(map.get("arrangeId")));
+		String timePoint = String.valueOf(map.get("timePoint"));
+		String event = String.valueOf(map.get("event"));
+		String info = String.valueOf(map.get("info"));		
+		TravelAgendaArrange entity = new TravelAgendaArrange();
+		entity.setArrangeId(arrangeId);
+		entity.setEvent(event);
+		entity.setInfo(info);
+		entity.setTimePoint(timePoint);		
+		
 		boolean success = true;
 		String message = "ok";
 		try {
