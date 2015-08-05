@@ -115,7 +115,7 @@
 		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
 	</bean>  
 	
-	<!-- 
+
 		<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 	        <property name="maxActive" value="50" />
 	        <property name="maxIdle" value="8" />
@@ -137,22 +137,8 @@
 	            </list>
 	        </constructor-arg>
 	    </bean>
-	 -->
 
-	 
-	  <!-- scanner redis properties  --> 
-	  
-	  
 
-	  <context:property-placeholder location="classpath:redis.properties" />
-	  
-		<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-	        <property name="maxActive" value="50" />
-	        <property name="maxIdle" value="8" />
-	        <property name="maxWait" value="1000" />
-	        <property name="testOnBorrow" value="true"/>
-	        <property name="testOnReturn" value="true"/>
-	    </bean>
 	    
 	  <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 	     <property name="hostName" value="223.252.223.10"></property>

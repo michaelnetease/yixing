@@ -72,14 +72,6 @@
 			</list>
 		</property>
 		
-		<property name="viewResolvers">  
-			  <list>
-			   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
-			     
-			        <property name="suffix" value=".jsp"></property>  
-			   </bean> 
-			  </list>
-			</property>
 	</bean>
 
 
