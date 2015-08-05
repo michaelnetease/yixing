@@ -41,8 +41,8 @@ public class TravelScheduleAgendaController {
 		int agendaId = 0;
 		try {
 			String travelDayStr = String.valueOf(map.get("travelDay"));
-			int userId = Integer.parseInt(String.valueOf(map.get("userId")));
-			int scheduleId = Integer.parseInt(String.valueOf(map.get("scheduleId")));
+			int userId = (Integer)map.get("userId");
+			int scheduleId = (Integer)map.get("scheduleId");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 			Date travelDay = sdf.parse(travelDayStr);
 			
@@ -111,7 +111,7 @@ public class TravelScheduleAgendaController {
 	@RequestMapping(value="/travel/agenda/queryAll",method=RequestMethod.POST)
 	public Map<String,Object> queryAllAgendaByScheduleId(HttpServletRequest request, @RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		int scheduleId = Integer.parseInt((String)map.get("scheduleId"));		
+		int scheduleId = (Integer)map.get("scheduleId");		
 		boolean success = true;
 		String message = "ok";
 		List<TravelScheduleAgenda> result = null;

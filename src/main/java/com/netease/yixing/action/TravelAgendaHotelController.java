@@ -35,10 +35,10 @@ public class TravelAgendaHotelController {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		String message = "ok";
-		int agendaId = Integer.parseInt((String)map.get("agendaId"));
-		int userId = Integer.parseInt((String)map.get("userId"));
-		String hotelName = (String)map.get("hotelName");
-		String hotelInfo = (String)map.get("hotelInfo");
+		int agendaId = (Integer)map.get("agendaId");
+		int userId = (Integer)map.get("userId");
+		String hotelName = String.valueOf(map.get("hotelName"));
+		String hotelInfo = String.valueOf(map.get("hotelInfo"));
 		
 		TravelAgendaHotel hotel = new TravelAgendaHotel();
 		User user = new User();
@@ -107,7 +107,7 @@ public class TravelAgendaHotelController {
 	@RequestMapping(value="/travel/hotel/query",method=RequestMethod.POST)
 	public Map<String,Object> queryAgendaHotelByAgendaId(HttpServletRequest request, @RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		int agendaId = Integer.parseInt((String) map.get("agendaId"));		
+		int agendaId = (Integer) map.get("agendaId");		
 		boolean success = true;
 		String message = "ok";		
 		TravelAgendaHotel hotel = null;

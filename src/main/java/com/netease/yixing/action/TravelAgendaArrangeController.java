@@ -39,11 +39,11 @@ public class TravelAgendaArrangeController {
 		boolean success = true;
 		String message = "ok";
 		int arrangeId = 0;
-		int agendaId = Integer.parseInt(String.valueOf(map.get("agendaId")));
+		int agendaId = (Integer)map.get("agendaId");
 		String timePoint = String.valueOf(map.get("timePoint"));
 		String event = String.valueOf(map.get("event"));
 		String info = String.valueOf(map.get("info"));
-		int userId = Integer.parseInt(String.valueOf(map.get("userId")));
+		int userId = (Integer)map.get("userId");
 		TravelAgendaArrange entity = new TravelAgendaArrange();
 		entity.setEvent(event);
 		entity.setInfo(info);
@@ -74,7 +74,7 @@ public class TravelAgendaArrangeController {
 	@RequestMapping(value="/travel/arrange/update",method=RequestMethod.PUT)
 	public Map<String,Object> updateAgendaArrange(@RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		int arrangeId = Integer.parseInt(String.valueOf(map.get("arrangeId")));
+		int arrangeId = (Integer)map.get("arrangeId");
 		String timePoint = String.valueOf(map.get("timePoint"));
 		String event = String.valueOf(map.get("event"));
 		String info = String.valueOf(map.get("info"));		
@@ -144,7 +144,7 @@ public class TravelAgendaArrangeController {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		String message = "ok";
-		int arrangeId = Integer.parseInt((String)map.get("arrangeId"));
+		int arrangeId = (Integer)map.get("arrangeId");
 		TravelAgendaArrange entity = new TravelAgendaArrange();
 		entity.setArrangeId(arrangeId);
 		
