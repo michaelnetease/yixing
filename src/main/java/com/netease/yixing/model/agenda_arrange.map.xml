@@ -40,7 +40,7 @@
  	
  	<update id="updateArrange" parameterType="agendaArrange">
 		update travel_agenda_arrange set
-		time_point=#{timePoint},event=#{event},info=#{info},agenda_id=#{agenda.agendaId},user_id=#{user.id} 
+		time_point=#{timePoint},event=#{event},info=#{info}
 		where arrange_id=#{arrangeId}
  	</update>
 
