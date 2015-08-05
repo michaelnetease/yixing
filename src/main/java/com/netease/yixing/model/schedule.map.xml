@@ -74,12 +74,12 @@
  	
  	
  	<update id="updateSchedule" parameterType="schedule">
-		update schedule set
+		update travel_schedule set
 		title=#{title},update_time=#{updateTime}   where schedule_id=#{scheduleId}
  	</update>
 
 	<update id="deleteSchedule" parameterType="schedule">
-		update schedule set
+		update travel_schedule set
 		visable=#{visable},update_time=#{updateTime}   where schedule_id=#{scheduleId}
 	</update>
 
