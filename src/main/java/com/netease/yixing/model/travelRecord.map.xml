@@ -3,7 +3,6 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.netease.yixing.model.TravelRecord">
 
-	
 	<resultMap type="com.netease.yixing.model.TravelRecord" id="travelRecordResult">
 		<result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
 		<result property="uid" column="uid" />
@@ -13,7 +12,6 @@
 		<result property="uptime" column="upload_time" javaType="java.util.Date"/>
 		<result property="valid" column="valid" />
 		<result property="location" column="location" />
-		
 	</resultMap>
 	
 	<select id="queryTravelRecordByTravelId" parameterType="int" resultMap="travelRecordResult">
@@ -25,6 +23,12 @@
 		select * from travel_record 
 			where travel_id=#{id} and valid= 1 limit #{skip},#{length}
 	</select>
+	
+	<select id="queryAllTravelRecordByUserId"  parameterType="map" resultMap="travelRecordResult">
+		select * from travel_record 
+			where uid=#{id} and valid= 1 limit #{skip},#{length}
+	</select>
+			
 	<insert id="insertTravelRecord" parameterType="travelrecord" useGeneratedKeys="true" keyProperty="id">
 	  <![CDATA[
 		INSERT INTO `travel_record` 

@@ -48,4 +48,13 @@ public class TravelRecordDao  extends SqlSessionDaoSupport implements ITravelRec
 		return getSqlSession().selectList("com.netease.yixing.model.TravelRecord.queryTravelRecordByTravelIdAndPage",map); 
 	}
 
+	@Override
+	public List<TravelRecord> queryAllByUserId(int travelId, int skip, int length) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map=new HashMap<String,Object>();  
+		map.put("id",travelId);  
+		map.put("skip",skip);
+		map.put("length",length);
+		return getSqlSession().selectList("com.netease.yixing.model.TravelRecord.queryAllTravelRecordByUserId",map); 
+	}
 }

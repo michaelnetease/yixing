@@ -156,15 +156,19 @@ public class TravelRecordCotroller {
 		}
 	}
 	
-	@RequestMapping(value="/queryByUserIdOnePage",method=RequestMethod.POST)
+	@RequestMapping(value="/queryLastPageByUserId",method=RequestMethod.POST)
 	public Map<String,Object> queryLastById(HttpServletRequest request, @RequestBody Map requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		TravelSchedule schedule = null;
-		int userId = Integer.parseInt((String)requestMap.get("userId"));		
+		
 	    try {
+			int userId = Integer.parseInt((String)requestMap.get("userId"));
+			int skip=Integer.parseInt((String)requestMap.get("skip"));
+		    int length = Integer.parseInt((String)requestMap.get("length"));
 			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
-			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelId(schedule.getScheduleId());
+			int tripid = schedule.getScheduleId();
+			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 			modelMap.put("success",1);
 			List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
 			TravelRecord tmp = null;
@@ -186,13 +190,65 @@ public class TravelRecordCotroller {
 			}
 			modelMap.put("notelist", lst);
 			return modelMap;
-	}catch(Exception e){
-		modelMap.put("success",0);
-		modelMap.put("message","错误");
-		return modelMap;
+		}catch(Exception e){
+			modelMap.put("success",0);
+			modelMap.put("message","错误");
+			return modelMap;
+		}
 	}
+	
+	@RequestMapping(value="/queryAllByUserId",method=RequestMethod.POST)
+	public Map<String,Object> queryAllById(HttpServletRequest request, @RequestBody Map requestMap){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		TravelSchedule schedule = null;
+	
+	    try {
+	    	int userId = Integer.parseInt((String)requestMap.get("userId"));	
+			int skip=Integer.parseInt((String)requestMap.get("skip"));
+		     int length = Integer.parseInt((String)requestMap.get("length"));
+			List<TravelRecord> travelRecordList = travelRecordService.queryAllByUserId(userId,skip,length);
+			modelMap.put("success",1);
+			Map<Integer,TravelSchedule> id2Schedule = new HashMap<Integer,TravelSchedule>();
+			for(TravelRecord a:travelRecordList){
+				int tripid = Integer.parseInt(a.getTravelId());
+				if(!id2Schedule.containsKey(tripid)){
+					TravelSchedule schedule2 = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
+					id2Schedule.put(tripid, schedule2);
+				}
+				
+			}
+			List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+			TravelRecord tmp = null;
+			for(TravelRecord a:travelRecordList){
+				Map<String,String> mp = new HashMap<String ,String>();
+				mp.put("id", a.getId()+"");
+				mp.put("userid", a.getUid());
+				int tripid = Integer.parseInt(a.getTravelId());
+				TravelSchedule sd = id2Schedule.get(tripid);
+				String title = sd.getTitle();
+				mp.put("title",title);
+				mp.put("tripid", a.getTravelId());
+				mp.put("travelnoteid", a.getId()+"");
+				mp.put("picture", a.getPictureKey());
+				mp.put("note", a.getText());
+				mp.put("time", a.getUptime().getTime()/1000+"");
+				mp.put("location", a.getLocation());
+				User u = loginServ.selectUserById(a.getUid()+"");
+				mp.put("userPic", u.getPicId());
+				mp.put("usernickname",u.getNickname());
+				lst.add(mp);
+				tmp = a;
+			}
+			modelMap.put("notelist", lst);
+			return modelMap;
+		}catch(Exception e){
+			modelMap.put("success",0);
+			modelMap.put("message","错误");
+			return modelMap;
+		}
 	}
-	@RequestMapping(value="/queryByUserIdAndPage",method=RequestMethod.POST)
+	@RequestMapping(value="/queryAllByTripId",method=RequestMethod.POST)
 	public Map<String,Object> queryLastById2(HttpServletRequest request, @RequestBody Map requestMap){
 		
 	

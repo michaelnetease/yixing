@@ -45,4 +45,10 @@ public class TravelRecordService implements ITravelRecordService{
 		// TODO Auto-generated method stub
 		return travelRecordDao.queryByTravelIdAndPage(travelId,skip,length);
 	}
+
+	@Override
+	public List<TravelRecord> queryAllByUserId(int travelId, int skip, int length) {
+		// TODO Auto-generated method stub
+		return travelRecordDao.queryAllByUserId(travelId,skip,length);
+	}
 }

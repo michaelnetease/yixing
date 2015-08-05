@@ -15,4 +15,6 @@ public interface ITravelRecordDao {
 	public void removeTravelRecordById(int id);
 	
 	public List<TravelRecord> queryByTravelIdAndPage(int travelId,int skip,int length);
+	
+	public List<TravelRecord> queryAllByUserId(int travelId,int skip,int length);
 }
