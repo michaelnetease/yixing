@@ -47,9 +47,9 @@ public class TravelScheduleController {
 		String message = "ok";
 		int scheduleId = 0;
 		try {
-			String title = (String)map.get("title");
-			int userId = Integer.parseInt((String)map.get("userId"));
-			String startTimeStr = (String)map.get("startTime");
+			String title = String.valueOf(map.get("title")) ;
+			int userId = (Integer)map.get("userId");
+			String startTimeStr = String.valueOf(map.get("startTime")) ;
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date startTime = sdf.parse(startTimeStr);
 			TravelSchedule schedule = new TravelSchedule();
@@ -99,7 +99,7 @@ public class TravelScheduleController {
 	}
 	
 	@RequestMapping(value="/travel/schedule/delete",method = RequestMethod.POST)
-	public Map<String,Object> deleteTravelSchedule(HttpServletRequest request, @RequestBody TravelSchedule entity){
+	public Map<String,Object> deleteTravelSchedule(@RequestBody TravelSchedule entity){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		String message = "ok";
@@ -118,11 +118,11 @@ public class TravelScheduleController {
 	}
 	
 	@RequestMapping(value="/travel/schedule/querybyuser", method = RequestMethod.GET)
-	public Map<String,Object> queryAllJoinTravelSchedule(HttpServletRequest request, @RequestBody Map<String,Object> requestMap){
+	public Map<String,Object> queryAllJoinTravelSchedule(@RequestBody Map<String,Object> requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		List<TravelSchedule> scheduleInfos = null;
 		boolean success = true;
-		int userId = Integer.parseInt((String)requestMap.get("userId"));		
+		int userId = (Integer)requestMap.get("userId");		
 		try{
 			scheduleInfos = travelScheduleServ.queryTravelInfoByUserId(userId);
 		}catch(Exception e){
@@ -136,8 +136,7 @@ public class TravelScheduleController {
 	}
 	
 	@RequestMapping(value="/travel/schedule/pageQuery", method = RequestMethod.POST)
-	public Map<String,Object> queryFixedNumJoinTravelSchedule(HttpServletRequest request, 
-			@RequestBody Map<String,Object> map){
+	public Map<String,Object> queryFixedNumJoinTravelSchedule(@RequestBody Map<String,Object> map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		List<TravelSchedule> scheduleInfos = null;
 		boolean success = true;
@@ -179,11 +178,11 @@ public class TravelScheduleController {
 	}
 	
 	@RequestMapping(value="/travel/schedule/querydetails", method = RequestMethod.POST)
-	public Map<String,Object> queryTravelScheduleDetailsByScheduleId(HttpServletRequest request, @RequestBody Map<String,Object> requestMap){
+	public Map<String,Object> queryTravelScheduleDetailsByScheduleId(@RequestBody Map<String,Object> requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		TravelSchedule schedule = null;
-		int scheduleId = Integer.parseInt((String)requestMap.get("scheduleId"));		
+		int scheduleId = (Integer)requestMap.get("scheduleId");		
 		try{
 			schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(scheduleId);
 			if(schedule!=null && schedule.getCreateUser()!=null){
@@ -201,11 +200,11 @@ public class TravelScheduleController {
 	}
 	
 	@RequestMapping(value="/travel/schedule/querylatest", method = RequestMethod.POST)
-	public Map<String,Object> queryLateastTravelScheduleDetailsByUserId(HttpServletRequest request, @RequestBody Map<String,Object> requestMap){
+	public Map<String,Object> queryLateastTravelScheduleDetailsByUserId(@RequestBody Map<String,Object> requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		TravelSchedule schedule = null;
-		int userId = Integer.parseInt((String)requestMap.get("userId"));		
+		int userId = (Integer)requestMap.get("userId");		
 		try{
 			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
 			if(schedule!=null && schedule.getCreateUser()!=null){
