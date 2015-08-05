@@ -138,7 +138,7 @@ public class TravelScheduleController {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		List<TravelSchedule> scheduleInfos = null;
 		boolean success = true;
-		int userId = Integer.parseInt((String)map.get("userId"));	
+		int userId = (Integer)map.get("userId");	
 		int startIndex = (Integer)map.get("startIndex");
 		int length = (Integer)map.get("length");
 		String pictureKey = null;
