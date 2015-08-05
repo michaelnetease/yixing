@@ -10,7 +10,7 @@
 		<result property="info" column="info" />
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
 		<result property="visable" column="visable" javaType="java.lang.Boolean"/>
-		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda" select="com.netease.yixing.model.ScheduleAgenda.getAgendaById"/> 
+		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda"/> 
         <association property="user" column="user_id" javaType="com.netease.yixing.model.User"/> 
 	</resultMap>
 	
@@ -33,7 +33,7 @@
 		    (#{timePoint},#{event},#{info},#{updateTime},#{agenda.agendaId},#{user.id})
 		]]>
 				
-	   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="agendaId" >  
+	   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="arrangeId" >  
           SELECT LAST_INSERT_ID()  
        </selectKey> 
  	</insert>
@@ -45,7 +45,7 @@
  	</update>
 
      <update id="deleteArrangeByArrangeId" parameterType="int">
-		update travel_agenda_arrange set visable=#{visable}
+		update travel_agenda_arrange set visable=0
 		where arrange_id=#{arrangeId}
  	</update>
  	
