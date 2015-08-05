@@ -66,7 +66,7 @@ public class HandlerEquipmentService implements IHandlerEquipmentService {
 		StringBuffer sb=new StringBuffer();
 		for(String str:tempList)
 		{	
-			if(str==null) continue;
+			if(str==null || str.length()==0) continue;
 			String[] temps=str.split(";;;");
 			for(String s:temps)
 				sb.append(s+",");

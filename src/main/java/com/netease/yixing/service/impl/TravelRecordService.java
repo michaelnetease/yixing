@@ -39,4 +39,10 @@ public class TravelRecordService implements ITravelRecordService{
 		
 		return travelRecordDao.editTravelRecord(travelrecord);
 	}
+
+	@Override
+	public List<TravelRecord> queryByTravelIdAndPage(int travelId, int skip, int length) {
+		// TODO Auto-generated method stub
+		return travelRecordDao.queryByTravelIdAndPage(travelId,skip,length);
+	}
 }

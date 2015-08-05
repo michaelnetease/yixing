@@ -12,4 +12,6 @@ public interface ITravelRecordService {
 	public void removeTravelRecordById(int id);
 	
 	public boolean editTravelRecord(TravelRecord travelrecord);
+	
+	public List<TravelRecord> queryByTravelIdAndPage(int travelId,int skip,int length);
 }

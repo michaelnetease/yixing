@@ -21,12 +21,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.netease.yixing.model.Auth2;
 import com.netease.yixing.model.Equipment;
 import com.netease.yixing.model.TravelRecord;
+import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IAuthService;
 import com.netease.yixing.service.ILoginService;
 import com.netease.yixing.service.ITravelRecordService;
+import com.netease.yixing.service.ITravelScheduleService;
 import com.netease.yixing.utils.Constant;
 import com.netease.yixing.utils.PicService;
+import com.netease.yixing.utils.UserCheck;
 import com.netease.yixing.work.redis.RedisClientTemplate;
 
 
@@ -48,7 +51,12 @@ public class TravelRecordCotroller {
 	@Autowired
 	private IAuthService authService;
 	//private Logger logger = Logger.getLogger("TravelRecordCotroller.class");
+	@Autowired
+	private UserCheck  usercheck;
 	
+	
+	@Autowired
+	private ITravelScheduleService travelScheduleServ;
 	
 	@RequestMapping(value="/create",method=RequestMethod.POST)
 	public Map<String,Object> create(HttpServletRequest request, @RequestBody Map travelRecordMap){
@@ -147,26 +155,103 @@ public class TravelRecordCotroller {
 			return modelMap;
 		}
 	}
-			
-	@RequestMapping(value = "/b")
-	public  Map<String,Object> aaa(HttpServletRequest request, HttpServletResponse response) {
-		Auth2 auth = new Auth2();
-		int id = 1;
-		auth.setUid(id+"");
-		auth.setRnd("asdfsdfadfeewttyertretret");
-		auth.setAccessToken("t346546y54yghyhy7");
-		auth.setValidTime("13146354364");
-		
-		Auth2 au = authService.queryByUid(id);
-		if(au==null){
-			authService.insert(auth);
-		}else{
-			au.setRnd("uuuuuuuuuuuuuuuuuuuuuuu");
-			System.out.println("asdfasdfasdfasfasdfasf");
-			authService.update(au);
-		}
+	
+	@RequestMapping(value="/queryByUserIdOnePage",method=RequestMethod.POST)
+	public Map<String,Object> queryLastById(HttpServletRequest request, @RequestBody Map requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		modelMap.put("success","1");
+		boolean success = true;
+		TravelSchedule schedule = null;
+		int userId = Integer.parseInt((String)requestMap.get("userId"));		
+	    try {
+			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
+			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelId(schedule.getScheduleId());
+			modelMap.put("success",1);
+			List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+			TravelRecord tmp = null;
+			for(TravelRecord a:travelRecordList){
+				Map<String,String> mp = new HashMap<String ,String>();
+				mp.put("id", a.getId()+"");
+				mp.put("userid", a.getUid());
+				mp.put("tripid", a.getTravelId());
+				mp.put("travelnoteid", a.getId()+"");
+				mp.put("picture", a.getPictureKey());
+				mp.put("note", a.getText());
+				mp.put("time", a.getUptime().getTime()/1000+"");
+				mp.put("location", a.getLocation());
+				User u = loginServ.selectUserById(a.getUid()+"");
+				mp.put("userPic", u.getPicId());
+				mp.put("usernickname",u.getNickname());
+				lst.add(mp);
+				tmp = a;
+			}
+			modelMap.put("notelist", lst);
+			return modelMap;
+	}catch(Exception e){
+		modelMap.put("success",0);
+		modelMap.put("message","错误");
+		return modelMap;
+	}
+	}
+	@RequestMapping(value="/queryByUserIdAndPage",method=RequestMethod.POST)
+	public Map<String,Object> queryLastById2(HttpServletRequest request, @RequestBody Map requestMap){
+		
+	
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		try{
+			    int skip=Integer.parseInt((String)requestMap.get("skip"));
+			    int length = Integer.parseInt((String)requestMap.get("length"));
+				int tripid = Integer.parseInt((String)requestMap.get("tripid"));
+				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
+
+				modelMap.put("success",1);
+				List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+				TravelRecord tmp = null;
+				for(TravelRecord a:travelRecordList){
+					Map<String,String> mp = new HashMap<String ,String>();
+					mp.put("id", a.getId()+"");
+					mp.put("userid", a.getUid());
+					mp.put("tripid", a.getTravelId());
+					mp.put("travelnoteid", a.getId()+"");
+					mp.put("picture", a.getPictureKey());
+					mp.put("note", a.getText());
+					mp.put("time", a.getUptime().getTime()/1000+"");
+					mp.put("location", a.getLocation());
+					User u = loginServ.selectUserById(a.getUid()+"");
+					mp.put("userPic", u.getPicId());
+					mp.put("usernickname",u.getNickname());
+					lst.add(mp);
+					tmp = a;
+				}
+				modelMap.put("notelist", lst);
+				return modelMap;
+		}catch(Exception e){
+			modelMap.put("success",0);
+			modelMap.put("message","错误");
+			return modelMap;
+		}
+	}
+	@RequestMapping(value = "/b")
+	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
+		
+		String id = (String)travelRecordMap.get("username");
+		String pwd = (String)travelRecordMap.get("password");
+		//String constant = usercheck.queryLoginConstant();
+		String rnd = usercheck.queryLoginRandom(id);
+		User u = usercheck.checkUserPasswordByRandom(id,pwd);
+		String rnd2 = usercheck.queryLoginRandom(id);
+		String token = usercheck.queryUserToken(9);
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		modelMap.put("constant",rnd);
+		modelMap.put("constant2",rnd2);
+		modelMap.put("token",token);
+		
+		boolean bo2= usercheck.checkUserToken(9, token);
+		usercheck.changeAccessToken(9);
+		
+		if(bo2){
+			modelMap.put("token2222",token);
+		}
+		
 		return modelMap;
 		
 	}

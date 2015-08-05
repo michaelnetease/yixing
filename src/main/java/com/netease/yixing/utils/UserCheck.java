@@ -3,6 +3,8 @@ package com.netease.yixing.utils;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.netease.yixing.model.Auth2;
 import com.netease.yixing.model.User;
@@ -10,6 +12,7 @@ import com.netease.yixing.service.IAuthService;
 import com.netease.yixing.service.ILoginService;
 import com.netease.yixing.work.redis.RedisClientTemplate;
 
+@Service
 public class UserCheck {
 	@Autowired
 	private RedisClientTemplate redisClient;
@@ -20,7 +23,9 @@ public class UserCheck {
 	@Autowired
 	private IAuthService authService;
 	
-	public String getRandom(String key){
+	
+	//token
+	private String getRandom(String key){
 		Date dt = new Date();
 		String s = dt.getTime()+"";
 		String t = s+Security.MD5(key);
@@ -62,22 +67,54 @@ public class UserCheck {
 	}
 	public boolean  checkUserToken(int id,String accessToken){
 		String token = queryUserToken(id);
-		if(token== accessToken)return true;
+		if(token.equals(accessToken))return true;
 		return false;
 	}
 	public  void  changeAccessToken(int id){
 		Auth2 au = authService.queryByUid(id);
-		String token = getRandom(id+"");
+		String token = null;
+		try {
+			User u = loginServ.selectUserById(id+"");
+			if(u!=null){
+				token = getRandom(u.getPassword());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(token==null){
+			token = getRandom(id+"");
+		}
 		au.setAccessToken(token);
 		authService.update(au);
 		String uid = "USER.ID."+id;
 		redisClient.set(uid,token);
 	}
-	public boolean checkUserPasswordByRandom(String username,String password){
+	
+	//user login
+	public boolean checkUserPasswordByMD5(String username , String password){
+		
 		try {
 			User u = loginServ.selectUserByUsername(username);
 			if(u==null){
 				return false;
+			}else{
+				if(u.getPassword().equals(password)){
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public User checkUserPasswordByRandom(String username,String password){
+		try {
+			User u = loginServ.selectUserByUsername(username);
+			if(u==null){
+				return null;
 			}else{
 				Auth2 au = authService.queryByUid(u.getId());
 				if(au==null){
@@ -86,25 +123,25 @@ public class UserCheck {
 				}
 				String rnd = au.getRnd();
 				String tmp = Security.MD5(u.getPassword()+rnd);
-				if(tmp == password){
+				if(tmp.equals(password)){
 					au.setRnd(getRandom(u.getPassword()));
 					authService.update(au);
-					return true;
+					return u;
 				}
-				return false;
+				return null;
 				
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 	}
 	public String queryLoginRandom(String username){
 		try {
 			User u = loginServ.selectUserByUsername(username);
 			if(u==null){
-				return "";
+				return null;
 			}
 			Auth2 au = authService.queryByUid(u.getId());
 			if(au==null){
@@ -124,7 +161,7 @@ public class UserCheck {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "";
+		return null;
 	}
 	public boolean checkUserPasswordByConstant(String username , String password){
 		String pwdConstant = Constant.LOGINCONSTANT;
@@ -140,7 +177,7 @@ public class UserCheck {
 			return false;
 		}
 		
-		return true;
+		return false;
 	}
 	public String queryLoginConstant(){
 		return Constant.LOGINCONSTANT;

@@ -1,6 +1,8 @@
 package com.netease.yixing.action;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -63,50 +65,82 @@ public class PublishTravelRecordsController{
 	}
 
 	@RequestMapping(value="/publish",method=RequestMethod.GET)
+	
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> model=new HashMap<String,Object>();
 		int travelId=Integer.parseInt(String.valueOf(request.getParameter("travelId")));
 		List<TravelRecord> recordList=travelRecordService.queryByTravelId(travelId);
 		TravelSchedule ts=this.getTravelScheduleService().queryScheduleDetailsByScheduleId(travelId);
+		List<Map<String,Object>> dataList=new ArrayList<Map<String,Object>>();
+		String fenxiang = "http://"+Constant.PICDOMAIN+"/"+"fenxiang.png";
 		if(ts==null || recordList==null ||recordList.size()==0)
-		
 		{
 			System.err.println("未发起这样的行程");
 			model.put("travelStartTime", null);
 			model.put("travelEndTime", null);
 			model.put("travelSchedule", "未发起这样的行程");
 			model.put("recordList", null);
+			model.put("fenxiang", fenxiang);
 			return new ModelAndView("/publish",model);
 		}
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		try {
 			for (TravelRecord record : recordList) {
-				String url = Constant.PICDOMAIN + "/" + record.getPictureKey();
-				record.setPictureKey("http://" + url + Constant.HANDLERMAP);
+				List<String> basic=new ArrayList<String>();
+				List<String> picIds=new ArrayList<String>();
+				String urls=record.getPictureKey();
+				if(urls==null) urls="";
+				String[] temp=urls.split(";;;");
+				for(String str:temp)
+				{
+					picIds.add("http://"+Constant.PICDOMAIN+"/"+str+Constant.HANDLERMAP);
+				}
+				
+				
+				
 				User user = this.memberManageService.getUserById(Integer.parseInt(record.getUid()));
 				//从数据库中user表中根据uid找不到相应的记录
 				if(user==null)
 				{
-					record.setValid("某某人");
-					continue;
+					basic.add("");
+					basic.add("某某人");
 				}
-				Date d = record.getUptime();
-				record.setValid(user.getNickname() + "  " + df.format(d)); // 这里借用valid字段，设置成用户的nickname
+				else
+				{
+					if(user.getPicId()==null || user.getPicId().length()==0)
+						basic.add("");
+					else
+						basic.add("http://"+Constant.PICDOMAIN+"/"+user.getPicId()+Constant.ICON);
+					if(user.getNickname()==null || user.getNickname().length()==0)
+						basic.add("");
+					else
+						basic.add(user.getNickname());
+				}
+				basic.add(df.format(record.getUptime()));
+				basic.add(record.getLocation());
+				basic.add(record.getText());
+				Map recordMap=new HashMap<String,List<String>>();
+				recordMap.put("basic", basic);
+				recordMap.put("picIds", picIds);
+				dataList.add(recordMap);
 
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		model.put("recordList", recordList);
+		
+		model.put("dataList", dataList);
 
 		Date start=ts.getStartTime();
 		Date end=ts.getEndTime();
 		model.put("travelStartTime", df.format(start));
 		model.put("travelEndTime", df.format(end));
 		model.put("travelSchedule", ts);
-		return new ModelAndView("/publish",model);
+		model.put("fenxiang", fenxiang);
+		return new ModelAndView("../publish2",model);
 	}
 
 }

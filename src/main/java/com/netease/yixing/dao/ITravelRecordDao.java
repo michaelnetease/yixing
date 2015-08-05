@@ -13,4 +13,6 @@ public interface ITravelRecordDao {
 	public boolean editTravelRecord(TravelRecord travelrecord);
 	
 	public void removeTravelRecordById(int id);
+	
+	public List<TravelRecord> queryByTravelIdAndPage(int travelId,int skip,int length);
 }

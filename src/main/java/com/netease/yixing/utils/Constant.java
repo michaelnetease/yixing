@@ -14,6 +14,7 @@ public class Constant {
 	public	static String BUCKET ;
 	public	static String PICDOMAIN ;
 	public  static String  LOGINCONSTANT;
+	public  static  String ICON;
 	
     
     public static final String TOP_K_MARK_TRAVEL_SCHEDULE = "Top.K.Mark.Schedule";
@@ -41,6 +42,7 @@ public class Constant {
 	    PICDOMAIN=p.getProperty("PICDOMAIN");
 	    HANDLERMAP=p.getProperty("HANDLERMAP");
 	    LOGINCONSTANT=p.getProperty("LOGINCONSTANT");
+	    ICON=p.getProperty("ICON");
 
 	}
 }

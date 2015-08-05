@@ -25,9 +25,8 @@
 	
  	
  	<insert id="updateSelectedItems" parameterType="equipment">
-	 <![CDATA[
-		update equipment set selectedItems=#{selectedItems} where  travelId=#{travelId} and type=#{type}
-		]]>
+		update equipment set selectedItems=#{selectedItems} where type like #{type} and travelId=#{travelId}
+
  	</insert>
  	
  	

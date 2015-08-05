@@ -1,6 +1,8 @@
 package com.netease.yixing.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -34,6 +36,16 @@ public class TravelRecordDao  extends SqlSessionDaoSupport implements ITravelRec
 		// TODO Auto-generated method stub
 		getSqlSession().insert("com.netease.yixing.model.TravelRecord.editTravelRecord",travelrecord);
 		return true;
+	}
+
+	@Override
+	public List<TravelRecord> queryByTravelIdAndPage(int travelId, int skip, int length) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map=new HashMap<String,Object>();  
+		map.put("id",travelId);  
+		map.put("skip",skip);
+		map.put("length",length);
+		return getSqlSession().selectList("com.netease.yixing.model.TravelRecord.queryTravelRecordByTravelIdAndPage",map); 
 	}
 
 }

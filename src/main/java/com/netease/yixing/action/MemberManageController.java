@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IMemberManageService;
@@ -43,6 +44,7 @@ public class MemberManageController {
 	}
 
 	@RequestMapping(value = "/memberManage/addMember", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> addMember(HttpServletRequest request, @RequestBody Map data) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
@@ -115,6 +117,7 @@ public class MemberManageController {
 	}
 	
 	@RequestMapping(value = "/memberManage/getMembers", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> getMembers(HttpServletRequest request, @RequestBody Map data) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
@@ -130,11 +133,12 @@ public class MemberManageController {
 	}
 	
 	@RequestMapping(value = "/memberManage/getUidAndPic", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> getUidAndPic(HttpServletRequest request, @RequestBody Map data) {
 		System.out.println("***********************测试获取uid和pic**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
-			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
+			int id = Integer.parseInt(String.valueOf(data.get("scheduleId")));
 			String membersIdStr = this.getMemberManageService().getMembersByTravelId(id);
 			
 			String[] membersId=membersIdStr.split(";;;");
@@ -169,11 +173,12 @@ public class MemberManageController {
 	
 	
 	@RequestMapping(value = "/memberManage/getPicNickUidByTravelId", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> getPicNickUidByTravelId(HttpServletRequest request, @RequestBody Map data) {
 		System.out.println("***********************测试获取pic  nickname  uid**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
-			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
+			int id = Integer.parseInt(String.valueOf(data.get("scheduleId")));
 			String membersIdStr = this.getMemberManageService().getMembersByTravelId(id);
 			String[] membersId=membersIdStr.split(";;;");
 			if(membersIdStr==null || membersIdStr.length()==0 || membersId==null  || membersId.length==0)
@@ -191,7 +196,8 @@ public class MemberManageController {
 				Map<String,Object> memberMap=new HashMap<String,Object>();
 				memberMap.put("userId", uid);
 				memberMap.put("picId", u.getPicId());
-				memberMap.put("nickName", u.getNickname());
+				memberMap.put("nickname", u.getNickname());
+				memberMap.put("username", u.getUsername());
 				membersList.add(memberMap);
 			}
 			modelMap.put("success", 1);

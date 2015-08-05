@@ -6,20 +6,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import net.sf.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.ILoginService;
+import com.netease.yixing.utils.UserCheck;
 import com.netease.yixing.utils.YunxinService;
 
 @Controller
 public class LoginCotroller {
+	
+	@Autowired
+	private UserCheck  usercheck;
 
 	@Autowired
 	private ILoginService loginServ;
@@ -92,24 +96,34 @@ public class LoginCotroller {
 		User result = null;
 		try{
 			
-			result = loginServ.login(user);
-			if(result==null){
-				modelMap.put("success", false);
+			String username = user.getUsername();
+			String password = user.getPassword();
+			User u = usercheck.checkUserPasswordByRandom(username, password);
+			if(u==null){
+				modelMap.put("success", 0);
 				modelMap.put("message", "用户名或密码错误");
 				return modelMap;
 			}
+			modelMap.put("success", 1);
+			modelMap.put("id",u.getId());
+			modelMap.put("username", u.getUsername());
+			modelMap.put("phonenumber", u.getPhoneNum());
+			modelMap.put("nickname", u.getNickname());
+			modelMap.put("gender", u.getGender());
+			modelMap.put("location", u.getLocation());
+			modelMap.put("headphoto", u.getPicId());
+			modelMap.put("signature", u.getSignature());
+			modelMap.put("access_token",usercheck.queryUserToken(u.getId()) );
 		}catch(Exception e){
 			success = false;
 			message = e.getMessage();
+			modelMap.put("success", 0);
+			modelMap.put("message", message);
 			e.printStackTrace();
 		}
-		modelMap.put("success", success);
-		modelMap.put("message", message);
 		//modelMap.put("user", result);
 		return modelMap;
 	}
-	
-	
 	
 	@RequestMapping(value="/login/isUserExist",method=RequestMethod.POST)
 	public Map<String,Object> isUserExist(HttpServletRequest request, @RequestBody Map phoneNum){
@@ -222,21 +236,35 @@ public class LoginCotroller {
 		modelMap.put("message", message);
 		return modelMap;
 	}
-	@RequestMapping(value="/login/updatePass",method=RequestMethod.POST)
-	public Map<String, Object> updatePass(HttpServletRequest request,@RequestBody User user){
-		Map<String,Object> modelMap = new HashMap<String,Object>();
-		boolean success = true;
-		String message = "ok";
-		try{
+
+	@RequestMapping(value = "/login/updatePass", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updatePass(HttpServletRequest request, @RequestBody User user) throws Exception {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		User loginU = null;
+		try {
+			loginU = loginServ.selectUserByPhone(user.getPhoneNum());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			modelMap.put("success", 0);
+			return modelMap;
+		}
+		
+		String updateYXResult = yxs.updatePwd(loginU.getPhoneNum(), loginU.getNickname(), user.getPassword());
+		if (!updateYXResult.contains("{\"code\":200}")) {
+			modelMap.put("success", 0);
+			return modelMap;
+		}
+		try {
 			loginServ.updatePass(user);
-			System.out.println("ing");
-		}catch(Exception e){
-			success = false;
-			message = e.getMessage();
+		} catch (Exception e) {
+			yxs.updatePwd(loginU.getPhoneNum(), loginU.getNickname(), loginU.getPassword());
+			loginServ.updatePass(loginU);
 			e.printStackTrace();
-		}		
-		modelMap.put("issuccess", success);
-		modelMap.put("message", message);
+			modelMap.put("success", 0);
+			return modelMap;
+		}
+		modelMap.put("success", 1);
 		return modelMap;
 	}
 	
@@ -375,7 +403,19 @@ public class LoginCotroller {
 		modelMap.put("message", message);	
 		return modelMap;
 	}
-	
-	
-
+	@RequestMapping(value="/login/queryLoginRandom",method=RequestMethod.POST)
+	public Map<String, Object> queryLoginRandom(HttpServletRequest request, @RequestBody Map travelRecordMap) {
+		
+		String username = (String)travelRecordMap.get("username");
+		String rnd = usercheck.queryLoginRandom(username);
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		if(rnd==null){
+			modelMap.put("success",0);
+			modelMap.put("message","用户不存在");
+		}else{
+			modelMap.put("success", 1);
+			modelMap.put("randomToken",rnd);
+		}
+		return modelMap;
+	}
 }
