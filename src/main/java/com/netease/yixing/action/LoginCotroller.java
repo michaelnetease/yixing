@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.ILoginService;
@@ -235,21 +236,35 @@ public class LoginCotroller {
 		modelMap.put("message", message);
 		return modelMap;
 	}
-	@RequestMapping(value="/login/updatePass",method=RequestMethod.POST)
-	public Map<String, Object> updatePass(HttpServletRequest request,@RequestBody User user){
-		Map<String,Object> modelMap = new HashMap<String,Object>();
-		boolean success = true;
-		String message = "ok";
-		try{
+
+	@RequestMapping(value = "/login/updatePass", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updatePass(HttpServletRequest request, @RequestBody User user) throws Exception {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		User loginU = null;
+		try {
+			loginU = loginServ.selectUserByPhone(user.getPhoneNum());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			modelMap.put("success", 0);
+			return modelMap;
+		}
+		
+		String updateYXResult = yxs.updatePwd(loginU.getPhoneNum(), loginU.getNickname(), user.getPassword());
+		if (!updateYXResult.contains("{\"code\":200}")) {
+			modelMap.put("success", 0);
+			return modelMap;
+		}
+		try {
 			loginServ.updatePass(user);
-			System.out.println("ing");
-		}catch(Exception e){
-			success = false;
-			message = e.getMessage();
+		} catch (Exception e) {
+			yxs.updatePwd(loginU.getPhoneNum(), loginU.getNickname(), loginU.getPassword());
+			loginServ.updatePass(loginU);
 			e.printStackTrace();
-		}		
-		modelMap.put("issuccess", success);
-		modelMap.put("message", message);
+			modelMap.put("success", 0);
+			return modelMap;
+		}
+		modelMap.put("success", 1);
 		return modelMap;
 	}
 	

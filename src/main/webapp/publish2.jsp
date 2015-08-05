@@ -12,12 +12,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=no" />
 <meta name="keywords"
-	content="Blog Green, HTML CSS layout, free website template" />
+	content="旅记" />
 <meta name="description"
 	content="旅记" />
 <jsp:directive.page import="java.util.List" />
 
-<title>旅记</title>
+<title>${travelSchedule.title}</title>
 
 
 <script language="javascript" type="text/javascript">
@@ -32,6 +32,11 @@ function clearText(field)
 img {
 	max-width: 100%;
 }
+.STYLE1 {
+	color: #666666;
+	font-size: 16px;
+}
+.STYLE5 {color: #666666}
 </style>
 
 <jsp:directive.page import="java.util.List" />
@@ -44,34 +49,40 @@ img {
 			<td width="100%" align="center" valign="top">
 				<table bgcolor="#FFFFFF" width="100%">
 					<tr>
-						<td><div align="center"><a href="http://www.163.com" target="_blank"><img src="${fenxiang}" width="100%" /></a></div></td>
+						<td><div align="center"><a href="http://www.163.com" target="_blank"><img src="${fenxiang}" width="100%"  height="80px"/></a></div></td>
 					</tr>
-					<tr>
-						<td><div align="center">${travelSchedule.title}</div></td>
-					</tr>
+
 			  </table> 
 				<c:forEach var="data" items="${dataList}">
 					<table width="100%" bgcolor="#FFFFFF">
-						<tr>
-							<td>
-								<div align="left">
-									<img src="${data.get('basic').get(0)}"  alt="icon" /> ${data.get("basic").get(1)}
-								</div>
-							</td>
+						<tr  height="40px">
+							<td align="left" valign="middle">
+							<img src="${data.get('basic').get(0)}"  alt="icon" /> </td>
+					        <td align="left" valign="middle"><span class="STYLE1">${data.get("basic").get(1)}</span></td>
+					        <td align="left" valign="middle">&nbsp;</td>
+					        <td align="left" valign="middle">&nbsp;</td>
+					        <td align="left" valign="middle">&nbsp;</td>
 						</tr>
-						<tr>
-							<td>${data.get("basic").get(2)} ${data.get("basic").get(3)}</td>
-						</tr>
+
 						<c:forEach var="imgItem" items="${data.get('picIds')}">
 							<tr>
-								<td><div align="center"><img src="${imgItem}" alt="image"/></div></td>
+								<td colspan="5"><div align="center"><img src="${imgItem}" alt="这位游客真懒，不留下任何照片"/></div></td>
 							</tr>
 							<tr>
-							  <td>&nbsp; </td>
+							  <td colspan="5"><span class="STYLE5"></span> </td>
 							</tr>
 						</c:forEach>
 						<tr>
-							<td>${data.get("basic").get(4)}</td>
+							<td colspan="5"><span class="STYLE1">${data.get("basic").get(4)}</span></td>
+						</tr>
+						<tr>
+						  <td colspan="5"><hr /></td>
+						</tr>
+						<tr>
+							<td width="50%" colspan="4" align="left" valign="middle">
+						    <span class="STYLE1">${data.get("basic").get(2)} </span></td>
+						    <td width="50%" align="right" valign="middle">
+					        <span class="STYLE1">${data.get("basic").get(3)}</span></td>
 						</tr>
 				  </table>
 				  <p></p>

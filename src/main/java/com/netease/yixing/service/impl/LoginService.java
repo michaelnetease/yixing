@@ -25,8 +25,8 @@ public class LoginService implements ILoginService {
 	@Override
 	public List<User> queryUser(User user) {
 		List<User> userList = loginDao.getAllUser();
-		System.out.println(userList.size());
-		return null;
+		
+		return userList;
 	}
 
 	@Override

@@ -25,6 +25,7 @@ public class YunxinService {
 	 static String AppKey="f46e354d622459695efefcc9fdc52d39";
 	 static String AppSecret="26cd08f51b42";
 	 static String CreateURI="https://api.netease.im/nimserver/user/create.action";
+	 static String UpdateURI="https://api.netease.im/nimserver/user/update.action";
 	
 	//字节码转换成16进制
 	public static String bytesToHexString(byte[] src){  
@@ -83,7 +84,7 @@ public class YunxinService {
         return result;  
     }  
 
-	public static  String registerYunXing( String accid, String name, String token) throws NoSuchAlgorithmException, IOException {
+	public   String registerYunXing( String accid, String name, String token) throws NoSuchAlgorithmException, IOException {
 		Map<String, String> head=new HashMap<String, String>();
 		String key=AppKey;
 		head.put("AppKey", key);
@@ -92,26 +93,41 @@ public class YunxinService {
 		long now=111111;
 		head.put("CurTime", String.valueOf(now));
 		String toSha=AppSecret+ran+""+now;
-		System.out.println(toSha);
 		MessageDigest md=MessageDigest.getInstance("sha-1");
 		md.update(toSha.getBytes());
 		byte[] shaRe=md.digest();
 		String shaHX=YunxinService.bytesToHexString(shaRe);
-		System.out.println(shaHX);
 		head.put("CheckSum", shaHX);
-		
 		Map<String, String> para=new HashMap<String,String>();
 		para.put("accid", accid);
 		para.put("name", name);
 		para.put("token", token);
-		
 		String result=YunxinService.doPost(CreateURI, para, head, "utf-8");
-		System.out.print(result);
 		return result;
 	}
 	
-	public static void main(String[] args) throws NoSuchAlgorithmException, IOException
-	{
-		YunxinService.registerYunXing( "369258", "大力士", "121212");
+	
+	
+	public  String updatePwd( String accid, String name, String token) throws NoSuchAlgorithmException, IOException {
+		Map<String, String> head=new HashMap<String, String>();
+		String key=AppKey;
+		head.put("AppKey", key);
+		int ran=123456;
+		head.put("Nonce", String.valueOf(ran));
+		long now=111111;
+		head.put("CurTime", String.valueOf(now));
+		String toSha=AppSecret+ran+""+now;
+		MessageDigest md=MessageDigest.getInstance("sha-1");
+		md.update(toSha.getBytes());
+		byte[] shaRe=md.digest();
+		String shaHX=YunxinService.bytesToHexString(shaRe);
+		head.put("CheckSum", shaHX);
+		Map<String, String> para=new HashMap<String,String>();
+		para.put("accid", accid);
+		para.put("name", name);
+		para.put("token", token);
+		String result=YunxinService.doPost(UpdateURI, para, head, "utf-8");
+		System.out.println(result);
+		return result;
 	}
 }
