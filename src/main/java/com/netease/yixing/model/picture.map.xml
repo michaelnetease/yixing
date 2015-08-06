@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.netease.yixing.model.Picture">
+
+	<resultMap type="com.netease.yixing.model.Picture" id="pictureResult">
+		<result property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result property="key" column="key" />
+		<result property="height" column="height" />
+		<result property="width" column="width" />
+		<result property="recordid" column="recordid" />
+		<result property="position" column="position" />
+	</resultMap>
+
+	<select id="queryPictureByRecordId" parameterType="int" resultMap="pictureResult">
+		select * from picture
+			where recordid=#{recordid}
+	</select>	
+	<insert id="insertPicture" parameterType="picture">
+	     INSERT INTO picture (`key`, `height`, `width`, `recordid`, `position`) VALUES (#{key},#{height},#{width},#{recordid},#{position} )
+ 	</insert>
+</mapper>
+

@@ -11,6 +11,7 @@
 		<typeAlias alias="members" type="com.netease.yixing.model.TravelSchedule"/>
 		<typeAlias alias="travelrecord" type="com.netease.yixing.model.TravelRecord"/>
 		<typeAlias alias="auth2" type="com.netease.yixing.model.Auth2"/>
+		<typeAlias alias="picture" type="com.netease.yixing.model.Picture"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/netease/yixing/model/user.map.xml" />
@@ -22,6 +23,7 @@
 		<mapper resource="com/netease/yixing/model/members.map.xml"/>
 		<mapper resource="com/netease/yixing/model/travelRecord.map.xml"/>
 		<mapper resource="com/netease/yixing/model/auth2.map.xml"/>
+		<mapper resource="com/netease/yixing/model/picture.map.xml"/>
 	</mappers>
 
 </configuration>	

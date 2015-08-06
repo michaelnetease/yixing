@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.netease.yixing.model.Auth2;
 import com.netease.yixing.model.Equipment;
+import com.netease.yixing.model.Picture;
 import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IAuthService;
 import com.netease.yixing.service.ILoginService;
+import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
 import com.netease.yixing.service.ITravelScheduleService;
 import com.netease.yixing.utils.Constant;
@@ -54,6 +56,8 @@ public class TravelRecordCotroller {
 	@Autowired
 	private UserCheck  usercheck;
 	
+	@Autowired
+	private IPictureService  pictureService; 
 	
 	@Autowired
 	private ITravelScheduleService travelScheduleServ;
@@ -64,17 +68,32 @@ public class TravelRecordCotroller {
 		TravelRecord travelRecord = new TravelRecord();
 		try{
 			travelRecord.setLocation((String)travelRecordMap.get("location"));
-			travelRecord.setPictureKey((String)travelRecordMap.get("picture"));
+			travelRecord.setPictureKey("");
 			travelRecord.setText((String)travelRecordMap.get("note"));
 			travelRecord.setTravelId((String)travelRecordMap.get("tripid"));
 			travelRecord.setUid((String)travelRecordMap.get("userid"));
 			long ltime= Long.parseLong(String.valueOf(travelRecordMap.get("time")));
+			List<Map<String,String>> lmap = (List)travelRecordMap.get("picture");
 			Date dt = new Date(getTimeStamp(ltime));
 			travelRecord.setUptime(dt);
 			travelRecord.setValid("1");
 			travelRecord.setId(0);
 			travelRecordService.insertTravelRecord(travelRecord);
 			int travelnoteid = travelRecord.getId();
+			for(Map<String,String> a:lmap){
+				Picture pic = new Picture();
+				String height =(String)a.get("height");
+				String width = (String)a.get("width");
+				String key = (String)a.get("key");
+				String position = (String)a.get("position");
+				
+				pic.setHeight(height);
+				pic.setWidth(width);
+				pic.setKey(key);
+				pic.setPosition(position);
+				pic.setRecordid(travelnoteid+"");
+				pictureService.insertPicture(pic);
+			}
 			modelMap.put("success",1);
 			modelMap.put("travelnoteid",travelnoteid);
 		}catch(Exception e){
@@ -83,8 +102,8 @@ public class TravelRecordCotroller {
 		
 		return modelMap;
 	}
-	
-	@RequestMapping(value="/edit",method=RequestMethod.POST)
+	//弃用
+	//@RequestMapping(value="/edit",method=RequestMethod.POST)
 	public Map<String,Object> edit(HttpServletRequest request, @RequestBody Map travelRecordMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try{
@@ -127,17 +146,32 @@ public class TravelRecordCotroller {
 		try{
 				int tripid = Integer.parseInt((String)travelRecordMap.get("tripid"));
 				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelId(tripid);
-
+				
+				TravelSchedule schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
 				modelMap.put("success",1);
-				List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+				modelMap.put("starttime", schedule.getStartTime().getTime()/1000+"");
+				List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 				TravelRecord tmp = null;
 				for(TravelRecord a:travelRecordList){
-					Map<String,String> mp = new HashMap<String ,String>();
+					
+					Map<String,Object> mp = new HashMap<String ,Object>();
+					List<Map<String,String> >lpic = new ArrayList<Map<String,String> >();
+					
+					List<Picture> lp = pictureService.queryByRecordId(a.getId());
+					for(Picture tpic : lp){
+						Map<String,String> pic = new HashMap<String,String>();
+						pic.put("height",tpic.getHeight());
+						pic.put("width",tpic.getWidth());
+						pic.put("key",tpic.getKey());
+						pic.put("position",tpic.getPosition());
+						pic.put("id",tpic.getId()+"");
+						lpic.add(pic);
+					}
+					mp.put("picture", lpic);
 					mp.put("id", a.getId()+"");
 					mp.put("userid", a.getUid());
 					mp.put("tripid", a.getTravelId());
 					mp.put("travelnoteid", a.getId()+"");
-					mp.put("picture", a.getPictureKey());
 					mp.put("note", a.getText());
 					mp.put("time", a.getUptime().getTime()/1000+"");
 					mp.put("location", a.getLocation());
@@ -170,15 +204,29 @@ public class TravelRecordCotroller {
 			int tripid = schedule.getScheduleId();
 			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 			modelMap.put("success",1);
-			List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+			modelMap.put("starttime", schedule.getStartTime().getTime()/1000+"");
+			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 			TravelRecord tmp = null;
 			for(TravelRecord a:travelRecordList){
-				Map<String,String> mp = new HashMap<String ,String>();
+				
+				Map<String,Object> mp = new HashMap<String ,Object>();
+				List<Map<String,String> >lpic = new ArrayList<Map<String,String> >();
+				
+				List<Picture> lp = pictureService.queryByRecordId(a.getId());
+				for(Picture tpic : lp){
+					Map<String,String> pic = new HashMap<String,String>();
+					pic.put("height",tpic.getHeight());
+					pic.put("width",tpic.getWidth());
+					pic.put("key",tpic.getKey());
+					pic.put("position",tpic.getPosition());
+					pic.put("id",tpic.getId()+"");
+					lpic.add(pic);
+				}
+				mp.put("picture", lpic);
 				mp.put("id", a.getId()+"");
 				mp.put("userid", a.getUid());
 				mp.put("tripid", a.getTravelId());
 				mp.put("travelnoteid", a.getId()+"");
-				mp.put("picture", a.getPictureKey());
 				mp.put("note", a.getText());
 				mp.put("time", a.getUptime().getTime()/1000+"");
 				mp.put("location", a.getLocation());
@@ -218,10 +266,23 @@ public class TravelRecordCotroller {
 				}
 				
 			}
-			List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 			TravelRecord tmp = null;
 			for(TravelRecord a:travelRecordList){
-				Map<String,String> mp = new HashMap<String ,String>();
+				Map<String,Object> mp = new HashMap<String ,Object>();
+				List<Map<String,String> >lpic = new ArrayList<Map<String,String> >();
+				
+				List<Picture> lp = pictureService.queryByRecordId(a.getId());
+				for(Picture tpic : lp){
+					Map<String,String> pic = new HashMap<String,String>();
+					pic.put("height",tpic.getHeight());
+					pic.put("width",tpic.getWidth());
+					pic.put("key",tpic.getKey());
+					pic.put("position",tpic.getPosition());
+					pic.put("id",tpic.getId()+"");
+					lpic.add(pic);
+				}
+				mp.put("picture", lpic);
 				mp.put("id", a.getId()+"");
 				mp.put("userid", a.getUid());
 				int tripid = Integer.parseInt(a.getTravelId());
@@ -230,7 +291,6 @@ public class TravelRecordCotroller {
 				mp.put("title",title);
 				mp.put("tripid", a.getTravelId());
 				mp.put("travelnoteid", a.getId()+"");
-				mp.put("picture", a.getPictureKey());
 				mp.put("note", a.getText());
 				mp.put("time", a.getUptime().getTime()/1000+"");
 				mp.put("location", a.getLocation());
@@ -289,25 +349,18 @@ public class TravelRecordCotroller {
 	@RequestMapping(value = "/b")
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
 		
-		String id = (String)travelRecordMap.get("username");
-		String pwd = (String)travelRecordMap.get("password");
-		//String constant = usercheck.queryLoginConstant();
-		String rnd = usercheck.queryLoginRandom(id);
-		User u = usercheck.checkUserPasswordByRandom(id,pwd);
-		String rnd2 = usercheck.queryLoginRandom(id);
-		String token = usercheck.queryUserToken(9);
+		Picture pic = new Picture();
+		pic.setHeight("100");
+		pic.setWidth("80");
+		pic.setPosition("1");
+		pic.setRecordid("2");
+		pic.setKey("dafasdfasdfasdfdasf");
+		pictureService.insertPicture(pic);
+		List<Picture> li = pictureService.queryByRecordId(2);
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		modelMap.put("constant",rnd);
-		modelMap.put("constant2",rnd2);
-		modelMap.put("token",token);
-		
-		boolean bo2= usercheck.checkUserToken(9, token);
-		usercheck.changeAccessToken(9);
-		
-		if(bo2){
-			modelMap.put("token2222",token);
+		for(Picture p : li){
+			modelMap.put("id", p.getHeight());
 		}
-		
 		return modelMap;
 		
 	}

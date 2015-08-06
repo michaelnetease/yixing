@@ -19,7 +19,7 @@ public class TravelRecordDao  extends SqlSessionDaoSupport implements ITravelRec
 	}
 	
 	@Override
-	public int insertTravelRecord(TravelRecord travelrecord) {
+	public int insertTravelRecord(TravelRecord travelrecord){
 		// TODO Auto-generated method stub
 		int ret =  getSqlSession().insert("com.netease.yixing.model.TravelRecord.insertTravelRecord",travelrecord);
 		return ret;
