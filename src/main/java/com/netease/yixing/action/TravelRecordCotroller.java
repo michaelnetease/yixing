@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.netease.yixing.model.Auth2;
 import com.netease.yixing.model.Equipment;
@@ -63,6 +64,7 @@ public class TravelRecordCotroller {
 	private ITravelScheduleService travelScheduleServ;
 	
 	@RequestMapping(value="/create",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> create(HttpServletRequest request, @RequestBody Map travelRecordMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		TravelRecord travelRecord = new TravelRecord();
@@ -126,6 +128,7 @@ public class TravelRecordCotroller {
 	}
 	
 	@RequestMapping(value="/remove",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> remove(HttpServletRequest request, @RequestBody Map travelRecordMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try{
@@ -141,6 +144,7 @@ public class TravelRecordCotroller {
 	}
 	
 	@RequestMapping(value="/queryById",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> queryById(HttpServletRequest request, @RequestBody Map travelRecordMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try{
@@ -191,6 +195,7 @@ public class TravelRecordCotroller {
 	}
 	
 	@RequestMapping(value="/queryLastPageByUserId",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> queryLastById(HttpServletRequest request, @RequestBody Map requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -246,6 +251,7 @@ public class TravelRecordCotroller {
 	}
 	
 	@RequestMapping(value="/queryAllByUserId",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> queryAllById(HttpServletRequest request, @RequestBody Map requestMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -309,6 +315,7 @@ public class TravelRecordCotroller {
 		}
 	}
 	@RequestMapping(value="/queryAllByTripId",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> queryLastById2(HttpServletRequest request, @RequestBody Map requestMap){
 		
 	
@@ -347,6 +354,7 @@ public class TravelRecordCotroller {
 		}
 	}
 	@RequestMapping(value = "/b")
+	@ResponseBody
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
 		
 		Picture pic = new Picture();

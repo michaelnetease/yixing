@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.netease.yixing.utils.Constant;
 import com.netease.yixing.utils.PicService;
 
@@ -16,6 +18,7 @@ import com.netease.yixing.utils.PicService;
 @RequestMapping(value = "/picture")
 public class PictureServiceCotroller {
 	@RequestMapping(value = "/querytoken")
+	@ResponseBody
 	public Map<String,Object> querytoken1(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
@@ -32,6 +35,7 @@ public class PictureServiceCotroller {
 	}
 	
 	@RequestMapping(value = "/querytoken2",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> querytoken2(HttpServletRequest request, @RequestBody Map<String,Object> mp) {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
@@ -49,6 +53,7 @@ public class PictureServiceCotroller {
 	}
 	
 	@RequestMapping(value = "/querydomain")
+	@ResponseBody
 	public Map<String,Object> querydomain(HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
