@@ -12,8 +12,11 @@
            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 
+<!-- 
 	<mvc:resources location="/" mapping="/index.html" />
 	<mvc:resources location="/js/" mapping="/js/**" />
+ -->
+
 	
 	<mvc:interceptors>
         <mvc:interceptor>
@@ -52,6 +55,7 @@
 		</property>
 	</bean>
 
+<!-- 
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="mediaTypes">
@@ -73,7 +77,16 @@
 		</property>
 		
 	</bean>
+ -->
 
+
+
+
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+    
 
 
 
