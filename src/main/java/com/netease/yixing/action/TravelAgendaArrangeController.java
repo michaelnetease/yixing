@@ -5,24 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.netease.yixing.model.TravelAgendaArrange;
 import com.netease.yixing.model.TravelScheduleAgenda;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.ITravelAgendaArrangeService;
+import com.netease.yixing.utils.Constant;
 
 @Controller
 public class TravelAgendaArrangeController {
 
 	@Autowired
 	private ITravelAgendaArrangeService arrangeServ;
+	
+	private Logger logger = LoggerFactory.getLogger(TravelAgendaArrangeController.class);
 
 	public ITravelAgendaArrangeService getArrangeServ() {
 		return arrangeServ;
@@ -34,10 +38,11 @@ public class TravelAgendaArrangeController {
 	
 	
 	@RequestMapping(value="/travel/arrange/create",method=RequestMethod.POST)
-	public Map<String,Object> createAgendaArrange(HttpServletRequest request, @RequestBody Map map){
+	@ResponseBody
+	public Map<String,Object> createAgendaArrange(@RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
-		String message = "ok";
+		String message = Constant.SUCCESS_MESSAGE;
 		int arrangeId = 0;
 		int agendaId = (Integer)map.get("agendaId");
 		String timePoint = String.valueOf(map.get("timePoint"));
@@ -60,10 +65,10 @@ public class TravelAgendaArrangeController {
 		} catch (Exception e) {
 			success = false;
 			message = e.getMessage();
-			e.printStackTrace();
+			logger.error(message);
 		}finally{
-			modelMap.put("success", success);
-			modelMap.put("message", message);
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
 			modelMap.put("arrangeId", arrangeId);
 		}
 
@@ -72,6 +77,7 @@ public class TravelAgendaArrangeController {
 	
 	
 	@RequestMapping(value="/travel/arrange/update",method=RequestMethod.PUT)
+	@ResponseBody
 	public Map<String,Object> updateAgendaArrange(@RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		int arrangeId = (Integer)map.get("arrangeId");
@@ -85,53 +91,55 @@ public class TravelAgendaArrangeController {
 		entity.setTimePoint(timePoint);		
 		
 		boolean success = true;
-		String message = "ok";
+		String message = Constant.SUCCESS_MESSAGE;
 		try {
 			arrangeServ.updateTravelAgendaArrange(entity);
 		} catch (Exception e) {
 			success = false;
 			message = e.getMessage();
-			e.printStackTrace();
+			logger.error(message);
 		}finally{
-			modelMap.put("success", success);
-			modelMap.put("message", message);
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
 		}
 		return modelMap;
 	}
 	
 	@RequestMapping(value="/travel/arrange/delete",method=RequestMethod.POST)
-	public Map<String,Object> deleteAgendaArrange(HttpServletRequest request, @RequestBody TravelAgendaArrange entity){
+	@ResponseBody
+	public Map<String,Object> deleteAgendaArrange(@RequestBody TravelAgendaArrange entity){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
-		String message = "ok";
+		String message = Constant.SUCCESS_MESSAGE;
 		try {
 			arrangeServ.deleteTravelAgendaArrange(entity);
 		} catch (Exception e) {
 			success = false;
 			message = e.getMessage();
-			e.printStackTrace();
+			logger.error(message);
 		}finally{
-			modelMap.put("success", success);
-			modelMap.put("message", message);
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
 		}
 		return modelMap;
 	}
 	
 	@RequestMapping(value="/travel/arrange/queryAll",method=RequestMethod.POST)
-	public Map<String,Object> queryAllArrangeByAgendaId(HttpServletRequest request, @RequestBody TravelScheduleAgenda entity){
+	@ResponseBody
+	public Map<String,Object> queryAllArrangeByAgendaId(@RequestBody TravelScheduleAgenda entity){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
-		String message = "ok";
+		String message = Constant.SUCCESS_MESSAGE;
 		List<TravelAgendaArrange> ls = null;
 		try {
 			ls = arrangeServ.queryAllArrangeByAgendaId(entity);
 		} catch (Exception e) {
 			success = false;
 			message = e.getMessage();
-			e.printStackTrace();
+			logger.error(message);
 		}finally{
-			modelMap.put("success", success);
-			modelMap.put("message", message);
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
 			modelMap.put("arranges", ls);
 		}
 		
@@ -140,10 +148,11 @@ public class TravelAgendaArrangeController {
 	
 	
 	@RequestMapping(value="/travel/arrange/query",method=RequestMethod.POST)
-	public Map<String,Object> queryArrangeById(HttpServletRequest request, @RequestBody Map map){
+	@ResponseBody
+	public Map<String,Object> queryArrangeById(@RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
-		String message = "ok";
+		String message = Constant.SUCCESS_MESSAGE;
 		int arrangeId = (Integer)map.get("arrangeId");
 		TravelAgendaArrange entity = new TravelAgendaArrange();
 		entity.setArrangeId(arrangeId);
@@ -154,10 +163,10 @@ public class TravelAgendaArrangeController {
 		} catch (Exception e) {
 			success = false;
 			message = e.getMessage();
-			e.printStackTrace();
+			logger.error(message);
 		}finally{
-			modelMap.put("success", success);
-			modelMap.put("message", message);
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
 			modelMap.put("arrange", result);
 		}
 		

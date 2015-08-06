@@ -1,9 +1,7 @@
 package com.netease.yixing.utils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 
@@ -24,6 +22,12 @@ public class Constant {
     public static final String DEFAULT_TOKEN_NAME = "Dup.token";
     
     public static final String TOP_K_VISIT_TRAVEL_SCHEDULE = "Top.K.Visit.Schedule";
+    
+    public static final String SUCCESS = "success";
+    
+    public static final String MESSAGE = "message";
+    
+    public static final String SUCCESS_MESSAGE = "ok";
     
     
 	public static String HANDLERMAP;
