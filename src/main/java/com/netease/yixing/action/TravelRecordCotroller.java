@@ -143,17 +143,60 @@ public class TravelRecordCotroller {
 		}
 	}
 	
-	@RequestMapping(value="/queryById",method=RequestMethod.POST)
+	
+//	@RequestMapping(value="/queryByTripId",method=RequestMethod.POST)
+//	@ResponseBody
+//	public Map<String,Object> queryLastById2(HttpServletRequest request, @RequestBody Map requestMap){
+//		
+//	
+//		Map<String,Object> modelMap = new HashMap<String,Object>();
+//		try{
+//			    int skip=Integer.parseInt((String)requestMap.get("skip"));
+//			    int length = Integer.parseInt((String)requestMap.get("length"));
+//				int tripid = Integer.parseInt((String)requestMap.get("tripid"));
+//				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
+//				
+//				TravelSchedule schedule =travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
+//				modelMap.put("success",1);
+//				modelMap.put("starttime", schedule.getStartTime().getTime()/1000+"");
+//				List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
+//				TravelRecord tmp = null;
+//				for(TravelRecord a:travelRecordList){
+//					Map<String,String> mp = new HashMap<String ,String>();
+//					mp.put("userid", a.getUid());
+//					mp.put("title","");
+//					mp.put("tripid", a.getTravelId());
+//					mp.put("travelnoteid", a.getId()+"");
+//					mp.put("picture", a.getPictureKey());
+//					mp.put("note", a.getText());
+//					mp.put("time", a.getUptime().getTime()/1000+"");
+//					mp.put("location", a.getLocation());
+//					User u = loginServ.selectUserById(a.getUid()+"");
+//					mp.put("userPic", u.getPicId());
+//					mp.put("usernickname",u.getNickname());
+//					lst.add(mp);
+//					tmp = a;
+//				}
+//				modelMap.put("notelist", lst);
+//				return modelMap;
+//		}catch(Exception e){
+//			modelMap.put("success",0);
+//			modelMap.put("message","错误");
+//			return modelMap;
+//		}
+//	}
+	@RequestMapping(value="/queryAllByTripId",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> queryById(HttpServletRequest request, @RequestBody Map travelRecordMap){
+	public Map<String,Object> queryAllByTripId(HttpServletRequest request, @RequestBody Map travelRecordMap){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try{
 				int tripid = Integer.parseInt((String)travelRecordMap.get("tripid"));
-				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelId(tripid);
-				
+				int length = Integer.parseInt((String)travelRecordMap.get("length"));
+				int skip=Integer.parseInt((String)travelRecordMap.get("skip"));
+				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 				TravelSchedule schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
 				modelMap.put("success",1);
-				modelMap.put("starttime", schedule.getStartTime().getTime()/1000+"");
+				
 				List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 				TravelRecord tmp = null;
 				for(TravelRecord a:travelRecordList){
@@ -171,14 +214,15 @@ public class TravelRecordCotroller {
 						pic.put("id",tpic.getId()+"");
 						lpic.add(pic);
 					}
-					mp.put("picture", lpic);
-					mp.put("id", a.getId()+"");
-					mp.put("userid", a.getUid());
-					mp.put("tripid", a.getTravelId());
 					mp.put("travelnoteid", a.getId()+"");
+					mp.put("tripid", a.getTravelId());
+					mp.put("title","");
+					mp.put("picture", lpic); 
 					mp.put("note", a.getText());
 					mp.put("time", a.getUptime().getTime()/1000+"");
+					mp.put("starttime", schedule.getStartTime().getTime()/1000+"");
 					mp.put("location", a.getLocation());
+					mp.put("userid", a.getUid());
 					User u = loginServ.selectUserById(a.getUid()+"");
 					mp.put("userPic", u.getPicId());
 					mp.put("usernickname",u.getNickname());
@@ -209,7 +253,7 @@ public class TravelRecordCotroller {
 			int tripid = schedule.getScheduleId();
 			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 			modelMap.put("success",1);
-			modelMap.put("starttime", schedule.getStartTime().getTime()/1000+"");
+			
 			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 			TravelRecord tmp = null;
 			for(TravelRecord a:travelRecordList){
@@ -227,14 +271,15 @@ public class TravelRecordCotroller {
 					pic.put("id",tpic.getId()+"");
 					lpic.add(pic);
 				}
-				mp.put("picture", lpic);
-				mp.put("id", a.getId()+"");
-				mp.put("userid", a.getUid());
-				mp.put("tripid", a.getTravelId());
 				mp.put("travelnoteid", a.getId()+"");
+				mp.put("tripid", a.getTravelId());
+				mp.put("title", "");
+				mp.put("picture", lpic);
 				mp.put("note", a.getText());
 				mp.put("time", a.getUptime().getTime()/1000+"");
+				mp.put("starttime", schedule.getStartTime().getTime()/1000+"");
 				mp.put("location", a.getLocation());
+				mp.put("userid", a.getUid());
 				User u = loginServ.selectUserById(a.getUid()+"");
 				mp.put("userPic", u.getPicId());
 				mp.put("usernickname",u.getNickname());
@@ -288,18 +333,18 @@ public class TravelRecordCotroller {
 					pic.put("id",tpic.getId()+"");
 					lpic.add(pic);
 				}
-				mp.put("picture", lpic);
-				mp.put("id", a.getId()+"");
-				mp.put("userid", a.getUid());
+				mp.put("travelnoteid", a.getId()+"");
+				mp.put("tripid", a.getTravelId());
 				int tripid = Integer.parseInt(a.getTravelId());
 				TravelSchedule sd = id2Schedule.get(tripid);
 				String title = sd.getTitle();
 				mp.put("title",title);
-				mp.put("tripid", a.getTravelId());
-				mp.put("travelnoteid", a.getId()+"");
+				mp.put("picture", lpic);
 				mp.put("note", a.getText());
 				mp.put("time", a.getUptime().getTime()/1000+"");
+				mp.put("starttime", "0");
 				mp.put("location", a.getLocation());
+				mp.put("userid", a.getUid());
 				User u = loginServ.selectUserById(a.getUid()+"");
 				mp.put("userPic", u.getPicId());
 				mp.put("usernickname",u.getNickname());
@@ -314,45 +359,7 @@ public class TravelRecordCotroller {
 			return modelMap;
 		}
 	}
-	@RequestMapping(value="/queryAllByTripId",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> queryLastById2(HttpServletRequest request, @RequestBody Map requestMap){
-		
 	
-		Map<String,Object> modelMap = new HashMap<String,Object>();
-		try{
-			    int skip=Integer.parseInt((String)requestMap.get("skip"));
-			    int length = Integer.parseInt((String)requestMap.get("length"));
-				int tripid = Integer.parseInt((String)requestMap.get("tripid"));
-				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
-
-				modelMap.put("success",1);
-				List< Map<String,String> > lst = new ArrayList<Map<String,String > >();
-				TravelRecord tmp = null;
-				for(TravelRecord a:travelRecordList){
-					Map<String,String> mp = new HashMap<String ,String>();
-					mp.put("id", a.getId()+"");
-					mp.put("userid", a.getUid());
-					mp.put("tripid", a.getTravelId());
-					mp.put("travelnoteid", a.getId()+"");
-					mp.put("picture", a.getPictureKey());
-					mp.put("note", a.getText());
-					mp.put("time", a.getUptime().getTime()/1000+"");
-					mp.put("location", a.getLocation());
-					User u = loginServ.selectUserById(a.getUid()+"");
-					mp.put("userPic", u.getPicId());
-					mp.put("usernickname",u.getNickname());
-					lst.add(mp);
-					tmp = a;
-				}
-				modelMap.put("notelist", lst);
-				return modelMap;
-		}catch(Exception e){
-			modelMap.put("success",0);
-			modelMap.put("message","错误");
-			return modelMap;
-		}
-	}
 	@RequestMapping(value = "/b")
 	@ResponseBody
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
