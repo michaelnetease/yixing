@@ -49,6 +49,7 @@ public class LoginCotroller {
 
 	
 	@RequestMapping(value="/login/register",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> register(HttpServletRequest request, @RequestBody User user) throws NoSuchAlgorithmException, IOException{
 		user.setToken(user.getPassword());
 		user.setUsername(user.getPhoneNum());
@@ -88,6 +89,7 @@ public class LoginCotroller {
 	}
 	
 	@RequestMapping(value="/login/login",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> login(HttpServletRequest request, @RequestBody User user){
 		System.out.println(user.getNickname()+"   "+user.getId());
 		Map<String,Object> modelMap = new HashMap<String,Object>();
@@ -126,6 +128,7 @@ public class LoginCotroller {
 	}
 	
 	@RequestMapping(value="/login/isUserExist",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> isUserExist(HttpServletRequest request, @RequestBody Map phoneNum){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		String pn=String.valueOf(phoneNum.get("phoneNum"));
@@ -152,6 +155,7 @@ public class LoginCotroller {
 	
 
 	@RequestMapping(value="/login/updatenickname",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> updatenickname(HttpServletRequest request, @RequestBody User user){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -170,6 +174,7 @@ public class LoginCotroller {
 	}
 	
 	@RequestMapping(value="/login/updatelocation",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> updatelocation(HttpServletRequest request, @RequestBody User user){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -187,6 +192,7 @@ public class LoginCotroller {
 		return modelMap;
 	}
 	@RequestMapping(value="/login/updatesignature",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> updatesignature(HttpServletRequest request, @RequestBody User user){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -204,6 +210,7 @@ public class LoginCotroller {
 		return modelMap;
 	}
 	@RequestMapping(value="/login/updatepicId",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> updatepicId(HttpServletRequest request, @RequestBody User user){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -221,6 +228,7 @@ public class LoginCotroller {
 		return modelMap;
 	}
 	@RequestMapping(value="/login/updategender",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String,Object> updategender(HttpServletRequest request, @RequestBody User user){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
@@ -269,6 +277,7 @@ public class LoginCotroller {
 	}
 	
 	@RequestMapping(value="/login/forgetPass",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> forgetPass(HttpServletRequest request,@RequestBody JSONObject string) throws Exception{
 		boolean nstep=true;
 		Map<String,Object> modelMap = new HashMap<String,Object>();
@@ -342,6 +351,7 @@ public class LoginCotroller {
 		return modelMap;
 	}
 	@RequestMapping(value="/login/smsVerify",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> smsVerify(HttpServletRequest request,@RequestBody JSONObject string) throws Exception{
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success=false;
@@ -404,6 +414,7 @@ public class LoginCotroller {
 		return modelMap;
 	}
 	@RequestMapping(value="/login/queryLoginRandom",method=RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> queryLoginRandom(HttpServletRequest request, @RequestBody Map travelRecordMap) {
 		
 		String username = (String)travelRecordMap.get("username");
