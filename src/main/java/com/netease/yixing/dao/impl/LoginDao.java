@@ -18,8 +18,8 @@ public class LoginDao extends SqlSessionDaoSupport implements ILoginDao {
 	}
 
 	@Override
-	public void insertUser(User user) {
-		getSqlSession().insert("com.netease.yixing.model.User.insertUser",user);		
+	public int insertUser(User user) {
+		return getSqlSession().insert("com.netease.yixing.model.User.insertUser",user);		
 	}
 
 	@Override

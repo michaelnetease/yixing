@@ -8,7 +8,7 @@ public interface ILoginDao {
 
 	public List<User> getAllUser();
 	
-	public void insertUser(User user);
+	public int insertUser(User user);
 	
 	public User queryUser(User user);
 	

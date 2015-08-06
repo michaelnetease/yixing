@@ -14,7 +14,7 @@
 
 	<select id="queryPictureByRecordId" parameterType="int" resultMap="pictureResult">
 		select * from picture
-			where recordid=#{recordid}
+			where recordid=#{recordid} order by position
 	</select>	
 	<insert id="insertPicture" parameterType="picture">
 	     INSERT INTO picture (`key`, `height`, `width`, `recordid`, `position`) VALUES (#{key},#{height},#{width},#{recordid},#{position} )

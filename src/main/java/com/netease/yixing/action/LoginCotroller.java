@@ -71,7 +71,9 @@ public class LoginCotroller {
 		if(resultYunxin.contains("\"code\":200"))
 		{
 			modelMap.put("success", 1);
+			modelMap.put("userId", user.getId());
 			modelMap.put("message","注册成功");
+			return modelMap;
 		}
 		else
 		{
@@ -82,16 +84,15 @@ public class LoginCotroller {
 			}
 			modelMap.put("success", 0);
 			modelMap.put("message","云信注册失败,用户信息从业务服务器中删除了");
+			return modelMap;
 			
 		}
 		
-		return modelMap;
 	}
 	
 	@RequestMapping(value="/login/login",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> login(HttpServletRequest request, @RequestBody User user){
-		System.out.println(user.getNickname()+"   "+user.getId());
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		String message = "ok";

@@ -49,7 +49,7 @@
 		select * from user  where phoneNum=#{phoneNum} 
 	</select>
 	
-	<insert id="insertUser" parameterType="user">
+	<insert id="insertUser" parameterType="user"  useGeneratedKeys="true" keyProperty="id">
 	  <![CDATA[
 		insert into
 			user(username,password,nickname,phoneNum,gender,location) 

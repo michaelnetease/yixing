@@ -23,7 +23,7 @@ public class MemberManageController {
 
 	@Autowired
 	private IMemberManageService memberManageService;
-	
+
 	@Autowired
 	private ITravelScheduleService travelScheduleService;
 
@@ -57,6 +57,11 @@ public class MemberManageController {
 				modelMap.put("message", "非法输入");
 				return modelMap;
 			}
+			if (oldId == null) {
+				modelMap.put("success", 0);
+				modelMap.put("message", "错误的行程Id");
+				return modelMap;
+			}
 			if (oldId.contains(addId)) {
 				modelMap.put("success", 1);
 				modelMap.put("message", "之前添加过");
@@ -76,6 +81,7 @@ public class MemberManageController {
 	}
 
 	@RequestMapping(value = "/memberManage/delMember", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> delMember(HttpServletRequest request, @RequestBody Map data) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
@@ -83,10 +89,14 @@ public class MemberManageController {
 			String delId = String.valueOf(data.get("uId"));
 			String oldId = this.getMemberManageService().getMembersByTravelId(id);
 			boolean isNum = delId.matches("[0-9]*");
-			System.out.println(isNum);
 			if (!isNum) {
 				modelMap.put("success", 0);
 				modelMap.put("message", "非法输入");
+				return modelMap;
+			}
+			if (oldId == null) {
+				modelMap.put("success", 0);
+				modelMap.put("message", "错误的行程Id");
 				return modelMap;
 			}
 			if (!oldId.contains(delId)) {
@@ -115,7 +125,7 @@ public class MemberManageController {
 		}
 		return modelMap;
 	}
-	
+
 	@RequestMapping(value = "/memberManage/getMembers", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getMembers(HttpServletRequest request, @RequestBody Map data) {
@@ -124,39 +134,32 @@ public class MemberManageController {
 			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
 			String membersId = this.getMemberManageService().getMembersByTravelId(id);
 			modelMap.put("success", 1);
-			modelMap.put("data", membersId);
+			modelMap.put("data", membersId == null ? "" : membersId);
 		} catch (Exception e) {
 			modelMap.put("success", 0);
 			e.printStackTrace();
 		}
 		return modelMap;
 	}
-	
+
 	@RequestMapping(value = "/memberManage/getUidAndPic", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getUidAndPic(HttpServletRequest request, @RequestBody Map data) {
-		System.out.println("***********************测试获取uid和pic**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
 			int id = Integer.parseInt(String.valueOf(data.get("scheduleId")));
 			String membersIdStr = this.getMemberManageService().getMembersByTravelId(id);
-			
-			String[] membersId=membersIdStr.split(";;;");
-			
-			
-			if(membersIdStr==null || membersIdStr.length()==0 || membersId==null  || membersId.length==0)
-			{
+			String[] membersId = membersIdStr.split(";;;");
+			if (membersIdStr == null || membersIdStr.length() == 0 || membersId == null || membersId.length == 0) {
 				modelMap.put("success", 1);
 				modelMap.put("data", "");
 				return modelMap;
 			}
-			
-			List<Map<String,Object>> membersList=new LinkedList<Map<String,Object>>();
-			for(String str:membersId)
-			{
-				int temp=Integer.parseInt(str);
- 				String picUri=this.memberManageService.getPicByUserId(temp);
-				Map<String,Object> memberMap=new HashMap<String,Object>();
+			List<Map<String, Object>> membersList = new LinkedList<Map<String, Object>>();
+			for (String str : membersId) {
+				int temp = Integer.parseInt(str);
+				String picUri = this.memberManageService.getPicByUserId(temp);
+				Map<String, Object> memberMap = new HashMap<String, Object>();
 				memberMap.put("userId", temp);
 				memberMap.put("picUri", picUri);
 				membersList.add(memberMap);
@@ -165,35 +168,30 @@ public class MemberManageController {
 			modelMap.put("data", membersList);
 		} catch (Exception e) {
 			modelMap.put("success", 0);
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return modelMap;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/memberManage/getPicNickUidByTravelId", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getPicNickUidByTravelId(HttpServletRequest request, @RequestBody Map data) {
-		System.out.println("***********************测试获取pic  nickname  uid**********************");
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
 			int id = Integer.parseInt(String.valueOf(data.get("scheduleId")));
 			String membersIdStr = this.getMemberManageService().getMembersByTravelId(id);
-			String[] membersId=membersIdStr.split(";;;");
-			if(membersIdStr==null || membersIdStr.length()==0 || membersId==null  || membersId.length==0)
-			{
+			String[] membersId = membersIdStr.split(";;;");
+			if (membersIdStr == null || membersIdStr.length() == 0 || membersId == null || membersId.length == 0) {
 				modelMap.put("success", 1);
 				modelMap.put("data", "");
 				return modelMap;
 			}
-			
-			List<Map<String,Object>> membersList=new LinkedList<Map<String,Object>>();
-			for(String str:membersId)
-			{
-				int uid=Integer.parseInt(str);
- 				User u=this.memberManageService.getUserById(uid);
-				Map<String,Object> memberMap=new HashMap<String,Object>();
+
+			List<Map<String, Object>> membersList = new LinkedList<Map<String, Object>>();
+			for (String str : membersId) {
+				int uid = Integer.parseInt(str);
+				User u = this.memberManageService.getUserById(uid);
+				Map<String, Object> memberMap = new HashMap<String, Object>();
 				memberMap.put("userId", uid);
 				memberMap.put("picId", u.getPicId());
 				memberMap.put("nickname", u.getNickname());
@@ -208,24 +206,24 @@ public class MemberManageController {
 		}
 		return modelMap;
 	}
-	
-	
+
 	@RequestMapping(value = "/memberManage/getLatestScheduleMembersByUserId", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> getLatestScheduleMembersByUserId(@RequestBody Map map) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		List<User> members = null;
 		boolean success = true;
 		try {
-			int userId = (Integer)map.get("userId");
-			members = memberManageService.queryLatestScheduleMembersByUserId(userId);	
-			for(User user:members){
+			int userId = Integer.parseInt((String) map.get("userId"));
+			members = memberManageService.queryLatestScheduleMembersByUserId(userId);
+			for (User user : members) {
 				user.setPassword(null);
 				user.setJoinTravelSchedule(null);
 			}
 		} catch (Exception e) {
 			success = false;
 			e.printStackTrace();
-		} finally{
+		} finally {
 			modelMap.put("success", success);
 			modelMap.put("members", members);
 		}

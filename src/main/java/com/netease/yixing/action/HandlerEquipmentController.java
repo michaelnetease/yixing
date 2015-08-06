@@ -55,8 +55,8 @@ public class HandlerEquipmentController {
 				for (Equipment eq : equipList) {
 					Map<String, String> basic = new HashMap<String, String>();
 					basic.put("type", eq.getType());
-					basic.put("items", eq.getItems());
-					basic.put("selectedItems", eq.getSelectedItems());
+					basic.put("items", eq.getItems()==null?"":eq.getItems());
+					basic.put("selectedItems", eq.getSelectedItems()==null?"":eq.getSelectedItems());
 					basicData.add(basic);
 					if (eq.getSelectedItems() == null || eq.getSelectedItems().trim().equals(""))
 						continue;
@@ -68,7 +68,7 @@ public class HandlerEquipmentController {
 				if(index>=0)
 					selectedItems.delete(index, selectedItems.length());
 				modelMap.put("travelId", id);
-				modelMap.put("data", basicData);
+				modelMap.put("data", basicData==null?"":basicData);
 				modelMap.put("selected", selectedItems.toString());
 				return modelMap;
 			}
