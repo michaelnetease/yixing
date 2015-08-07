@@ -299,7 +299,7 @@ public class LoginCotroller {
 			switch(temp){
 			case 200:
 				success=true;
-				message="登陆成功";
+				message="修改成功";
 				break;
 			case 512:
 				message="服务器拒绝访问，或者拒绝操作";
@@ -323,7 +323,7 @@ public class LoginCotroller {
 				message="请求发送验证码次数超出限制";
 				break;
 			case 520:
-				message="无效验证码。";
+				message="无效验证码";
 				break;
 			case 526:
 				message="余额不足";
@@ -342,7 +342,7 @@ public class LoginCotroller {
 			User temp=new User();
 			temp.setPhoneNum(phone);
 			temp.setPassword(pass);
-			Map<String, Object>tmp=updatePass(request, temp);
+			loginServ.updatePass(temp);
 		}else {
 			success=false;
 		}
