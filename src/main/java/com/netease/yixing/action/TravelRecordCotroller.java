@@ -84,13 +84,19 @@ public class TravelRecordCotroller {
 			travelRecord.setId(0);
 			travelRecordService.insertTravelRecord(travelRecord);
 			int travelnoteid = travelRecord.getId();
+			String firstPic="";
 			for(Map<String,String> a:lmap){
 				Picture pic = new Picture();
 				String height =(String)a.get("height");
 				String width = (String)a.get("width");
 				String key = (String)a.get("key");
 				String position = (String)a.get("position");
-				
+				if(firstPic.equals("")){
+					firstPic = key;
+				}
+				if(position.equals("1")){
+					firstPic = key;
+				}
 				pic.setHeight(height);
 				pic.setWidth(width);
 				pic.setKey(key);
@@ -98,6 +104,9 @@ public class TravelRecordCotroller {
 				pic.setRecordid(travelnoteid+"");
 				pictureService.insertPicture(pic);
 			}
+			travelRecord.setPictureKey(firstPic);
+			travelRecordService.editTravelRecord(travelRecord);
+		
 			modelMap.put("success",1);
 			modelMap.put("travelnoteid",travelnoteid);
 		}catch(Exception e){
