@@ -215,4 +215,16 @@ public class TravelScheduleService implements ITravelScheduleService {
 		}
 		return result;
 	}
+
+	@Override
+	public int getJoinUserNumbersInSchedule(int scheduleId) {
+		TravelSchedule schedule = travelScheduleDao.getJoinUserNumbersInSchedule(scheduleId);
+		String groupMemeberStr = schedule.getGroupMembers();
+		int num = 0;
+		if(groupMemeberStr!=null){
+			String[] groupMembers = groupMemeberStr.split(";;;");
+			num = groupMembers.length;
+		}		
+		return num;	
+	}
 }

@@ -21,4 +21,6 @@ public interface ITravelScheduleDao {
 	public List<TravelSchedule> queryTopKVisitedTravelSchedule(int k);
 	
 	public List<TravelSchedule> queryTopKMarkedTravelSchedule(int k);
+	
+	public TravelSchedule getJoinUserNumbersInSchedule(int scheduleId);
 }

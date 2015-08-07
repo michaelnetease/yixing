@@ -53,5 +53,10 @@ public class TravelScheduleDao extends SqlSessionDaoSupport implements ITravelSc
 		return getSqlSession().selectList("com.netease.yixing.model.TravelSchedule.getSchedulesByUserId",userId);
 	}
 
+	@Override
+	public TravelSchedule getJoinUserNumbersInSchedule(int scheduleId) {
+		return getSqlSession().selectOne("com.netease.yixing.model.TravelSchedule.getJoinUserNumbersInSchedule", scheduleId);
+	}
+
 
 }

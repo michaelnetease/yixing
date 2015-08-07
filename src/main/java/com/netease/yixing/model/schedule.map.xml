@@ -106,5 +106,10 @@
 	    order by mark desc limit 0,#{k}
 	</select>
 	
+    <select id="getJoinUserNumbersInSchedule" parameterType="int" resultMap="scheduleResult">
+	    select * from travel_schedule 
+	    where schedule_id = #{scheduleId}
+	</select>
+	
 </mapper>
 

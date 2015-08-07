@@ -24,4 +24,6 @@ public interface ITravelScheduleService {
 	
 	public List<TravelSchedule> queryTopKMarkedTravelSchedule(int k);
 	
+	public int getJoinUserNumbersInSchedule(int scheduleId);
+	
 }
