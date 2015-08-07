@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.netease.yixing.service.ITokenHandlerService;
 
@@ -28,6 +29,7 @@ public class TokenController {
 	}
 
 	@RequestMapping(value = "/generate", method = RequestMethod.POST)
+	@ResponseBody
     public Map<String,Object> generateToken(HttpServletRequest request) {     
 		Map<String,Object> modelMap = new HashMap<String,Object>();		
         boolean success = true;

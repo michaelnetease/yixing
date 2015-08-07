@@ -14,6 +14,7 @@ import com.netease.yixing.dao.ITravelScheduleRedisDao;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.TravelScheduleAgenda;
 import com.netease.yixing.model.User;
+import com.netease.yixing.service.IInvitationService;
 import com.netease.yixing.service.ITravelScheduleService;
 
 @Service
@@ -30,6 +31,9 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 	@Autowired
 	private ITravelScheduleRedisDao redisDao;
+	
+	@Autowired
+	private IInvitationService invitationService;
 		
 	public ITravelScheduleDao getTravelScheduleDao() {
 		return travelScheduleDao;
@@ -63,10 +67,19 @@ public class TravelScheduleService implements ITravelScheduleService {
 		this.redisDao = redisDao;
 	}
 
+	public IInvitationService getInvitationService() {
+		return invitationService;
+	}
+
+	public void setInvitationService(IInvitationService invitationService) {
+		this.invitationService = invitationService;
+	}
+
 	@Override
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	public int createTravelSchedule(TravelSchedule entity) throws Exception {
 		travelScheduleDao.insertTravelSchedule(entity);
+		invitationService.insertInvitation(entity.getScheduleId());
 
 		User user = loginDao.queryUserById(entity.getCreateUser().getId());
 		if(user!=null){
@@ -114,7 +127,7 @@ public class TravelScheduleService implements ITravelScheduleService {
 		User user = loginDao.queryUserById(userId);
 		String allJoinSchedules = user.getJoinTravelSchedule();
 		TravelSchedule latestSchedule = null;
-		if(allJoinSchedules!=null && allJoinSchedules.length() > 0){
+		if(allJoinSchedules!=null && !allJoinSchedules.isEmpty()){
 			String[] scheduleIdStrs = allJoinSchedules.split(";;;");
 			int[] scheduleIds = new int[scheduleIdStrs.length];
 			for(int i=0;i<scheduleIds.length;i++){
@@ -143,7 +156,7 @@ public class TravelScheduleService implements ITravelScheduleService {
 		List<TravelSchedule> ls = null;
 		if(user!=null){
 			String joinSchedulesStr = user.getJoinTravelSchedule();
-			if(joinSchedulesStr!=null && joinSchedulesStr.length()>0){
+			if(joinSchedulesStr!=null && !joinSchedulesStr.isEmpty()){
 				String[] joinSchedules = joinSchedulesStr.split(";;;");
 				length = joinSchedules.length < length? joinSchedules.length : length;
 				int[] scheduleIds = new int[length];
@@ -166,7 +179,7 @@ public class TravelScheduleService implements ITravelScheduleService {
 		List<TravelSchedule> ls = null;
 		if(user!=null){
 			String joinSchedulesStr = user.getJoinTravelSchedule();
-			if(joinSchedulesStr!=null && joinSchedulesStr.length()>0){
+			if(joinSchedulesStr!=null && !joinSchedulesStr.isEmpty()){
 				String[] joinSchedules = joinSchedulesStr.split(";;;");
 				int[] scheduleIds = new int[joinSchedules.length];
 				for(int i=0; i < scheduleIds.length;i++){

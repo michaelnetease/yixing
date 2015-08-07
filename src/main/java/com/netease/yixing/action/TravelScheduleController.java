@@ -160,6 +160,7 @@ public class TravelScheduleController {
 			scheduleInfos = travelScheduleServ.queryFixedLengthTravelInfoByUserId(userId,startIndex,length);
 			for(TravelSchedule schedule:scheduleInfos){
 				Map<String,Object> resultMap = new HashMap<String,Object>();
+				resultMap.put("scheduleId", schedule.getScheduleId());
 				resultMap.put("title", schedule.getTitle());
 				resultMap.put("startTime", schedule.getStartTime());
 				User user = schedule.getCreateUser();
