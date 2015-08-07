@@ -26,6 +26,7 @@ import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IAuthService;
+import com.netease.yixing.service.IInvitationService;
 import com.netease.yixing.service.ILoginService;
 import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
@@ -250,8 +251,16 @@ public class TravelRecordCotroller {
 			int userId = Integer.parseInt((String)requestMap.get("userId"));
 			int skip=Integer.parseInt((String)requestMap.get("skip"));
 		    int length = Integer.parseInt((String)requestMap.get("length"));
+		    
 			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
-			int tripid = schedule.getScheduleId();
+			int tripid = 0;
+			if(schedule==null){
+				tripid= schedule.getScheduleId();
+			}else{
+				modelMap.put("success",1);
+				modelMap.put("message","null");
+				return  modelMap;
+			}
 			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 			modelMap.put("success",1);
 			
@@ -362,7 +371,7 @@ public class TravelRecordCotroller {
 	}
 	
 	@Autowired
-	InvitationService invitationService;
+	IInvitationService invitationService;
 	@RequestMapping(value = "/b")
 	@ResponseBody
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {

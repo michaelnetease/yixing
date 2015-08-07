@@ -20,13 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.netease.yixing.model.Invitation;
 import com.netease.yixing.model.Picture;
 import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
+import com.netease.yixing.service.IInvitationService;
 import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
 import com.netease.yixing.service.ITravelScheduleService;
+import com.netease.yixing.service.impl.InvitationService;
 import com.netease.yixing.service.impl.MemberManageService;
 import com.netease.yixing.utils.Constant;
 import com.netease.yixing.view.DayHappened;
@@ -46,8 +49,10 @@ public class PublishTravelRecordsController{
 	private ITravelScheduleService travelScheduleService;
 	
 	@Autowired
-	private IPictureService pictureService;
+	private IInvitationService invitationService;
 	
+	@Autowired
+	private IPictureService pictureService;
 	
 	public IPictureService getPictureService() {
 		return pictureService;
@@ -165,5 +170,19 @@ public class PublishTravelRecordsController{
 		model.put("dataList", finalData);
 		return new ModelAndView("../publish2",model);
 	}
-
+	@RequestMapping(value="/n",method=RequestMethod.GET)
+	protected ModelAndView handle2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String,Object> model=new HashMap<String,Object>();
+		String id =request.getParameter("id");
+		Invitation it = invitationService.queryByRnd(id);
+		String travelId = it.getTravelId();
+		TravelSchedule ts = travelScheduleService.queryScheduleDetailsByScheduleId(Integer.parseInt(travelId));
+		User user = ts.getCreateUser();
+		
+		model.put("title",ts.getTitle());
+		model.put("faqiren", user!=null?user.getNickname():"");
+		model.put("icon", user!=null?("http://"+Constant.PICDOMAIN+"/"+user.getPicId()+Constant.ICON):"");
+		model.put("number", 0);
+		return new ModelAndView("../jsp/invitation",model);
+	}
 }
