@@ -125,18 +125,20 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 	public TravelSchedule queryLatestScheduleDetailsByUserId(int userId) throws Exception {	
 		User user = loginDao.queryUserById(userId);
-		String allJoinSchedules = user.getJoinTravelSchedule();
 		TravelSchedule latestSchedule = null;
-		if(allJoinSchedules!=null && !allJoinSchedules.isEmpty()){
-			String[] scheduleIdStrs = allJoinSchedules.split(";;;");
-			int[] scheduleIds = new int[scheduleIdStrs.length];
-			for(int i=0;i<scheduleIds.length;i++){
-				scheduleIds[i] = Integer.parseInt(scheduleIdStrs[i]);
+		if(user!=null){
+			String allJoinSchedules = user.getJoinTravelSchedule();		
+			if(allJoinSchedules!=null && !allJoinSchedules.isEmpty()){
+				String[] scheduleIdStrs = allJoinSchedules.split(";;;");
+				int[] scheduleIds = new int[scheduleIdStrs.length];
+				for(int i=0;i<scheduleIds.length;i++){
+					scheduleIds[i] = Integer.parseInt(scheduleIdStrs[i]);
+				}
+				List<TravelSchedule> scheduleList = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);
+				if(scheduleList!=null && !scheduleList.isEmpty()){
+					latestSchedule = scheduleList.get(0);
+				}	
 			}
-			List<TravelSchedule> scheduleList = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);
-			if(scheduleList!=null && scheduleList.size() > 0){
-				latestSchedule = scheduleList.get(0);
-			}	
 		}
 
 		return latestSchedule;
