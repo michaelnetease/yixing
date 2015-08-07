@@ -367,7 +367,7 @@ public class TravelRecordCotroller {
 	@ResponseBody
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
 		
-		invitationService.insertInvitation(2);
+		invitationService.insertInvitation(3);
 
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 	

@@ -40,12 +40,7 @@ public class InvitationService implements IInvitationService{
 		long lnum = rd.nextLong();
 		String rnd = getRandom(travelId+lnum+"");
 		it.setRnd(rnd);
-		insertInvitation(it);
-		Invitation itt = queryByTravelId("2");
-		if(itt==null){
-			
-		}
-		
+		insertInvitation(it);	
 	}
 	private String getRandom(String key){
 		Date dt = new Date();

@@ -9,11 +9,11 @@
 		<result property="rnd" column="rnd" />
 	</resultMap>
 
-	<select id="queryByTravelId" parameterType="int" resultMap="invitationResult">
+	<select id="queryByTravelId" parameterType="string" resultMap="invitationResult">
 		select * from invitation
 			where travelId=#{travelId}
 	</select>
-	<select id="queryByRnd" parameterType="int" resultMap="invitationResult">
+	<select id="queryByRnd" parameterType="string" resultMap="invitationResult">
 		select * from invitation
 			where rnd=#{rnd}
 	</select>

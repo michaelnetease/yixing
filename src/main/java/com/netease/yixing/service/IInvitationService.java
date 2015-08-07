@@ -6,4 +6,5 @@ public interface IInvitationService {
 	public void insertInvitation(Invitation invitation);
 	public Invitation queryByRnd(String rnd);
 	public Invitation queryByTravelId(String travelId);
+	public void insertInvitation(int travelId);
 }
