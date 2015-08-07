@@ -30,6 +30,7 @@ import com.netease.yixing.service.ILoginService;
 import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
 import com.netease.yixing.service.ITravelScheduleService;
+import com.netease.yixing.service.impl.InvitationService;
 import com.netease.yixing.utils.Constant;
 import com.netease.yixing.utils.PicService;
 import com.netease.yixing.utils.UserCheck;
@@ -360,22 +361,18 @@ public class TravelRecordCotroller {
 		}
 	}
 	
+	@Autowired
+	InvitationService invitationService;
 	@RequestMapping(value = "/b")
 	@ResponseBody
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
 		
-		Picture pic = new Picture();
-		pic.setHeight("100");
-		pic.setWidth("80");
-		pic.setPosition("1");
-		pic.setRecordid("2");
-		pic.setKey("dafasdfasdfasdfdasf");
-		pictureService.insertPicture(pic);
-		List<Picture> li = pictureService.queryByRecordId(2);
+		invitationService.insertInvitation(2);
+
 		Map<String,Object> modelMap = new HashMap<String,Object>();
-		for(Picture p : li){
-			modelMap.put("id", p.getHeight());
-		}
+	
+		modelMap.put("id", "12312321");
+		
 		return modelMap;
 		
 	}
