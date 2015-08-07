@@ -197,6 +197,11 @@ public class TravelRecordCotroller {
 				int skip=Integer.parseInt((String)travelRecordMap.get("skip"));
 				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 				TravelSchedule schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
+				if(schedule==null){
+					modelMap.put("success",0);
+					modelMap.put("message","此行程id不存在");
+					return modelMap;
+				}
 				modelMap.put("success",1);
 				
 				List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
@@ -226,8 +231,13 @@ public class TravelRecordCotroller {
 					mp.put("location", a.getLocation());
 					mp.put("userid", a.getUid());
 					User u = loginServ.selectUserById(a.getUid()+"");
-					mp.put("userPic", u.getPicId());
-					mp.put("usernickname",u.getNickname());
+					if(u!=null){
+						mp.put("userPic", u.getPicId());
+						mp.put("usernickname",u.getNickname());
+					}else{
+						mp.put("userPic","");
+						mp.put("usernickname", "");
+					}
 					lst.add(mp);
 					tmp = a;
 				}
@@ -254,17 +264,21 @@ public class TravelRecordCotroller {
 		    
 			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
 			int tripid = 0;
-			if(schedule==null){
+			if(schedule!=null){
 				tripid= schedule.getScheduleId();
 			}else{
-				modelMap.put("success",1);
-				modelMap.put("message","null");
+				modelMap.put("success",0);
+				modelMap.put("message","行程不存在");
 				return  modelMap;
 			}
 			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 			modelMap.put("success",1);
-			
 			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
+			if(travelRecordList==null){
+				modelMap.put("success",1);
+				modelMap.put("notelist",lst);
+				return  modelMap;
+			}
 			TravelRecord tmp = null;
 			for(TravelRecord a:travelRecordList){
 				
@@ -325,7 +339,6 @@ public class TravelRecordCotroller {
 					TravelSchedule schedule2 = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
 					id2Schedule.put(tripid, schedule2);
 				}
-				
 			}
 			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 			TravelRecord tmp = null;
@@ -356,8 +369,13 @@ public class TravelRecordCotroller {
 				mp.put("location", a.getLocation());
 				mp.put("userid", a.getUid());
 				User u = loginServ.selectUserById(a.getUid()+"");
-				mp.put("userPic", u.getPicId());
-				mp.put("usernickname",u.getNickname());
+				if(u!=null){
+					mp.put("userPic", u.getPicId());
+					mp.put("usernickname",u.getNickname());
+				}else{
+					mp.put("userPic", "");
+					mp.put("usernickname","");
+				}
 				lst.add(mp);
 				tmp = a;
 			}
@@ -380,7 +398,6 @@ public class TravelRecordCotroller {
 
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 	
-		modelMap.put("id", "12312321");
 		
 		return modelMap;
 		
