@@ -26,6 +26,7 @@ import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IAuthService;
+import com.netease.yixing.service.IInvitationService;
 import com.netease.yixing.service.ILoginService;
 import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
@@ -83,13 +84,19 @@ public class TravelRecordCotroller {
 			travelRecord.setId(0);
 			travelRecordService.insertTravelRecord(travelRecord);
 			int travelnoteid = travelRecord.getId();
+			String firstPic="";
 			for(Map<String,String> a:lmap){
 				Picture pic = new Picture();
 				String height =(String)a.get("height");
 				String width = (String)a.get("width");
 				String key = (String)a.get("key");
 				String position = (String)a.get("position");
-				
+				if(firstPic.equals("")){
+					firstPic = key;
+				}
+				if(position.equals("1")){
+					firstPic = key;
+				}
 				pic.setHeight(height);
 				pic.setWidth(width);
 				pic.setKey(key);
@@ -97,6 +104,9 @@ public class TravelRecordCotroller {
 				pic.setRecordid(travelnoteid+"");
 				pictureService.insertPicture(pic);
 			}
+			travelRecord.setPictureKey(firstPic);
+			travelRecordService.editTravelRecord(travelRecord);
+		
 			modelMap.put("success",1);
 			modelMap.put("travelnoteid",travelnoteid);
 		}catch(Exception e){
@@ -196,6 +206,11 @@ public class TravelRecordCotroller {
 				int skip=Integer.parseInt((String)travelRecordMap.get("skip"));
 				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 				TravelSchedule schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
+				if(schedule==null){
+					modelMap.put("success",0);
+					modelMap.put("message","此行程id不存在");
+					return modelMap;
+				}
 				modelMap.put("success",1);
 				
 				List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
@@ -225,8 +240,13 @@ public class TravelRecordCotroller {
 					mp.put("location", a.getLocation());
 					mp.put("userid", a.getUid());
 					User u = loginServ.selectUserById(a.getUid()+"");
-					mp.put("userPic", u.getPicId());
-					mp.put("usernickname",u.getNickname());
+					if(u!=null){
+						mp.put("userPic", u.getPicId());
+						mp.put("usernickname",u.getNickname());
+					}else{
+						mp.put("userPic","");
+						mp.put("usernickname", "");
+					}
 					lst.add(mp);
 					tmp = a;
 				}
@@ -250,12 +270,24 @@ public class TravelRecordCotroller {
 			int userId = Integer.parseInt((String)requestMap.get("userId"));
 			int skip=Integer.parseInt((String)requestMap.get("skip"));
 		    int length = Integer.parseInt((String)requestMap.get("length"));
+		    
 			schedule = travelScheduleServ.queryLatestScheduleDetailsByUserId(userId);
-			int tripid = schedule.getScheduleId();
+			int tripid = 0;
+			if(schedule!=null){
+				tripid= schedule.getScheduleId();
+			}else{
+				modelMap.put("success",0);
+				modelMap.put("message","行程不存在");
+				return  modelMap;
+			}
 			List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
 			modelMap.put("success",1);
-			
 			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
+			if(travelRecordList==null){
+				modelMap.put("success",1);
+				modelMap.put("notelist",lst);
+				return  modelMap;
+			}
 			TravelRecord tmp = null;
 			for(TravelRecord a:travelRecordList){
 				
@@ -316,7 +348,6 @@ public class TravelRecordCotroller {
 					TravelSchedule schedule2 = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
 					id2Schedule.put(tripid, schedule2);
 				}
-				
 			}
 			List< Map<String,Object> > lst = new ArrayList<Map<String,Object > >();
 			TravelRecord tmp = null;
@@ -347,8 +378,13 @@ public class TravelRecordCotroller {
 				mp.put("location", a.getLocation());
 				mp.put("userid", a.getUid());
 				User u = loginServ.selectUserById(a.getUid()+"");
-				mp.put("userPic", u.getPicId());
-				mp.put("usernickname",u.getNickname());
+				if(u!=null){
+					mp.put("userPic", u.getPicId());
+					mp.put("usernickname",u.getNickname());
+				}else{
+					mp.put("userPic", "");
+					mp.put("usernickname","");
+				}
 				lst.add(mp);
 				tmp = a;
 			}
@@ -362,7 +398,7 @@ public class TravelRecordCotroller {
 	}
 	
 	@Autowired
-	InvitationService invitationService;
+	IInvitationService invitationService;
 	@RequestMapping(value = "/b")
 	@ResponseBody
 	public  Map<String,Object> aaa(HttpServletRequest request, @RequestBody Map travelRecordMap) {
@@ -371,7 +407,6 @@ public class TravelRecordCotroller {
 
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 	
-		modelMap.put("id", "12312321");
 		
 		return modelMap;
 		

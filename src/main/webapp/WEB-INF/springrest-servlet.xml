@@ -14,7 +14,8 @@
 
  
 	<mvc:resources location="/" mapping="/index.html" />
-	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/jsp/" mapping="/jsp/**" />
+	<mvc:resources location="/image/" mapping="/image/**" />
  
 
 	

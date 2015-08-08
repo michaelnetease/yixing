@@ -20,13 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.netease.yixing.model.Invitation;
 import com.netease.yixing.model.Picture;
 import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
+import com.netease.yixing.service.IInvitationService;
 import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
 import com.netease.yixing.service.ITravelScheduleService;
+import com.netease.yixing.service.impl.InvitationService;
 import com.netease.yixing.service.impl.MemberManageService;
 import com.netease.yixing.utils.Constant;
 import com.netease.yixing.view.DayHappened;
@@ -35,7 +38,7 @@ import com.netease.yixing.view.Record;
 
 @Controller
 @RequestMapping(value = "/travelNote")
-public class PublishTravelRecordsController{
+public class webController{
 	@Autowired
 	private ITravelRecordService travelRecordService;
 	
@@ -46,8 +49,10 @@ public class PublishTravelRecordsController{
 	private ITravelScheduleService travelScheduleService;
 	
 	@Autowired
-	private IPictureService pictureService;
+	private IInvitationService invitationService;
 	
+	@Autowired
+	private IPictureService pictureService;
 	
 	public IPictureService getPictureService() {
 		return pictureService;
@@ -98,7 +103,7 @@ public class PublishTravelRecordsController{
 			model.put("travelSchedule", "未发起这样的行程");
 			model.put("dayItemList", null);
 			model.put("fenxiang", fenxiang);
-			return new ModelAndView("/publish",model);
+			return new ModelAndView("../index",null);
 		}
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm");
@@ -140,7 +145,7 @@ public class PublishTravelRecordsController{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return new ModelAndView("../index",null);
 		}
 		
 		int size=dayHappenedMap.size();
@@ -163,7 +168,26 @@ public class PublishTravelRecordsController{
 		model.put("travelSchedule", ts);
 		model.put("fenxiang", fenxiang);
 		model.put("dataList", finalData);
-		return new ModelAndView("../publish2",model);
+		return new ModelAndView("../jsp/publish",model);
 	}
-
+	@RequestMapping(value="/n",method=RequestMethod.GET)
+	protected ModelAndView handle2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String,Object> model=new HashMap<String,Object>();
+		String id =request.getParameter("id");
+		Invitation it = invitationService.queryByRnd(id);
+		if(it==null) return new ModelAndView("../index",null);
+		String travelId = it.getTravelId();
+		
+		TravelSchedule ts = travelScheduleService.queryScheduleDetailsByScheduleId(Integer.parseInt(travelId));
+		User user = ts.getCreateUser();
+		Date time=ts.getStartTime();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		model.put("time", sdf.format(time));
+		model.put("id", id);
+		model.put("title",ts.getTitle());
+		model.put("faqiren", user!=null?user.getNickname():"");
+		model.put("icon", user!=null?("http://"+Constant.PICDOMAIN+"/"+user.getPicId()+Constant.ICON):"");
+		model.put("number", this.travelScheduleService.getJoinUserNumbersInSchedule(Integer.parseInt(travelId)));
+		return new ModelAndView("../jsp/invitation",model);
+	}
 }
