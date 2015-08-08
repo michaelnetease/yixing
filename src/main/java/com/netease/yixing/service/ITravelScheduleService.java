@@ -26,4 +26,8 @@ public interface ITravelScheduleService {
 	
 	public int getJoinUserNumbersInSchedule(int scheduleId);
 	
+	public void updateSchedulePhoto(int scheduleId,String photo);
+	
+	public String getPhotoKeyByScheduleId(int scheduleId);
+	
 }

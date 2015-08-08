@@ -64,7 +64,7 @@ public class TravelScheduleController {
 			schedule.setStartTime(startTime);
 			Calendar cal = Calendar.getInstance();
 	        cal.setTime(startTime);
-	        cal.add(Calendar.DATE, 1);
+	        cal.add(Calendar.DATE, 2);
 			schedule.setEndTime(cal.getTime());
 			schedule.setUpdateTime(new Date());
 			schedule.setGroupMembers(String.valueOf(userId));
@@ -158,24 +158,26 @@ public class TravelScheduleController {
 		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		try{
 			scheduleInfos = travelScheduleServ.queryFixedLengthTravelInfoByUserId(userId,startIndex,length);
-			for(TravelSchedule schedule:scheduleInfos){
-				Map<String,Object> resultMap = new HashMap<String,Object>();
-				resultMap.put("scheduleId", schedule.getScheduleId());
-				resultMap.put("title", schedule.getTitle());
-				resultMap.put("startTime", schedule.getStartTime());
-				User user = schedule.getCreateUser();
-				if(user!=null){
-					user.setPassword(null);
+			if(scheduleInfos!=null){
+				for(TravelSchedule schedule:scheduleInfos){
+					Map<String,Object> resultMap = new HashMap<String,Object>();
+					resultMap.put("scheduleId", schedule.getScheduleId());
+					resultMap.put("title", schedule.getTitle());
+					resultMap.put("startTime", schedule.getStartTime());
+					User user = schedule.getCreateUser();
+					if(user!=null){
+						user.setPassword(null);
+					}
+					resultMap.put("createUser", user);				
+					List<TravelRecord> recordList = schedule.getRecordList();
+					TravelRecord firstRecord = (recordList!=null && recordList.size()>0)?recordList.get(0):null;
+					pictureKey = firstRecord!=null? firstRecord.getPictureKey(): null;
+					location = firstRecord!=null? firstRecord.getLocation():null;
+					resultMap.put("pictureKey", pictureKey);				
+					resultMap.put("location", location);
+					
+					result.add(resultMap);
 				}
-				resultMap.put("createUser", user);				
-				List<TravelRecord> recordList = schedule.getRecordList();
-				TravelRecord firstRecord = (recordList!=null && recordList.size()>0)?recordList.get(0):null;
-				pictureKey = firstRecord!=null? firstRecord.getPictureKey(): null;
-				location = firstRecord!=null? firstRecord.getLocation():null;
-				resultMap.put("pictureKey", pictureKey);				
-				resultMap.put("location", location);
-				
-				result.add(resultMap);
 			}
 		}catch(Exception e){
 			success = false;
@@ -313,6 +315,72 @@ public class TravelScheduleController {
 			modelMap.put(Constant.SUCCESS, success);
 			modelMap.put(Constant.MESSAGE, message);
 			modelMap.put("schedules", schedules);
+		}
+		return modelMap;
+	}
+	
+	//test interface
+//	@RequestMapping(value="/travel/schedule/members", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Map<String,Object> queryUserNumbers(@RequestBody Map<String,Object> map){
+//		Map<String,Object> modelMap = new HashMap<String,Object>();
+//		boolean success = true;
+//		int scheduleId = (Integer)map.get("scheduleId");
+//		String message = Constant.SUCCESS_MESSAGE;
+//		int result = 0;
+//		try{
+//			result = travelScheduleServ.getJoinUserNumbersInSchedule(scheduleId);
+//		}catch(Exception e){
+//			success = false;
+//			message = e.getMessage();
+//			logger.error(message);
+//		}finally{
+//			modelMap.put(Constant.SUCCESS, success);
+//			modelMap.put(Constant.MESSAGE, message);
+//			modelMap.put("users", result);
+//		}
+//		return modelMap;
+//	}
+	
+	@RequestMapping(value="/travel/photo/update", method = RequestMethod.PUT)
+	@ResponseBody
+	public Map<String,Object> updatePhoto(@RequestBody Map<String,Object> map){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		int scheduleId = (Integer)map.get("scheduleId");
+		String photoKey = String.valueOf(map.get("photoKey"));
+		String message = Constant.SUCCESS_MESSAGE;
+		try{
+			travelScheduleServ.updateSchedulePhoto(scheduleId, photoKey);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			logger.error(message);
+		}finally{
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
+		}
+		return modelMap;
+	}
+	
+	@RequestMapping(value="/travel/photo/query", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> queryUserNumbers(@RequestBody Map<String,Object> map){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		boolean success = true;
+		int scheduleId = (Integer)map.get("scheduleId");
+		String message = Constant.SUCCESS_MESSAGE;
+		String photoKey = null;
+		try{
+			photoKey = travelScheduleServ.getPhotoKeyByScheduleId(scheduleId);
+		}catch(Exception e){
+			success = false;
+			message = e.getMessage();
+			logger.error(message);
+		}finally{
+			modelMap.put(Constant.SUCCESS, success);
+			modelMap.put(Constant.MESSAGE, message);
+			modelMap.put("photoKey", photoKey);
 		}
 		return modelMap;
 	}

@@ -23,4 +23,8 @@ public interface ITravelScheduleDao {
 	public List<TravelSchedule> queryTopKMarkedTravelSchedule(int k);
 	
 	public TravelSchedule getJoinUserNumbersInSchedule(int scheduleId);
+	
+	public void updateSchedulePhoto(int scheduleId,String photoKey);
+	
+	public String getPhotoKeyByScheduleId(int scheduleId);
 }

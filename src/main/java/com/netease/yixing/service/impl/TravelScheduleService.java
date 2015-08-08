@@ -1,5 +1,6 @@
 package com.netease.yixing.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -100,8 +101,12 @@ public class TravelScheduleService implements ITravelScheduleService {
 		firstDay.setUser(entity.getCreateUser());
 		       
 		TravelScheduleAgenda secondDay = new TravelScheduleAgenda();
+		Calendar cal = Calendar.getInstance();
+        cal.setTime(entity.getStartTime());
+        cal.add(Calendar.DATE, 1);
+		
 		secondDay.setSchedule(entity);
-		secondDay.setTravelDay(entity.getEndTime());
+		secondDay.setTravelDay(cal.getTime());
 		secondDay.setUpdateTime(new Date());
 		secondDay.setUser(entity.getCreateUser());
 
@@ -228,5 +233,15 @@ public class TravelScheduleService implements ITravelScheduleService {
 			num = groupMembers.length;
 		}		
 		return num;	
+	}
+
+	@Override
+	public void updateSchedulePhoto(int scheduleId, String photo) {
+		travelScheduleDao.updateSchedulePhoto(scheduleId, photo);		
+	}
+
+	@Override
+	public String getPhotoKeyByScheduleId(int scheduleId) {
+		return travelScheduleDao.getPhotoKeyByScheduleId(scheduleId);
 	}
 }

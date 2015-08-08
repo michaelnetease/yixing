@@ -12,6 +12,7 @@
 		<result property="groupMembers" column="group_members" />
 		<result property="mark" column="mark" javaType="java.lang.Integer"/>
 		<result property="visit" column="visit" javaType="java.lang.Integer"/>
+		<result property="photo" column="photo"/>
 		<association property="createUser" column="create_user" javaType="com.netease.yixing.model.User" select="com.netease.yixing.model.User.getUserById"/> 
 		<collection property="agendaList"  ofType="com.netease.yixing.model.TravelScheduleAgenda" column="agenda_id" >  
             <id column="agenda_id" property="agendaId"/>  
@@ -75,7 +76,7 @@
  	
  	<update id="updateSchedule" parameterType="schedule">
 		update travel_schedule set
-		title=#{title},update_time=#{updateTime}   where schedule_id=#{scheduleId}
+		title=#{title},update_time=#{updateTime}  where schedule_id=#{scheduleId}
  	</update>
 
 	<update id="deleteSchedule" parameterType="schedule">
@@ -108,6 +109,16 @@
 	
     <select id="getJoinUserNumbersInSchedule" parameterType="int" resultMap="scheduleResult">
 	    select * from travel_schedule 
+	    where schedule_id = #{scheduleId}
+	</select>
+	
+	<update id="updateSchedulePhoto" parameterType="map">
+	    update travel_schedule set photo=#{photo}
+	    where schedule_id = #{scheduleId}
+	</update>
+	
+	<select id="getPhotoByScheduleId" parameterType="int" resultMap="scheduleResult">
+	    select * from travel_schedule
 	    where schedule_id = #{scheduleId}
 	</select>
 	
