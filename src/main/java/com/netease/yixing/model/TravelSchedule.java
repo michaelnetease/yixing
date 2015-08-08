@@ -31,6 +31,8 @@ public class TravelSchedule implements Serializable{
 	
 	private boolean visable;
 	
+	private String photo;
+	
 	private List<TravelScheduleAgenda> agendaList;
 	
 	private List<Equipment> equipmentList;
@@ -140,6 +142,15 @@ public class TravelSchedule implements Serializable{
 	public void setRecordList(List<TravelRecord> recordList) {
 		this.recordList = recordList;
 	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
 	
 	
 }

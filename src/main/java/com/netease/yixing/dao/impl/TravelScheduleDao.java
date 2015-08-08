@@ -1,6 +1,8 @@
 package com.netease.yixing.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -56,6 +58,21 @@ public class TravelScheduleDao extends SqlSessionDaoSupport implements ITravelSc
 	@Override
 	public TravelSchedule getJoinUserNumbersInSchedule(int scheduleId) {
 		return getSqlSession().selectOne("com.netease.yixing.model.TravelSchedule.getJoinUserNumbersInSchedule", scheduleId);
+	}
+
+	@Override
+	public void updateSchedulePhoto(int scheduleId, String photoKey) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("scheduleId", scheduleId);
+		map.put("photo", photoKey);
+		getSqlSession().update("com.netease.yixing.model.TravelSchedule.updateSchedulePhoto", map);
+		
+	}
+
+	@Override
+	public String getPhotoKeyByScheduleId(int scheduleId) {
+		TravelSchedule schedule = getSqlSession().selectOne("com.netease.yixing.model.TravelSchedule.getPhotoByScheduleId", scheduleId);
+		return schedule!=null?schedule.getPhoto():null;
 	}
 
 
