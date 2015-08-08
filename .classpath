@@ -23,6 +23,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/workplace/yixing/src/main/java/com/netease/yixing/utils/org.springframework.web.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -14,6 +14,13 @@ public class Constant {
 	public  static String  LOGINCONSTANT;
 	public  static  String ICON;
 	
+	//以下五项为备忘录专用
+	public  static  String WENJIANZILIAO;
+	public  static  String SHENGHUOYONGPIN;
+	public  static  String GONGJU;
+	public  static  String YAOPIN;
+	public  static  String ZIDINGYI;
+	
     
     public static final String TOP_K_MARK_TRAVEL_SCHEDULE = "Top.K.Mark.Schedule";
     
@@ -47,6 +54,13 @@ public class Constant {
 	    HANDLERMAP=p.getProperty("HANDLERMAP");
 	    LOGINCONSTANT=p.getProperty("LOGINCONSTANT");
 	    ICON=p.getProperty("ICON");
+	    
+	  //以下五项为备忘录专用
+		WENJIANZILIAO="身份证;;;学生证;;;护照;;;信用卡;;;人民币;;;美元;;;当地货币;;;机票";
+		SHENGHUOYONGPIN="化妆品;;;毛巾;;;泳衣;;;旅行枕;;;隐形眼镜;;;纸巾;;;湿巾;;;帽子;;;塑料袋;;;雨衣;;;泳镜;;;雨伞;;;睡袋;;;运动鞋;;;短裤;;;沙滩裤";
+		GONGJU="灭蚊器;;;充电器;;;转换器;;;电扇;;;数据卡;;;电话卡;;;备用电池;;;数码相机";
+		YAOPIN="消炎药;;;防蚊水;;;晕车药;;;止痛片;;;创可贴;;;止泻药;;;感冒药;;;防暑药";
+		ZIDINGYI="";
 
 	}
 }

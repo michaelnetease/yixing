@@ -38,7 +38,7 @@ import com.netease.yixing.view.Record;
 
 @Controller
 @RequestMapping(value = "/travelNote")
-public class PublishTravelRecordsController{
+public class webController{
 	@Autowired
 	private ITravelRecordService travelRecordService;
 	
@@ -168,7 +168,7 @@ public class PublishTravelRecordsController{
 		model.put("travelSchedule", ts);
 		model.put("fenxiang", fenxiang);
 		model.put("dataList", finalData);
-		return new ModelAndView("../publish2",model);
+		return new ModelAndView("../jsp/publish",model);
 	}
 	@RequestMapping(value="/n",method=RequestMethod.GET)
 	protected ModelAndView handle2(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -178,11 +178,14 @@ public class PublishTravelRecordsController{
 		String travelId = it.getTravelId();
 		TravelSchedule ts = travelScheduleService.queryScheduleDetailsByScheduleId(Integer.parseInt(travelId));
 		User user = ts.getCreateUser();
-		
+		Date time=ts.getStartTime();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		model.put("time", sdf.format(time));
+		model.put("id", id);
 		model.put("title",ts.getTitle());
 		model.put("faqiren", user!=null?user.getNickname():"");
 		model.put("icon", user!=null?("http://"+Constant.PICDOMAIN+"/"+user.getPicId()+Constant.ICON):"");
-		model.put("number", 0);
+		model.put("number", this.travelScheduleService.getJoinUserNumbersInSchedule(Integer.parseInt(travelId)));
 		return new ModelAndView("../jsp/invitation",model);
 	}
 }
