@@ -38,16 +38,13 @@ public class TokenHandlerService implements ITokenHandlerService{
     public synchronized String generateGUID() {
         String token = "";
         try {
-            //Object obj =  session.getAttribute(DEFAULT_TOKEN_NAME);
             Object obj = tokenRedisDao.getTokenName(Constant.DEFAULT_TOKEN_NAME);
             if(obj!=null)
                 springmvc_token = (HashMap<String,String>)obj;
             else
                springmvc_token = new HashMap<String, String>();
             token = new BigInteger(165, new Random()).toString(36).toUpperCase();
-            springmvc_token.put(Constant.DEFAULT_TOKEN_NAME +"."+ token, token);
-                        
-            //session.setAttribute(DEFAULT_TOKEN_NAME, springmvc_token);
+            springmvc_token.put(Constant.DEFAULT_TOKEN_NAME +"."+ token, token);                       
             tokenRedisDao.saveToken(Constant.DEFAULT_TOKEN_NAME, springmvc_token);
         } catch (IllegalStateException e) {
             logger.error("generateGUID() mothod find bug,by token session...");
@@ -62,9 +59,7 @@ public class TokenHandlerService implements ITokenHandlerService{
             logger.warn("token is not valid!inputToken is NULL");
             return false;
         }
- 
         HashMap<String, String> tokenMap =(HashMap<String, String>)  tokenRedisDao.getTokenName(Constant.DEFAULT_TOKEN_NAME);
-        //Map<String, String> tokenMap = (Map<String, String>) session.getAttribute(DEFAULT_TOKEN_NAME);
         if (tokenMap == null || tokenMap.size() < 1) {
             logger.warn("token is not valid!redisToken is NULL");
             return false;
@@ -77,7 +72,6 @@ public class TokenHandlerService implements ITokenHandlerService{
         }
         tokenMap.remove(Constant.DEFAULT_TOKEN_NAME + "." + inputToken);
         tokenRedisDao.saveToken(Constant.DEFAULT_TOKEN_NAME, tokenMap);
-        //session.setAttribute(DEFAULT_TOKEN_NAME, tokenMap);
         return true;
     }
  
