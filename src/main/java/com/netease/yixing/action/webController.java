@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.netease.yixing.model.Invitation;
@@ -191,4 +193,27 @@ public class webController{
 		model.put("number", this.travelScheduleService.getJoinUserNumbersInSchedule(Integer.parseInt(travelId)));
 		return new ModelAndView("../jsp/invitation",model);
 	}
+	@RequestMapping(value="/queryRndById",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> edit(HttpServletRequest request, @RequestBody Map mp){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		try{
+			String travelId = String.valueOf(mp.get("id"));
+			Invitation it = invitationService.queryByTravelId(travelId);
+			if(it==null){
+				modelMap.put("success", 0);
+				modelMap.put("message", "行程信息不存在");
+				return modelMap;
+			}
+			String rnd = it.getRnd();
+			modelMap.put("success", 1);
+			modelMap.put("rnd", rnd);
+			return modelMap;
+		}catch(Exception e){
+			modelMap.put("success", 0);
+			modelMap.put("message", "行程信息不存在");
+			return modelMap;
+		}
+	}
+	
 }
