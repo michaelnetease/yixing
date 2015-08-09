@@ -112,6 +112,7 @@ public class webController{
 		try {
 			for (TravelRecord tr : travelRecordList) {
 				daySeq=(int) ((tr.getUptime().getTime()-firstDay.getTime())/86400000+1);
+				if(daySeq<1 || daySeq>31) daySeq=30;
 				DayHappened dayHappened=dayHappenedMap.get(daySeq);
 				if(dayHappened==null)
 				{
@@ -128,6 +129,10 @@ public class webController{
 				Record record=new Record();
 				User u=this.memberManageService.getUserById(Integer.parseInt(tr.getUid()));
 				record.setAuthor(u!=null?u.getNickname():"匿名");
+				if(u.getPicId()==null || u.getPicId().length()==0)
+				{
+					u.setPicId("03530300-3CCF-4557-A7CD-5DE8F7BB2590");
+				}
 				record.setIconUrl(u!=null?("http://"+Constant.PICDOMAIN+"/"+u.getPicId()+Constant.ICON):"");
 				record.setLocation(tr.getLocation());
 				record.setText(tr.getText());
@@ -193,6 +198,8 @@ public class webController{
 		model.put("number", this.travelScheduleService.getJoinUserNumbersInSchedule(Integer.parseInt(travelId)));
 		return new ModelAndView("../jsp/invitation",model);
 	}
+	
+	
 	@RequestMapping(value="/queryRndById",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> edit(HttpServletRequest request, @RequestBody Map mp){

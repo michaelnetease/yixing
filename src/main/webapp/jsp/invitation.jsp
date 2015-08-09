@@ -51,31 +51,31 @@ body {
 
 </head>
 <body bgcolor="#eeeeee">
-	<p>&nbsp;</p>
-	<table width="350px" border="0" align="center" bgcolor="#eeeeee"  cellpadding="0" cellspacing="0"  >
+
+<p>&nbsp;</p>
+<table width="350px"  height="500px" border="0" align="center" bgcolor="#eeeeee"  cellpadding="0" cellspacing="0"  >
 		<tr>
-		  <td colspan="2" align="center">
-				<table width="80%" border="0" cellpadding="0" cellspacing="1">
-					<tr >
+		  <td colspan="2" align="center" valign="top">
+				<table width="80%" border="0" align="center" cellpadding="0" cellspacing="1">
+					<tr height="60%" >
 						<td  colspan="3"><div align="center"><img src="../image/web_pic.png" width="100%" height="100%" /></div></td>
 					</tr>
 					<tr>
-						<td height="50px" colspan="3"  bgcolor="#FFFFFF"><div align="center">
+						<td height="%15" colspan="3"  bgcolor="#FFFFFF"><div align="center">
 						  <p class="STYLE18">${title}</p>
 						</div></td>
 					</tr>			
-					<tr height="20px">
-						<td colspan="2"    bgcolor="#FFFFFF">
-					    &nbsp;&nbsp;&nbsp;&nbsp;${time}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../image/web_number.png" width="18" height="18" />${number}&nbsp;&nbsp;
-					    </td>
+					<tr height="10px">
+						<td colspan="2" nowrap="nowrap"    bgcolor="#FFFFFF">
+					    &nbsp;&nbsp;&nbsp;&nbsp;${time}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../image/web_number.png" width="18" height="18" />${number}&nbsp;&nbsp;</td>
 					</tr>
 			
-					<tr>
+					<tr height="5%">
 						<td colspan="2" bordercolor="#eeeeee"><span class="STYLE16">ewfewfew</span></td>
 					</tr>
 		
-					<tr >
-							<td width="50%"><div align="left"><a href="FourthIOSMiniProject://$suijima"><img height="90%" width="90%" src="../image/number_accept.png" /></a></div></td>
+					<tr height="20%" >
+							<td width="50%"><div align="left"><a href="FourthIOSMiniProject://${id}"><img height="90%" width="90%" src="../image/number_accept.png" /></a></div></td>
 	                        <td  width="50%"><div align="right"><a href="FourthIOSMiniProject://$suijima"><img height="90%" width="90%" src="../image/web_download.png" /></a></div></td>
 					</tr>
 			</table>
