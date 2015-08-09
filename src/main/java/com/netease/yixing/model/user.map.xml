@@ -113,13 +113,13 @@
 		update user set
 		username=#{username},password=#{password} where id=#{id}
  	</update>
+ 	-->
  	
-	<delete id="deleteUser" parameterType="int">
-		delete from user where
-		id=#{id}
+	<delete id="deleteUser" parameterType="user">
+		delete from user where phoneNum=#{phoneNum}
 	</delete>
 
- -->
+ 
 
 
 </mapper>
