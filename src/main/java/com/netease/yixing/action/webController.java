@@ -92,18 +92,15 @@ public class webController{
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> model=new HashMap<String,Object>();
 		int travelId=Integer.parseInt(String.valueOf(request.getParameter("travelId")));
+		System.out.println(travelId);
 		List<TravelRecord> travelRecordList=travelRecordService.queryByTravelId(travelId);
 		TravelSchedule ts=this.getTravelScheduleService().queryScheduleDetailsByScheduleId(travelId);
 		String fenxiang = "http://"+Constant.PICDOMAIN+"/"+"fenxiang.png";
 		if(ts==null || travelRecordList==null ||travelRecordList.size()==0)
 		{
-			System.err.println("未发起这样的行程");
-			model.put("travelStartTime", null);
-			model.put("travelEndTime", null);
-			model.put("travelSchedule", "未发起这样的行程");
-			model.put("dayItemList", null);
-			model.put("fenxiang", fenxiang);
-			return new ModelAndView("../index",null);
+			System.err.println("未发起这样的行程或者没有任何的游记");
+			model.put("errorMessage", "未发起这样的行程或者没有任何的游记");
+			return new ModelAndView("../jsp/invitationError",model);
 		}
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm");
@@ -145,7 +142,7 @@ public class webController{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ModelAndView("../index",null);
+			return new ModelAndView("../jsp/invatationError",model);
 		}
 		
 		int size=dayHappenedMap.size();
@@ -175,7 +172,11 @@ public class webController{
 		Map<String,Object> model=new HashMap<String,Object>();
 		String id =request.getParameter("id");
 		Invitation it = invitationService.queryByRnd(id);
-		if(it==null) return new ModelAndView("../index",null);
+		if(it==null) 
+		{
+				model.put("errorMessage", "错误的邀请码");
+				return  new ModelAndView("../jsp/invitationError",model);
+		}
 		String travelId = it.getTravelId();
 		
 		TravelSchedule ts = travelScheduleService.queryScheduleDetailsByScheduleId(Integer.parseInt(travelId));

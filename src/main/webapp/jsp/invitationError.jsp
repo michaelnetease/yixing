@@ -64,9 +64,9 @@ body {
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<table width="500px" border="0" align="center" bgcolor="#FFFFFF">
+<table width="200px" border="0" align="center" bgcolor="#FFFFFF">
   <tr>
-    <td colspan="2"><div align="center">错误信息</div></td>
+    <td colspan="2"><div align="center">错误信息: ${errorMessage}</div></td>
   </tr>
   
 </table>
