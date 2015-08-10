@@ -26,5 +26,5 @@ public interface ITravelScheduleDao {
 	
 	public void updateSchedulePhoto(int scheduleId,String photoKey);
 	
-	public String getPhotoKeyByScheduleId(int scheduleId);
+	public TravelSchedule getSimpleScheduleById(int scheduleId);
 }

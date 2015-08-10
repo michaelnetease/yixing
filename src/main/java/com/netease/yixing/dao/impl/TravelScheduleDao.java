@@ -70,9 +70,8 @@ public class TravelScheduleDao extends SqlSessionDaoSupport implements ITravelSc
 	}
 
 	@Override
-	public String getPhotoKeyByScheduleId(int scheduleId) {
-		TravelSchedule schedule = getSqlSession().selectOne("com.netease.yixing.model.TravelSchedule.getPhotoByScheduleId", scheduleId);
-		return schedule!=null?schedule.getPhoto():null;
+	public TravelSchedule getSimpleScheduleById(int scheduleId) {
+		return getSqlSession().selectOne("com.netease.yixing.model.TravelSchedule.getSimpleScheduleById", scheduleId);
 	}
 
 

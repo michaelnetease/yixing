@@ -117,7 +117,7 @@
 	    where schedule_id = #{scheduleId}
 	</update>
 	
-	<select id="getPhotoByScheduleId" parameterType="int" resultMap="scheduleResult">
+	<select id="getSimpleScheduleById" parameterType="int" resultMap="scheduleResult">
 	    select * from travel_schedule
 	    where schedule_id = #{scheduleId}
 	</select>
