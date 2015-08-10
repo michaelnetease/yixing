@@ -34,17 +34,6 @@ function clearText(field)
 img {
 	max-width: 100%;
 }
-.STYLE1 {
-	color: #666666;
-	font-size: 16px;
-}
-.STYLE5 {color: #666666}
-.STYLE6 {
-	color: #8FD16B;
-	font-family: "宋体";
-	font-size: 18px;
-	font-weight: bold;
-}
 
 body {
 	margin: 0;
@@ -52,8 +41,6 @@ body {
 	
 
 }
-
-.STYLE7 {color: #dcdcde}
 </style>
 
 <jsp:directive.page import="java.util.List" />
@@ -62,11 +49,12 @@ body {
 </head>
 <body   background="../image/yaoqinghaoyou_bg.png">
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<table width="200px" border="0" align="center" bgcolor="#FFFFFF">
+<table width="300px" height="400px" border="1" align="center" bgcolor="#FFFFFF">
   <tr>
-    <td colspan="2"><div align="center">错误信息: ${errorMessage}</div></td>
+    <td colspan="2" valign="top"><div align="center">
+      <p align="left"><strong>错误信息: </strong></p>
+      <p align="left">${errorMessage}</p>
+    </div></td>
   </tr>
   
 </table>

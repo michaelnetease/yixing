@@ -72,7 +72,7 @@ body {
 <body>
 
 
-	<div align="center"><a href="http://www.163.com" target="_blank"><img src="${fenxiang}" width="100%"  height="80" hspace="0" vspace="0"/></a></div>
+	<div align="center"><a href="FourthIOSMiniProject://" target="_blank"><img src="${fenxiang}" width="100%"  height="80" hspace="0" vspace="0"/></a></div>
 
 	<table cellpadding="0" cellspacing="0" width="95%"  border="0" align="center" bgcolor="#dcdcde">
 		<tr>

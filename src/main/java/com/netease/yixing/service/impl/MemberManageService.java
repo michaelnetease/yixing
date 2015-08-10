@@ -78,19 +78,14 @@ public class MemberManageService implements IMemberManageService {
 		return this.getMemberManageDao().getUserById(userId);
 	}
 	
+	
 	@Override
 	public void addMember(int userId,int schedule_id) throws Exception
 	{
 		String addId = String.valueOf(userId);
 		String oldId = getMembersByTravelId(schedule_id);
 		boolean isNum = addId.matches("[0-9]*");
-		if (!isNum) {
-			throw new Exception();
-		}
-		if (oldId == null) {
-			throw new Exception();
-		}
-		if (oldId.contains(addId)) {
+		if (!isNum  || oldId==null  ||  oldId.contains(addId)) {
 			throw new Exception();
 		} else {
 			String temp = oldId + ";;;" + addId;
@@ -98,12 +93,10 @@ public class MemberManageService implements IMemberManageService {
 			updateData.put("group_members", temp);
 			updateData.put("scheduleId", String.valueOf(schedule_id));
 			updateMembers(updateData);
-
 		}
 	}
 	
 	public List<User> queryLatestScheduleMembersByUserId(int userId) throws Exception {	
-		List<TravelSchedule> ls = null;
 		List<TravelSchedule> scheduleList = travelScheduleDao.querySchedulesByUserId(userId);
 		TravelSchedule latestSchedule = null;
 		List<User> members = null;
@@ -118,8 +111,7 @@ public class MemberManageService implements IMemberManageService {
 				}
 				members = loginDao.queryMembersByIds(groupMemberIds);
 			}
-		}	
-	
+		}		
 		return members;
 	}
 
