@@ -28,6 +28,7 @@ import com.netease.yixing.model.TravelRecord;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IInvitationService;
+import com.netease.yixing.service.IMemberManageService;
 import com.netease.yixing.service.IPictureService;
 import com.netease.yixing.service.ITravelRecordService;
 import com.netease.yixing.service.ITravelScheduleService;
@@ -219,6 +220,31 @@ public class webController{
 		}catch(Exception e){
 			modelMap.put("success", 0);
 			modelMap.put("message", "行程信息不存在");
+			return modelMap;
+		}
+	}
+	
+	@RequestMapping(value="/addMember",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> addmember(HttpServletRequest request, @RequestBody Map mp){
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		try{
+			String uid = String.valueOf(mp.get("uid"));
+			String rnd = String.valueOf(mp.get("rnd"));
+			Invitation it = invitationService.queryByRnd(rnd);
+			String travelId = it.getTravelId();
+			
+			int userId = Integer.parseInt(uid);
+			int schedule_id = Integer.parseInt(travelId);
+			memberManageService.addMember(userId, schedule_id);
+			TravelSchedule schedule = travelScheduleService.queryScheduleDetailsByScheduleId(schedule_id);
+			String title = schedule.getTitle();
+			modelMap.put("success", 1);
+			modelMap.put("title", title);
+			return modelMap;
+		}catch(Exception e){
+			modelMap.put("success", 0);
+			modelMap.put("message", "error");
 			return modelMap;
 		}
 	}
