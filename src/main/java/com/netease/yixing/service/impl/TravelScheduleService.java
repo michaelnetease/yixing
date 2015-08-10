@@ -81,37 +81,28 @@ public class TravelScheduleService implements ITravelScheduleService {
 	public int createTravelSchedule(TravelSchedule entity) throws Exception {
 		travelScheduleDao.insertTravelSchedule(entity);
 		invitationService.insertInvitation(entity.getScheduleId());
+		if(entity.getCreateUser()!=null){
+			updateJoinSchedule(entity.getCreateUser().getId(), entity.getScheduleId());
+			TravelScheduleAgenda firstDay = new TravelScheduleAgenda();
+			firstDay.setSchedule(entity);
+			firstDay.setTravelDay(entity.getStartTime());
+			firstDay.setUpdateTime(new Date());
+			firstDay.setUser(entity.getCreateUser());
+			       
+			TravelScheduleAgenda secondDay = new TravelScheduleAgenda();
+			Calendar cal = Calendar.getInstance();
+	        cal.setTime(entity.getStartTime());
+	        cal.add(Calendar.DATE, 1);
+			
+			secondDay.setSchedule(entity);
+			secondDay.setTravelDay(cal.getTime());
+			secondDay.setUpdateTime(new Date());
+			secondDay.setUser(entity.getCreateUser());
 
-		User user = loginDao.queryUserById(entity.getCreateUser().getId());
-		if(user!=null){
-			String schedules = user.getJoinTravelSchedule();
-			if(schedules==null || schedules.length()==0){
-				schedules = ""+ entity.getScheduleId();
-			}else{
-				schedules+= ";;;"+ entity.getScheduleId();
-			}
-			user.setJoinTravelSchedule(schedules);
-			loginDao.updateJoinSchedule(user);
-		}
-		
-		TravelScheduleAgenda firstDay = new TravelScheduleAgenda();
-		firstDay.setSchedule(entity);
-		firstDay.setTravelDay(entity.getStartTime());
-		firstDay.setUpdateTime(new Date());
-		firstDay.setUser(entity.getCreateUser());
-		       
-		TravelScheduleAgenda secondDay = new TravelScheduleAgenda();
-		Calendar cal = Calendar.getInstance();
-        cal.setTime(entity.getStartTime());
-        cal.add(Calendar.DATE, 1);
-		
-		secondDay.setSchedule(entity);
-		secondDay.setTravelDay(cal.getTime());
-		secondDay.setUpdateTime(new Date());
-		secondDay.setUser(entity.getCreateUser());
+			agendaDao.insertScheduleAgenda(firstDay);
+			agendaDao.insertScheduleAgenda(secondDay);
+		}				
 
-		agendaDao.insertScheduleAgenda(firstDay);
-		agendaDao.insertScheduleAgenda(secondDay);
 		return entity.getScheduleId();
 	}
 	
@@ -244,4 +235,31 @@ public class TravelScheduleService implements ITravelScheduleService {
 	public String getPhotoKeyByScheduleId(int scheduleId) {
 		return travelScheduleDao.getPhotoKeyByScheduleId(scheduleId);
 	}
+
+	@Override
+	public void updateJoinSchedule(int userId, int scheduleId) {
+		User user = loginDao.queryUserById(userId);
+		boolean flag = false;
+		if(user!=null){
+			String schedules = user.getJoinTravelSchedule();
+			if(schedules==null || schedules.length()==0){
+				schedules = ""+ scheduleId;
+			}else{
+				String[] schedule = schedules.split(";;;");
+				for(String sid:schedule){
+					if(sid.equals(scheduleId)){
+						flag = true;
+						break;
+					}
+				}
+				
+				if(!flag){
+					schedules+= ";;;"+ scheduleId;
+				}				
+			}
+			user.setJoinTravelSchedule(schedules);
+			loginDao.updateJoinSchedule(user);
+		}		
+	}	
+	
 }

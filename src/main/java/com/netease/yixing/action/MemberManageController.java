@@ -216,9 +216,11 @@ public class MemberManageController {
 		try {
 			int userId = Integer.parseInt((String) map.get("userId"));
 			members = memberManageService.queryLatestScheduleMembersByUserId(userId);
-			for (User user : members) {
-				user.setPassword(null);
-				user.setJoinTravelSchedule(null);
+			if(members!=null){
+				for (User user : members) {
+					user.setPassword(null);
+					user.setJoinTravelSchedule(null);
+				}
 			}
 		} catch (Exception e) {
 			success = false;
