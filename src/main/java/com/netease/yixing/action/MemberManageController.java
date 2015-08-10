@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,13 +45,15 @@ public class MemberManageController {
 	}
 
 	@RequestMapping(value = "/memberManage/addMember", method = RequestMethod.POST)
+	@Transactional
 	@ResponseBody
 	public Map<String, Object> addMember(HttpServletRequest request, @RequestBody Map data) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
-			int schedule_id = Integer.parseInt(String.valueOf(data.get("travelId")));
+			int scheduleId = Integer.parseInt(String.valueOf(data.get("travelId")));
+			int userId=Integer.parseInt(String.valueOf(data.get("uId")));
 			String addId = String.valueOf(data.get("uId"));
-			String oldId = this.getMemberManageService().getMembersByTravelId(schedule_id);
+			String oldId = this.getMemberManageService().getMembersByTravelId(scheduleId);
 			boolean isNum = addId.matches("[0-9]*");
 			if (!isNum) {
 				modelMap.put("success", 0);
@@ -69,8 +72,9 @@ public class MemberManageController {
 				String temp = oldId + ";;;" + addId;
 				Map<String, String> updateData = new HashMap<String, String>();
 				updateData.put("group_members", temp);
-				updateData.put("scheduleId", String.valueOf(schedule_id));
+				updateData.put("scheduleId", String.valueOf(scheduleId));
 				this.getMemberManageService().updateMembers(updateData);
+				this.getTravelScheduleService().updateJoinSchedule(userId, scheduleId);
 				modelMap.put("success", 1);
 			}
 		} catch (Exception e) {
@@ -85,9 +89,9 @@ public class MemberManageController {
 	public Map<String, Object> delMember(HttpServletRequest request, @RequestBody Map data) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
-			int id = Integer.parseInt(String.valueOf(data.get("travelId")));
+			int scheduleId = Integer.parseInt(String.valueOf(data.get("travelId")));
 			String delId = String.valueOf(data.get("uId"));
-			String oldId = this.getMemberManageService().getMembersByTravelId(id);
+			String oldId = this.getMemberManageService().getMembersByTravelId(scheduleId);
 			boolean isNum = delId.matches("[0-9]*");
 			if (!isNum) {
 				modelMap.put("success", 0);
@@ -114,7 +118,7 @@ public class MemberManageController {
 				sb.delete(sb.length() - 3, sb.length());
 				Map<String, String> updateData = new HashMap<String, String>();
 				updateData.put("group_members", sb.toString());
-				updateData.put("scheduleId", String.valueOf(id));
+				updateData.put("scheduleId", String.valueOf(scheduleId));
 				this.getMemberManageService().updateMembers(updateData);
 				modelMap.put("success", 1);
 
