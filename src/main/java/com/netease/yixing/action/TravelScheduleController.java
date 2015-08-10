@@ -204,6 +204,36 @@ public class TravelScheduleController {
 			if(schedule!=null && schedule.getCreateUser()!=null){
 				User user = schedule.getCreateUser();
 				user.setPassword(null);
+				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
+				if(agendaList!=null && !agendaList.isEmpty()){
+					for(TravelScheduleAgenda agenda:agendaList){
+						List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
+						List<TravelAgendaHotel> hotelList = agenda.getHotelList();
+						List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
+						List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
+						if(arrangeList!=null && !arrangeList.isEmpty()){
+							for(TravelAgendaArrange arrange : arrangeList){
+								if(arrange.getArrangeId()!=0){
+									arrangeListData.add(arrange);
+								}
+							}
+
+						}
+						
+						if(hotelList!=null && !hotelList.isEmpty()){
+							for(TravelAgendaHotel hotel: hotelList){
+								if(hotel.getHotelId()!=0){
+									hotelListData.add(hotel);
+								}
+							}
+						}
+						
+						agenda.setArrangeList(arrangeListData);
+						agenda.setHotelList(hotelListData);
+					}
+				}
+				
+				
 			}
 		}catch(Exception e){
 			success = false;
@@ -232,13 +262,13 @@ public class TravelScheduleController {
 				user.setPassword(null);
 				user.setJoinTravelSchedule(null);
 				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
-				if(agendaList!=null && agendaList.size() > 0){
+				if(agendaList!=null && !agendaList.isEmpty()){
 					for(TravelScheduleAgenda agenda:agendaList){
 						List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
 						List<TravelAgendaHotel> hotelList = agenda.getHotelList();
 						List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
 						List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
-						if(arrangeList!=null && arrangeList.size()>0){
+						if(arrangeList!=null && !arrangeList.isEmpty()){
 							for(TravelAgendaArrange arrange : arrangeList){
 								if(arrange.getArrangeId()!=0){
 									arrangeListData.add(arrange);
@@ -247,7 +277,7 @@ public class TravelScheduleController {
 
 						}
 						
-						if(hotelList!=null && hotelList.size()>0){
+						if(hotelList!=null && !hotelList.isEmpty()){
 							for(TravelAgendaHotel hotel: hotelList){
 								if(hotel.getHotelId()!=0){
 									hotelListData.add(hotel);
