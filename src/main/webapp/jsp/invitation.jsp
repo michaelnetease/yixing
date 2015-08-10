@@ -53,7 +53,7 @@ body {
 <body bgcolor="#eeeeee">
 
 <p>&nbsp;</p>
-<table width="350px"  height="500px" border="0" align="center" bgcolor="#eeeeee"  cellpadding="0" cellspacing="0"  >
+<table width="100%"  height="100%" border="0" align="center" bgcolor="#eeeeee"  cellpadding="0" cellspacing="0"  >
 		<tr>
 		  <td colspan="2" align="center" valign="top">
 				<table width="80%" border="0" align="center" cellpadding="0" cellspacing="1">
@@ -65,7 +65,7 @@ body {
 						  <p class="STYLE18">${title}</p>
 						</div></td>
 					</tr>			
-					<tr height="10px">
+					<tr height="%10">
 						<td colspan="2" nowrap="nowrap"    bgcolor="#FFFFFF">
 					    &nbsp;&nbsp;&nbsp;&nbsp;${time}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../image/web_number.png" width="18" height="18" />${number}&nbsp;&nbsp;</td>
 					</tr>

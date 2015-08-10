@@ -98,20 +98,23 @@ body {
 						<c:forEach var="record" items="${dataHappened.recordList}">
 						<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 									<tr>
-										<td colspan="2" bgcolor="#FFFFFF">
+										<td colspan="5" bgcolor="#FFFFFF">
 										  <span class="STYLE18">dsfew									    </span></td>
 									</tr>
 									<tr   valign="middle">
-									  <td align="left" nowrap="nowrap"  bordercolor="#A7C0DC"><div align="center" class="imgtest">&nbsp;<img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/></div></td>
-									    <td align="left" nowrap="nowrap"  bordercolor="#A7C0DC">&nbsp;&nbsp;&nbsp;${record.author}</span></td>
-									    <td align="left"  bordercolor="#A7C0DC"><span class="STYLE20"></td>
-									    <td align="left"  bordercolor="#A7C0DC">&nbsp;</td>
+									  <td width="5%" align="left" nowrap="nowrap"  bordercolor="#A7C0DC">&nbsp;</td>
+									  <td width="20%" align="left" nowrap="nowrap"  bordercolor="#A7C0DC"><div align="center" class="imgtest">
+									      <div align="left"><img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/></div>
+								      </div></td>
+									    <td width="10%" align="left" nowrap="nowrap"  bordercolor="#A7C0DC"><span class="STYLE20">${record.author}</span></td>
+									    <td width="55%" align="left"  bordercolor="#A7C0DC"></td>
+									    <td width="10%" align="left"  bordercolor="#A7C0DC">&nbsp;</td>
 									</tr>
 
 									<c:forEach var="imgItem" items="${record.picUrls}">
 							
 														<tr>
-															<td colspan="4" >
+															<td colspan="5" >
 															  <div align="center">
 																<table width="90%" border="0" cellpadding="0" cellspacing="0">
 																  <tr valign="top">
@@ -125,22 +128,22 @@ body {
 														</tr>
 									
 										<tr>
-										  <td colspan="4"><span class="STYLE5"></span> </td>
+										  <td colspan="5"><span class="STYLE5"></span> </td>
 										</tr>
 									</c:forEach>
 									<tr>
-										<td colspan="4" bgcolor="#FFFFFF"><span class="STYLE15">34356454</span></td>
+										<td colspan="5" bgcolor="#FFFFFF"><span class="STYLE15">34356454</span></td>
 									</tr>
 									<tr>
-										<td colspan="4"><span class="STYLE1">&nbsp;&nbsp;${record.text}</span></td>
+										<td colspan="5"><span class="STYLE1">&nbsp;&nbsp;${record.text}</span></td>
 									</tr>
 									<tr>
-									  <td colspan="4"><hr /></td>
+									  <td colspan="5"><hr /></td>
 									</tr>
 									<tr>
-										<td width="7%" colspan="2" align="left" valign="middle" nowrap="nowrap">
+										<td colspan="3" align="left" valign="middle" nowrap="nowrap">
 										<span class="STYLE1">&nbsp;&nbsp;${record.time} </span></td>
-										<td width="93%" colspan="2" align="right" valign="middle">
+										<td colspan="2" align="right" valign="middle">
 										<span class="STYLE1">${record.location}&nbsp;&nbsp;</span></td>
 									</tr>
 						  </table>

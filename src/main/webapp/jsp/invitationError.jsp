@@ -19,7 +19,7 @@
 <jsp:directive.page import="com.netease.yixing.view.DayHappened" />
 <jsp:directive.page import="com.netease.yixing.view.Record" />
 
-<title>${travelSchedule.title}</title>
+<title>旅记</title>
 
 
 <script language="javascript" type="text/javascript">
@@ -31,15 +31,27 @@ function clearText(field)
 }
 </script>
 <style type="text/css">
+imgtest{border-radius:50%
+}
+imgtest img{ border-radius:50%} 
+
 img {
 	max-width: 100%;
+	max-height:100%;
+
+
 }
 
 body {
 	margin: 0;
 	padding: 0;
-	
+	background: #dcdcde;
 
+}
+.STYLE12 {color: #dcdcde; font-size: x-small; }
+.STYLE21 {
+	color: #000000;
+	font-size: medium;
 }
 </style>
 
@@ -47,20 +59,34 @@ body {
 
 
 </head>
-<body   background="../image/yaoqinghaoyou_bg.png">
-<p>&nbsp;</p>
-<table width="300px" height="400px" border="1" align="center" bgcolor="#FFFFFF">
-  <tr>
-    <td colspan="2" valign="top"><div align="center">
-      <p align="left"><strong>错误信息: </strong></p>
-      <p align="left">${errorMessage}</p>
-    </div></td>
-  </tr>
-  
-</table>
+<body>
 
 
+	<div align="center"><a href="FourthIOSMiniProject://" target="_blank"><img src="../image/fenxiang.png" width="100%"  height="70px" hspace="0" vspace="0"/></a></div>
 
-    <p>&nbsp;</p>
+	<table cellpadding="0" cellspacing="0" width="95%"  border="0" align="center" bgcolor="#dcdcde">
+		<tr>
+			<td width="100%" align="center" valign="top">
+
+					<table width="100%" cellpadding="0"  cellspacing="0">
+						<tr>
+							<td>
+							  <span class="STYLE12">6545646456						    </span></td>
+						</tr>
+					
+						<tr>
+						
+							<td align="left" valign="middle" bgcolor="#dcdcdb"><div align="center"><span class="STYLE21">${errorMessage}</span></div></td>
+						</tr>
+						<tr>
+							<td>
+							  <span class="STYLE12">6545646456						    </span></td>
+						</tr>
+					</table>
+			</td>
+		</tr>
+	</table>
+
+
 </body>
 </html>

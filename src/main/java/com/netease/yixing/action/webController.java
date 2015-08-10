@@ -179,15 +179,10 @@ public class webController{
 	protected ModelAndView handle2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> model=new HashMap<String,Object>();
 		String id =request.getParameter("id");
+		try{
 		Invitation it = invitationService.queryByRnd(id);
-		if(it==null) 
-		{
-				model.put("errorMessage", "错误的邀请码");
-				return  new ModelAndView("../jsp/invitationError",model);
-		}
 		String travelId = it.getTravelId();
-		
-		TravelSchedule ts = travelScheduleService.queryScheduleDetailsByScheduleId(Integer.parseInt(travelId));
+		TravelSchedule ts = travelScheduleService.getSimpleScheduleById(Integer.parseInt(travelId));
 		User user = ts.getCreateUser();
 		Date time=ts.getStartTime();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -198,6 +193,12 @@ public class webController{
 		model.put("icon", user!=null?("http://"+Constant.PICDOMAIN+"/"+user.getPicId()+Constant.ICON):"");
 		model.put("number", this.travelScheduleService.getJoinUserNumbersInSchedule(Integer.parseInt(travelId)));
 		return new ModelAndView("../jsp/invitation",model);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			model.put("errorMessage", "错误的邀请码");
+			return  new ModelAndView("../jsp/invitationError",model);
+		}
 	}
 	
 	

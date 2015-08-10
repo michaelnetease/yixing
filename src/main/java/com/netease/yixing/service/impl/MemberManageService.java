@@ -80,10 +80,10 @@ public class MemberManageService implements IMemberManageService {
 	
 	
 	@Override
-	public void addMember(int userId,int schedule_id) throws Exception
+	public void addMember(int userId,int scheduleId) throws Exception
 	{
 		String addId = String.valueOf(userId);
-		String oldId = getMembersByTravelId(schedule_id);
+		String oldId = getMembersByTravelId(scheduleId);
 		boolean isNum = addId.matches("[0-9]*");
 		if (!isNum  || oldId==null  ||  oldId.contains(addId)) {
 			throw new Exception();
@@ -91,8 +91,31 @@ public class MemberManageService implements IMemberManageService {
 			String temp = oldId + ";;;" + addId;
 			Map<String, String> updateData = new HashMap<String, String>();
 			updateData.put("group_members", temp);
-			updateData.put("scheduleId", String.valueOf(schedule_id));
+			updateData.put("scheduleId", String.valueOf(scheduleId));
 			updateMembers(updateData);
+			
+			User user = loginDao.queryUserById(userId);
+			boolean flag = false;
+			if(user!=null){
+				String schedules = user.getJoinTravelSchedule();
+				if(schedules==null || schedules.length()==0){
+					schedules = ""+ scheduleId;
+				}else{
+					String[] schedule = schedules.split(";;;");
+					for(String sid:schedule){
+						if(sid.equals(scheduleId)){
+							flag = true;
+							break;
+						}
+					}
+					
+					if(!flag){
+						schedules+= ";;;"+ scheduleId;
+					}				
+				}
+				user.setJoinTravelSchedule(schedules);
+				loginDao.updateJoinSchedule(user);
+		}
 		}
 	}
 	
