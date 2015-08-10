@@ -95,7 +95,6 @@ public class webController{
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String,Object> model=new HashMap<String,Object>();
 		int travelId=Integer.parseInt(String.valueOf(request.getParameter("travelId")));
-		System.out.println(travelId);
 		List<TravelRecord> travelRecordList=travelRecordService.queryByTravelId(travelId);
 		TravelSchedule ts=this.getTravelScheduleService().queryScheduleDetailsByScheduleId(travelId);
 		String fenxiang = "http://"+Constant.PICDOMAIN+"/"+"fenxiang.png";
@@ -132,7 +131,7 @@ public class webController{
 				record.setAuthor(u!=null?u.getNickname():"匿名");
 				if(u.getPicId()==null || u.getPicId().length()==0)
 				{
-					u.setPicId("03530300-3CCF-4557-A7CD-5DE8F7BB2590");
+					u.setPicId("me_empty.png");
 				}
 				record.setIconUrl(u!=null?("http://"+Constant.PICDOMAIN+"/"+u.getPicId()+Constant.ICON):"");
 				record.setLocation(tr.getLocation());

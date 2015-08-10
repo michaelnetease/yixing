@@ -41,12 +41,6 @@ img {
 
 
 }
-
-
-.STYLE1 {
-	color: #666666;
-	font-size: 16px;
-}
 .STYLE5 {color: #666666}
 
 body {
@@ -62,7 +56,7 @@ body {
 	font-size: xx-small;
 	color: #FFFFFF;
 }
-.STYLE20 {font-size: 20px}
+.STYLE21 {color: #333333}
 </style>
 
 <jsp:directive.page import="java.util.List" />
@@ -102,14 +96,18 @@ body {
 										  <span class="STYLE18">dsfew									    </span></td>
 									</tr>
 
-									<tr   valign="middle">
-										<td width="5%">&nbsp;</td>
-									    <td><img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/></td>
-									    <td><span class="STYLE20">${record.author}</span></td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td width="5%">&nbsp;</td>
+
+									<tr>
+										<td  align="center">
+										<table width="90%" border="0">
+                                          <tr>
+                                            <td width="16%"><img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/> </td>
+                                            <td width="66%"><span class="STYLE21">${record.author}</span></td>
+                                            <td width="6%">&nbsp;</td>
+                                            <td width="6%">&nbsp;</td>
+                                            <td width="6%">&nbsp;</td>
+                                          </tr>
+                                        </table></td>
 									</tr>
 
 									<c:forEach var="imgItem" items="${record.picUrls}">
@@ -135,28 +133,32 @@ body {
 									<tr>
 										<td colspan="7" bgcolor="#FFFFFF"><span class="STYLE15">34356454</span></td>
 									</tr>
+		
 									<tr>
-										<td width="5%"></td>
-									    <td><span class="STYLE1">${record.text}</span></td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td width="5%">&nbsp;</td>
+										<td align="center" >
+										  <table width="90%" border="0">
+                                            <tr>
+                                              <td><span class="STYLE21">${record.text}</span></td>
+                                            </tr>
+                                          </table></td>
+									
 									</tr>
 									<tr>
 									  <td colspan="7"><hr /></td>
 									</tr>
 	
+	
 									<tr>
-										<td width="5%"></td>
-									    <td nowrap="nowrap"><span class="STYLE1">${record.time} </span></td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td>&nbsp;</td>
-									    <td nowrap="nowrap"><div align="right"><span class="STYLE1">${record.location}</span></div></td>
-									    <td width="5%"></td>
+										<td width="5%" align="center">   
+										  <table width="90%" border="0">
+                                            <tr>
+                                              <td> <span class="STYLE5">${record.time}</span></td>
+                                              <td> <div align="right" class="STYLE5">${record.location}</div></td>
+                                            </tr>
+                                          </table></td>
+			
 									</tr>
+									
 						  </table>
 						  <table width="100%" bgcolor="#dcdcde" cellpadding="0"  cellspacing="0">
 									<tr><td><span class="STYLE14">sdfewf</span></td>
