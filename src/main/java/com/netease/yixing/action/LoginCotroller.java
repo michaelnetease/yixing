@@ -166,6 +166,7 @@ public class LoginCotroller {
 		try{
 			
 			loginServ.updatenickname(user);
+			yxs.updateNickname(user.getPhoneNum(), user.getNickname());
 		}catch(Exception e){
 			success = false;
 			message = e.getMessage();

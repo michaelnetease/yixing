@@ -130,4 +130,26 @@ public class YunxinService {
 		System.out.println(result);
 		return result;
 	}
+	
+	
+	public  String updateNickname( String accid, String name) throws NoSuchAlgorithmException, IOException {
+		Map<String, String> head=new HashMap<String, String>();
+		String key=AppKey;
+		head.put("AppKey", key);
+		int ran=123456;
+		head.put("Nonce", String.valueOf(ran));
+		long now=111111;
+		head.put("CurTime", String.valueOf(now));
+		String toSha=AppSecret+ran+""+now;
+		MessageDigest md=MessageDigest.getInstance("sha-1");
+		md.update(toSha.getBytes());
+		byte[] shaRe=md.digest();
+		String shaHX=YunxinService.bytesToHexString(shaRe);
+		head.put("CheckSum", shaHX);
+		Map<String, String> para=new HashMap<String,String>();
+		para.put("accid", accid);
+		para.put("name", name);
+		String result=YunxinService.doPost(UpdateURI, para, head, "utf-8");
+		return result;
+	}
 }
