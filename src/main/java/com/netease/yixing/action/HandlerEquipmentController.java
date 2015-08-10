@@ -149,13 +149,14 @@ public class HandlerEquipmentController {
 				tempData.add(e3);
 				tempData.add(e4);
 				tempData.add(e5);
-				modelMap.put("success", 1);
-				return modelMap;
-			} else {
+
+			} 
+			
 				List equipList = (List) updataData.get("equipList");
 				if(equipList==null || equipList.size()==0)
 				{
-					modelMap.put("success", 0);
+					modelMap.put("success", 1);
+					return modelMap;
 				}
 				Map<String,StringBuffer> ud=new HashMap<String,StringBuffer>();
 				ud.put("自定义", new StringBuffer());
@@ -187,7 +188,7 @@ public class HandlerEquipmentController {
 				}
 				modelMap.put("success", 1);
 				return modelMap;
-			}
+			
 		} catch (Exception e) {
 			modelMap.put("success", 0);
 			e.printStackTrace();
