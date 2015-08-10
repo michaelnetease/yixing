@@ -3,6 +3,7 @@ package com.netease.yixing.service;
 import java.util.List;
 
 import com.netease.yixing.model.TravelSchedule;
+import com.netease.yixing.model.User;
 
 public interface ITravelScheduleService {
 
@@ -29,5 +30,7 @@ public interface ITravelScheduleService {
 	public void updateSchedulePhoto(int scheduleId,String photo);
 	
 	public String getPhotoKeyByScheduleId(int scheduleId);
+	
+	public void updateJoinSchedule(int userId,int scheduleId);
 	
 }
