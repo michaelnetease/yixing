@@ -261,7 +261,7 @@ public class LoginCotroller {
 			return modelMap;
 		}
 		
-		String updateYXResult = yxs.updatePwd(loginU.getPhoneNum(), loginU.getNickname(), user.getPassword());
+		String updateYXResult = yxs.updatePwd(loginU.getPhoneNum(), loginU.getNickname(), user.getPassword().substring(0, 10));
 		if (!updateYXResult.contains("{\"code\":200}")) {
 			modelMap.put("success", 0);
 			return modelMap;

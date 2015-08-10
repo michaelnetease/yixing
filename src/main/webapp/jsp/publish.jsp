@@ -72,7 +72,7 @@ body {
 <body>
 
 
-	<div align="center"><a href="FourthIOSMiniProject://" target="_blank"><img src="${fenxiang}" width="100%"  height="80" hspace="0" vspace="0"/></a></div>
+	<div align="center"><a href="FourthIOSMiniProject://" target="_blank"><img src="${fenxiang}" width="100%"  height="70px" hspace="0" vspace="0"/></a></div>
 
 	<table cellpadding="0" cellspacing="0" width="95%"  border="0" align="center" bgcolor="#dcdcde">
 		<tr>
@@ -102,8 +102,8 @@ body {
 										  <span class="STYLE18">dsfew									    </span></td>
 									</tr>
 									<tr   valign="middle">
-										<td align="left"  bordercolor="#A7C0DC"><div align="center" class="imgtest"><img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/></div></td>
-									    <td align="left"  bordercolor="#A7C0DC">${record.author}</span></td>
+									  <td align="left" nowrap="nowrap"  bordercolor="#A7C0DC"><div align="center" class="imgtest">&nbsp;<img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/></div></td>
+									    <td align="left" nowrap="nowrap"  bordercolor="#A7C0DC">&nbsp;&nbsp;&nbsp;${record.author}</span></td>
 									    <td align="left"  bordercolor="#A7C0DC"><span class="STYLE20"></td>
 									    <td align="left"  bordercolor="#A7C0DC">&nbsp;</td>
 									</tr>
