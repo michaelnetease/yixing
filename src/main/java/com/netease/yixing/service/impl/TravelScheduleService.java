@@ -232,8 +232,8 @@ public class TravelScheduleService implements ITravelScheduleService {
 	}
 
 	@Override
-	public String getPhotoKeyByScheduleId(int scheduleId) {
-		return travelScheduleDao.getPhotoKeyByScheduleId(scheduleId);
+	public TravelSchedule getSimpleScheduleById(int scheduleId) {
+		return travelScheduleDao.getSimpleScheduleById(scheduleId);
 	}
 
 	@Override

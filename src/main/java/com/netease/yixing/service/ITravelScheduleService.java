@@ -29,7 +29,7 @@ public interface ITravelScheduleService {
 	
 	public void updateSchedulePhoto(int scheduleId,String photo);
 	
-	public String getPhotoKeyByScheduleId(int scheduleId);
+	public TravelSchedule getSimpleScheduleById(int scheduleId);
 	
 	public void updateJoinSchedule(int userId,int scheduleId);
 	

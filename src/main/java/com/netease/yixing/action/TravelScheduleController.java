@@ -370,9 +370,13 @@ public class TravelScheduleController {
 		boolean success = true;
 		int scheduleId = (Integer)map.get("scheduleId");
 		String message = Constant.SUCCESS_MESSAGE;
+		TravelSchedule schedule = null;
 		String photoKey = null;
 		try{
-			photoKey = travelScheduleServ.getPhotoKeyByScheduleId(scheduleId);
+			schedule = travelScheduleServ.getSimpleScheduleById(scheduleId);
+			if(schedule!=null){
+				photoKey = schedule.getPhoto();
+			}
 		}catch(Exception e){
 			success = false;
 			message = e.getMessage();
