@@ -11,6 +11,7 @@ public interface IMemberManageService {
 	public void updateMembers(Map insertData) throws Exception;
 	public String getPicByUserId(int userId) throws Exception;
 	public User getUserById(int userId) throws Exception;
+	public void addMember(int userId,int schedule_id) throws Exception;
 
 	public List<User> queryLatestScheduleMembersByUserId(int userId) throws Exception;
 }

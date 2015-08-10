@@ -72,7 +72,7 @@ body {
 <body>
 
 
-	<div align="center"><a href="http://www.163.com" target="_blank"><img src="${fenxiang}" width="100%"  height="80" hspace="0" vspace="0"/></a></div>
+	<div align="center"><a href="FourthIOSMiniProject://" target="_blank"><img src="${fenxiang}" width="100%"  height="80" hspace="0" vspace="0"/></a></div>
 
 	<table cellpadding="0" cellspacing="0" width="95%"  border="0" align="center" bgcolor="#dcdcde">
 		<tr>
@@ -102,7 +102,7 @@ body {
 										  <span class="STYLE18">dsfew									    </span></td>
 									</tr>
 									<tr   valign="middle">
-										<td align="left"  bordercolor="#A7C0DC"><div align="center" class="imgtest"><img src="${record.iconUrl}"   alt=<img  src="../image/web_number.png"/>   style="border-radius:50px"/></div></td>
+										<td align="left"  bordercolor="#A7C0DC"><div align="center" class="imgtest"><img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/></div></td>
 									    <td align="left"  bordercolor="#A7C0DC">${record.author}</span></td>
 									    <td align="left"  bordercolor="#A7C0DC"><span class="STYLE20"></td>
 									    <td align="left"  bordercolor="#A7C0DC">&nbsp;</td>
@@ -116,7 +116,7 @@ body {
 																<table width="90%" border="0" cellpadding="0" cellspacing="0">
 																  <tr valign="top">
 																	<td valign="top"><div  >
-																	  <div align="center"><img src="${imgItem}" hspace="0" vspace="0"  align="top"/></div>
+																	  <div align="center"><img src="${imgItem}" width="100%" height="100%" hspace="0" vspace="0"  align="top"/></div>
 																	</div></td>
 																	<br />
 																  </tr>

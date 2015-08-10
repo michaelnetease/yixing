@@ -101,7 +101,7 @@ public class YunxinService {
 		Map<String, String> para=new HashMap<String,String>();
 		para.put("accid", accid);
 		para.put("name", name);
-		para.put("token", token);
+		para.put("token", token.substring(0, 10));
 		String result=YunxinService.doPost(CreateURI, para, head, "utf-8");
 		return result;
 	}
@@ -125,7 +125,7 @@ public class YunxinService {
 		Map<String, String> para=new HashMap<String,String>();
 		para.put("accid", accid);
 		para.put("name", name);
-		para.put("token", token);
+		para.put("token", token.substring(0,10));
 		String result=YunxinService.doPost(UpdateURI, para, head, "utf-8");
 		System.out.println(result);
 		return result;

@@ -1,5 +1,6 @@
 package com.netease.yixing.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class MemberManageService implements IMemberManageService {
 	
 	@Autowired
 	private ILoginDao loginDao;
-
+	
 
 	public IMemberManageDao getMemberManageDao() {
 		return memberManageDao;
@@ -77,8 +78,25 @@ public class MemberManageService implements IMemberManageService {
 		return this.getMemberManageDao().getUserById(userId);
 	}
 	
+	
+	@Override
+	public void addMember(int userId,int schedule_id) throws Exception
+	{
+		String addId = String.valueOf(userId);
+		String oldId = getMembersByTravelId(schedule_id);
+		boolean isNum = addId.matches("[0-9]*");
+		if (!isNum  || oldId==null  ||  oldId.contains(addId)) {
+			throw new Exception();
+		} else {
+			String temp = oldId + ";;;" + addId;
+			Map<String, String> updateData = new HashMap<String, String>();
+			updateData.put("group_members", temp);
+			updateData.put("scheduleId", String.valueOf(schedule_id));
+			updateMembers(updateData);
+		}
+	}
+	
 	public List<User> queryLatestScheduleMembersByUserId(int userId) throws Exception {	
-		List<TravelSchedule> ls = null;
 		List<TravelSchedule> scheduleList = travelScheduleDao.querySchedulesByUserId(userId);
 		TravelSchedule latestSchedule = null;
 		List<User> members = null;
@@ -93,8 +111,7 @@ public class MemberManageService implements IMemberManageService {
 				}
 				members = loginDao.queryMembersByIds(groupMemberIds);
 			}
-		}	
-	
+		}		
 		return members;
 	}
 
