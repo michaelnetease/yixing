@@ -58,8 +58,7 @@ public class LoginCotroller {
 			loginServ.register(user);
 		}catch(Exception e){
 			modelMap.put("success", 0);
-			modelMap.put("message","数据库中已有该用户信息");
-			System.out.println("数据库中已有该用户信息");
+			modelMap.put("message","该用户已经注册");
 			e.printStackTrace();
 			return modelMap;
 		}
@@ -84,7 +83,7 @@ public class LoginCotroller {
 				e.printStackTrace();
 			}
 			modelMap.put("success", 0);
-			modelMap.put("message","云信注册失败,用户信息从业务服务器中删除了");
+			modelMap.put("message","云信注册失败");
 			System.out.println("云信注册失败,用户信息从业务服务器中删除了");
 			return modelMap;
 			
@@ -141,7 +140,7 @@ public class LoginCotroller {
 		}catch(Exception e){
 			e.printStackTrace();
 			modelMap.put("success", 0);
-			modelMap.put("message", "查询数据出现异常");
+			modelMap.put("message", "query data error");
 		}
 		if(result==null)
 		{
