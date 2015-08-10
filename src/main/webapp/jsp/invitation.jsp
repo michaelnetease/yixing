@@ -39,11 +39,10 @@ body {
 	padding: 0;
 }
 .STYLE16 {
-	font-size: xx-large;
+	font-size: large;
 	color: #eeeeee;
 }
 .STYLE18 {font-size: 20px}
-.STYLE20 {color: #FFFFFF}
 </style>
 
 <jsp:directive.page import="java.util.List" />
@@ -57,24 +56,32 @@ body {
 		<tr>
 		  <td colspan="2" align="center" valign="top">
 				<table width="80%" border="0" align="center" cellpadding="0" cellspacing="1">
-					<tr height="60%" >
+					<tr height="65%" >
 						<td  colspan="3"><div align="center"><img src="../image/web_pic.png" width="100%" height="100%" /></div></td>
 					</tr>
-					<tr>
-						<td height="%15" colspan="3"  bgcolor="#FFFFFF"><div align="center">
+					<tr height="%15" >
+						<td colspan="3"  bgcolor="#FFFFFF"><div align="center">
 						  <p class="STYLE18">${title}</p>
 						</div></td>
 					</tr>			
-					<tr height="%10">
-						<td colspan="2" nowrap="nowrap"    bgcolor="#FFFFFF">
-					    &nbsp;&nbsp;&nbsp;&nbsp;${time}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../image/web_number.png" width="18" height="18" />${number}&nbsp;&nbsp;</td>
+					<tr height="%10" >
+						<td colspan="2" bgcolor="#FFFFFF"  >
+						  
+					      <div align="justify">
+					        <table width="100%" border="0">
+                              <tr>
+                                <td width="50%"><div align="left">${time}</div></td>
+                                <td><div align="right"><img src="../image/web_number.png" width="18" height="18" />${number}</div></td>
+                              </tr>
+                                                                                    </table>
+				        </div></td>
 					</tr>
 			
 					<tr height="5%">
 						<td colspan="2" bordercolor="#eeeeee"><span class="STYLE16">ewfewfew</span></td>
 					</tr>
 		
-					<tr height="20%" >
+					<tr height="15%" >
 							<td width="50%"><div align="left"><a href="FourthIOSMiniProject://${id}"><img height="90%" width="90%" src="../image/number_accept.png" /></a></div></td>
 	                        <td  width="50%"><div align="right"><a href="FourthIOSMiniProject://$suijima"><img height="90%" width="90%" src="../image/web_download.png" /></a></div></td>
 					</tr>

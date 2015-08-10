@@ -143,9 +143,9 @@ public class LoginCotroller {
 			modelMap.put("success", 0);
 			modelMap.put("message", "查询数据出现异常");
 		}
-		if(result!=null)
+		if(result==null)
 		{
-			modelMap.put("success", 1);
+			modelMap.put("success", 0);
 			modelMap.put("message", "Not exist");
 		}
 		else
