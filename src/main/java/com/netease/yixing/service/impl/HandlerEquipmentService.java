@@ -69,7 +69,10 @@ public class HandlerEquipmentService implements IHandlerEquipmentService {
 			if(str==null || str.length()==0) continue;
 			String[] temps=str.split(";;;");
 			for(String s:temps)
-				sb.append(s+",");
+			{
+				if(s.length()>0)
+					sb.append(s+",");
+			}
 		}
 		
 		int index=sb.lastIndexOf(",");
