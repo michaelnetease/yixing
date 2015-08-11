@@ -166,25 +166,25 @@ public class TravelScheduleService implements ITravelScheduleService {
 	public List<TravelSchedule> queryFixedLengthTravelInfoByUserId(int userId, int startIndex, int length)
 			throws Exception {
 		User user = loginDao.queryUserById(userId);
-		List<TravelSchedule> ls = null;
+		List<TravelSchedule> result = new ArrayList<TravelSchedule>();
 		if(user!=null){
 			String joinSchedulesStr = user.getJoinTravelSchedule();
 			if(joinSchedulesStr!=null && !joinSchedulesStr.isEmpty()){
 				String[] joinSchedules = joinSchedulesStr.split(";;;");
-				List<String> tempList = new ArrayList<String>();
-				for(int i=startIndex; i < startIndex + length && i<joinSchedules.length;i++){
-					tempList.add(joinSchedules[i]);
+				int[] scheduleIds = new int[joinSchedules.length];				
+				for(int i=0;i<joinSchedules.length;i++){
+					scheduleIds[i] = Integer.parseInt(joinSchedules[i]);	
 				}
-				if(!tempList.isEmpty()){
-					int[] scheduleIds = new int[tempList.size()];				
-					for(int i=0;i<tempList.size();i++){
-						scheduleIds[i] = Integer.parseInt(tempList.get(i));	
+				List<TravelSchedule> ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);
+				if(ls!=null && !ls.isEmpty()){
+					for(int i=startIndex;i< startIndex + length && i < ls.size();i++){
+						result.add(ls.get(i));
 					}
-					ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);	
-				}	
+				}
 			}
 		}
-		return ls;
+		
+		return result;
 	}
 
 	@Override
@@ -283,5 +283,30 @@ public class TravelScheduleService implements ITravelScheduleService {
 			}
 		}		
 	}	
+	
+	@Transactional
+	public void removeJoinSchedule(int userId, int scheduleId) {
+		User user = loginDao.queryUserById(userId);
+		StringBuffer sb = new StringBuffer();
+		if(user!=null){
+			String schedules = user.getJoinTravelSchedule();
+			if(schedules!=null && !schedules.isEmpty()){
+				String[] schedule = schedules.split(";;;");
+				for(String sid:schedule){
+					if(!sid.equals(String.valueOf(scheduleId))){
+						sb.append(sid);
+						sb.append(";;;");
+					}
+				}
+				
+				if(sb.length()>=3){
+					sb.delete(sb.length()-3, sb.length());
+					user.setJoinTravelSchedule(sb.toString());
+					loginDao.updateJoinSchedule(user);
+				}	
+			}
+
+		}		
+	}
 	
 }
