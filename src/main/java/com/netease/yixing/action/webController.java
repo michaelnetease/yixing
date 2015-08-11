@@ -96,7 +96,7 @@ public class webController{
 		Map<String,Object> model=new HashMap<String,Object>();
 		int travelId=Integer.parseInt(String.valueOf(request.getParameter("travelId")));
 		List<TravelRecord> travelRecordList=travelRecordService.queryByTravelId(travelId);
-		TravelSchedule ts=this.getTravelScheduleService().queryScheduleDetailsByScheduleId(travelId);
+		TravelSchedule ts=this.getTravelScheduleService().getSimpleScheduleById(travelId);
 		String fenxiang = "http://"+Constant.PICDOMAIN+"/"+"fenxiang.png";
 		if(ts==null || travelRecordList==null ||travelRecordList.size()==0)
 		{
