@@ -41,7 +41,7 @@ public class TravelAgendaArrangeService implements ITravelAgendaArrangeService {
 	@Override
 	public void deleteTravelAgendaArrange(TravelAgendaArrange entity) throws Exception {
 		entity.setUpdateTime(new Date());
-		entity.setVisable(false);
+		entity.setVisable(0);
 		arrangeDao.deleteTravelAgendaArrange(entity);
 	}
 

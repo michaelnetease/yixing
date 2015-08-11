@@ -24,7 +24,7 @@ public class TravelAgendaHotel implements Serializable{
 	private TravelScheduleAgenda agenda;
 	
 	@JsonIgnore
-	private boolean visable;
+	private int visable;
 	
 	@JsonIgnore
 	private User user;
@@ -63,11 +63,13 @@ public class TravelAgendaHotel implements Serializable{
 		this.agenda = agenda;
 	}
 
-	public boolean isVisable() {
+
+
+	public int getVisable() {
 		return visable;
 	}
 
-	public void setVisable(boolean visable) {
+	public void setVisable(int visable) {
 		this.visable = visable;
 	}
 

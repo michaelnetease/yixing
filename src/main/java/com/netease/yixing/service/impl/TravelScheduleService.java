@@ -157,7 +157,7 @@ public class TravelScheduleService implements ITravelScheduleService {
 	@Transactional
 	public void deleteTravelSchedule(TravelSchedule entity) throws Exception {
 		entity.setUpdateTime(new Date());
-		entity.setVisable(false);
+		entity.setVisable(0);
 		travelScheduleDao.deleteTravelSchedule(entity);
 		travelRecordService.removeTravelRecordBySheduleId(entity.getScheduleId());
 	}

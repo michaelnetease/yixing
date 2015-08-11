@@ -9,7 +9,7 @@
 		<result property="event" column="event" />
 		<result property="info" column="info" />
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
-		<result property="visable" column="visable" javaType="java.lang.Boolean"/>
+		<result property="visable" column="visable" javaType="java.lang.Integer"/>
 		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda"/> 
         <association property="user" column="user_id" javaType="com.netease.yixing.model.User"/> 
 	</resultMap>

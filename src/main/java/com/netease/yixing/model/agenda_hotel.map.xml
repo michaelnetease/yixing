@@ -8,7 +8,7 @@
 		<result property="hotelName" column="hotelName" />
 		<result property="hotelInfo" column="hotelInfo" />
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
-		<result property="visable" column="visable" />
+		<result property="visable" column="visable" javaType="java.lang.Integer"/>
 		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda" select="com.netease.yixing.model.TravelScheduleAgenda.getAgendaById"/> 
 		<association property="user" column="user_id" javaType="com.netease.yixing.model.User" select="com.netease.yixing.model.User.getUserById"/>   
 	</resultMap>
