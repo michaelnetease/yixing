@@ -205,7 +205,7 @@ public class TravelRecordCotroller {
 				int length = Integer.parseInt((String)travelRecordMap.get("length"));
 				int skip=Integer.parseInt((String)travelRecordMap.get("skip"));
 				List<TravelRecord> travelRecordList = travelRecordService.queryByTravelIdAndPage(tripid,skip,length);
-				TravelSchedule schedule = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
+				TravelSchedule schedule = travelScheduleServ.getSimpleScheduleById(tripid);
 				if(schedule==null){
 					modelMap.put("success",0);
 					modelMap.put("message","此行程id不存在");
@@ -345,7 +345,10 @@ public class TravelRecordCotroller {
 			for(TravelRecord a:travelRecordList){
 				int tripid = Integer.parseInt(a.getTravelId());
 				if(!id2Schedule.containsKey(tripid)){
-					TravelSchedule schedule2 = travelScheduleServ.queryScheduleDetailsByScheduleId(tripid);
+					TravelSchedule schedule2 = travelScheduleServ.getSimpleScheduleById(tripid);
+					if(schedule2==null){
+						System.out.println(tripid);
+					}
 					id2Schedule.put(tripid, schedule2);
 				}
 			}
@@ -367,9 +370,13 @@ public class TravelRecordCotroller {
 				}
 				mp.put("travelnoteid", a.getId()+"");
 				mp.put("tripid", a.getTravelId());
+				
 				int tripid = Integer.parseInt(a.getTravelId());
+				String title = "";
 				TravelSchedule sd = id2Schedule.get(tripid);
-				String title = sd.getTitle();
+				if(sd != null){
+					title = sd.getTitle();
+				}
 				mp.put("title",title);
 				mp.put("picture", lpic);
 				mp.put("note", a.getText());
@@ -393,6 +400,7 @@ public class TravelRecordCotroller {
 		}catch(Exception e){
 			modelMap.put("success",0);
 			modelMap.put("message","错误");
+			e.printStackTrace();
 			return modelMap;
 		}
 	}
