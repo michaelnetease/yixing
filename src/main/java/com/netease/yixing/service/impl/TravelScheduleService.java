@@ -13,11 +13,15 @@ import com.netease.yixing.dao.ILoginDao;
 import com.netease.yixing.dao.ITravelScheduleAgendaDao;
 import com.netease.yixing.dao.ITravelScheduleDao;
 import com.netease.yixing.dao.ITravelScheduleRedisDao;
+import com.netease.yixing.model.TravelAgendaArrange;
 import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.TravelScheduleAgenda;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IInvitationService;
+import com.netease.yixing.service.ITravelAgendaArrangeService;
+import com.netease.yixing.service.ITravelAgendaHotelService;
 import com.netease.yixing.service.ITravelRecordService;
+import com.netease.yixing.service.ITravelScheduleAgendaService;
 import com.netease.yixing.service.ITravelScheduleService;
 
 @Service
@@ -40,6 +44,15 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 	@Autowired
 	private ITravelRecordService travelRecordService;
+	
+	@Autowired
+	private ITravelScheduleAgendaService agendaService;
+	
+	@Autowired
+	private ITravelAgendaArrangeService arrangeService;
+	
+	@Autowired
+	private ITravelAgendaHotelService hotelService;
 		
 	public ITravelScheduleDao getTravelScheduleDao() {
 		return travelScheduleDao;
@@ -88,6 +101,32 @@ public class TravelScheduleService implements ITravelScheduleService {
 	public void setTravelRecordService(ITravelRecordService travelRecordService) {
 		this.travelRecordService = travelRecordService;
 	}
+	
+	
+
+	public ITravelScheduleAgendaService getAgendaService() {
+		return agendaService;
+	}
+
+	public void setAgendaService(ITravelScheduleAgendaService agendaService) {
+		this.agendaService = agendaService;
+	}
+
+	public ITravelAgendaArrangeService getArrangeService() {
+		return arrangeService;
+	}
+
+	public void setArrangeService(ITravelAgendaArrangeService arrangeService) {
+		this.arrangeService = arrangeService;
+	}
+
+	public ITravelAgendaHotelService getHotelService() {
+		return hotelService;
+	}
+
+	public void setHotelService(ITravelAgendaHotelService hotelService) {
+		this.hotelService = hotelService;
+	}
 
 	@Override
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
@@ -128,6 +167,17 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 
 	public TravelSchedule queryScheduleDetailsByScheduleId(int scheduleId) throws Exception {		
+//		TravelSchedule schedule = travelScheduleDao.getSimpleScheduleById(scheduleId);
+//		List<TravelScheduleAgenda> agendaList = agendaService.queryAllScheduleAgendaByScheuldeId(scheduleId);
+//		if(agendaList!=null && !agendaList.isEmpty()){
+//			int[] agendaIds = new int[agendaList.size()];
+//			for(int i=0;i<agendaList.size();i++){
+//				agendaIds[i] = agendaList.get(i).getAgendaId();
+//			}
+//			Tr
+//			List<TravelAgendaArrange> arrangeList = arrangeService.queryAllArrangeByAgendaId(entity)
+//		}
+		
 		return travelScheduleDao.queryScheduleDetailsByScheduleId(scheduleId);
 	}
 	

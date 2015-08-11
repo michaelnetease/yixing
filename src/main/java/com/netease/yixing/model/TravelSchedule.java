@@ -31,7 +31,6 @@ public class TravelSchedule implements Serializable{
 	
 	private int visit;
 	
-	@JsonIgnore
 	private int visable;
 	
 	private String photo;

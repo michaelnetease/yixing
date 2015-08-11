@@ -7,7 +7,7 @@
 		<id property="agendaId" column="agenda_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
 		<result property="travelDay" column="travel_day" javaType="java.util.Date"/>
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
-		<result property="visable" column="visable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+		<result property="agendaVisable" column="agenda_visable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
 		<association property="schedule" javaType="com.netease.yixing.model.TravelSchedule" >
 		    <id column="schedule_id" property="scheduleId"/>
 		    <result property="title" column="title" />
@@ -20,7 +20,7 @@
 	
     <select id="getAgendaById" parameterType="int" resultMap="scheduleAgenda">
 		select * from travel_schedule_agenda
-		where agenda_id=#{agendaId}
+		where agenda_id=#{agendaId} and agenda_visable = 1
 	</select>
 
 	
@@ -39,7 +39,7 @@
 
 	<update id="deleteAgendaById" parameterType="int">
 		update travel_schedule_agenda set
-		visable=0 where agenda_id=#{agendaId}
+		agenda_visable=0 where agenda_id=#{agendaId}
  	</update>
 
 	

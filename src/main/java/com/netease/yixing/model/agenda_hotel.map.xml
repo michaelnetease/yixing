@@ -8,7 +8,7 @@
 		<result property="hotelName" column="hotelName" />
 		<result property="hotelInfo" column="hotelInfo" />
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
-		<result property="visable" column="visable" javaType="java.lang.Integer"/>
+		<result property="hotelVisable" column="hotel_visable" javaType="java.lang.Integer"/>
 		<association property="agenda" column="agenda_id" javaType="com.netease.yixing.model.TravelScheduleAgenda" select="com.netease.yixing.model.TravelScheduleAgenda.getAgendaById"/> 
 		<association property="user" column="user_id" javaType="com.netease.yixing.model.User" select="com.netease.yixing.model.User.getUserById"/>   
 	</resultMap>
@@ -34,19 +34,19 @@
  	
  	<delete id="deleteHotelByHotelId" parameterType="agendaHotel">
 		update travel_agenda_hotel set
-		  visable=0,update_time=#{updateTime} 
+		  hotel_visable=0,update_time=#{updateTime} 
 		where hotel_id=#{hotelId}
  	</delete>
  	
  	 <delete id="deleteHotelByAgendaId" parameterType="int">
 		update travel_agenda_hotel set
-		  visable=0
+		  hotel_visable=0
 		where agenda_id=#{agendaId}
  	</delete>
  	
  	<select id="selectHotel"  parameterType="int" resultMap="agendaHotel">
 		select * from travel_agenda_hotel 
-		where agenda_id=#{agendaId} and visable=1
+		where agenda_id=#{agendaId} and hotel_visable=1
 	</select>
 
 
