@@ -43,6 +43,7 @@ body {
 	color: #eeeeee;
 }
 .STYLE18 {font-size: 20px}
+.STYLE21 {font-size: 18px}
 </style>
 
 <jsp:directive.page import="java.util.List" />
@@ -70,8 +71,8 @@ body {
 					      <div align="justify">
 					        <table width="100%" border="0">
                               <tr>
-                                <td width="50%"><div align="left">${time}</div></td>
-                                <td><div align="right"><img src="../image/web_number.png" width="18" height="18" />${number}</div></td>
+                                <td width="50%"><div align="left" class="STYLE21">${time}</div></td>
+                                <td><div align="right" class="STYLE21"><img src="../image/web_number.png" width="18" height="18" />${number}</div></td>
                               </tr>
                                                                                     </table>
 				        </div></td>
