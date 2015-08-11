@@ -105,7 +105,7 @@ public class webController{
 			return new ModelAndView("../jsp/invitationError",model);
 		}
 		
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		Date firstDay=ts.getStartTime();
 		int daySeq=0;
 		Map<Integer, DayHappened> dayHappenedMap=new HashMap<Integer, DayHappened>();

@@ -49,7 +49,6 @@ body {
 	background: #dcdcde;
 
 }
-.STYLE12 {color: #dcdcde; font-size: x-small; }
 .STYLE14 {color: #dcdcde; font-size: xx-small; }
 .STYLE15 {color: #FFFFFF}
 .STYLE18 {
@@ -76,7 +75,7 @@ body {
 					<table width="100%" cellpadding="0"  cellspacing="0">
 						<tr>
 							<td>
-							  <span class="STYLE12">6545646456						    </span></td>
+							  <span class="STYLE14">6545646456						    </span></td>
 						</tr>
 						<tr>
 						
@@ -84,7 +83,7 @@ body {
 						</tr>
 						<tr>
 							<td>
-							  <span class="STYLE12">6545646456						    </span></td>
+							  <span class="STYLE14">6545646456						    </span></td>
 						</tr>
 					</table>
 					
