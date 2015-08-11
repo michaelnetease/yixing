@@ -210,14 +210,14 @@ public class TravelScheduleController {
 				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
 				if(agendaList!=null && !agendaList.isEmpty()){
 					for(TravelScheduleAgenda agenda:agendaList){
-						if(agenda.getVisable()==1){
+						if(agenda.getAgendaVisable()==1){
 							List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
 							List<TravelAgendaHotel> hotelList = agenda.getHotelList();
 							List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
 							List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
 							if(arrangeList!=null && !arrangeList.isEmpty()){
 								for(TravelAgendaArrange arrange : arrangeList){
-									if(arrange.getArrangeId()!=0 && arrange.getVisable()==1){
+									if(arrange.getArrangeId()!=0 && arrange.getArrangeVisable()==1){
 										arrangeListData.add(arrange);
 									}
 								}
@@ -226,7 +226,7 @@ public class TravelScheduleController {
 							
 							if(hotelList!=null && !hotelList.isEmpty()){
 								for(TravelAgendaHotel hotel: hotelList){
-									if(hotel.getHotelId()!=0 && hotel.getVisable()==1){
+									if(hotel.getHotelId()!=0 && hotel.getHotelVisable()==1){
 										hotelListData.add(hotel);
 									}
 								}
@@ -270,14 +270,14 @@ public class TravelScheduleController {
 				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
 				if(agendaList!=null && !agendaList.isEmpty()){
 					for(TravelScheduleAgenda agenda:agendaList){
-						if(agenda.getVisable()==1){
+						if(agenda.getAgendaVisable()==1){
 							List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
 							List<TravelAgendaHotel> hotelList = agenda.getHotelList();
 							List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
 							List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
 							if(arrangeList!=null && !arrangeList.isEmpty()){
 								for(TravelAgendaArrange arrange : arrangeList){
-									if(arrange.getArrangeId()!=0 && arrange.getVisable()==1){
+									if(arrange.getArrangeId()!=0 && arrange.getArrangeVisable()==1){
 										arrangeListData.add(arrange);
 									}
 								}
@@ -286,7 +286,7 @@ public class TravelScheduleController {
 							
 							if(hotelList!=null && !hotelList.isEmpty()){
 								for(TravelAgendaHotel hotel: hotelList){
-									if(hotel.getHotelId()!=0 && hotel.getVisable()==1){
+									if(hotel.getHotelId()!=0 && hotel.getHotelVisable()==1){
 										hotelListData.add(hotel);
 									}
 								}

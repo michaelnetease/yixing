@@ -21,8 +21,7 @@ public class TravelScheduleAgenda implements Serializable{
 	
 	private Date updateTime;
 	
-	@JsonIgnore
-	private int visable;
+	private int agendaVisable;
 	
 	@JsonIgnore
 	private User user;
@@ -65,12 +64,13 @@ public class TravelScheduleAgenda implements Serializable{
 
 
 
-	public int getVisable() {
-		return visable;
+
+	public int getAgendaVisable() {
+		return agendaVisable;
 	}
 
-	public void setVisable(int visable) {
-		this.visable = visable;
+	public void setAgendaVisable(int agendaVisable) {
+		this.agendaVisable = agendaVisable;
 	}
 
 	public User getUser() {

@@ -19,21 +19,21 @@
             <id column="agenda_id" property="agendaId"/>  
             <result column="travel_day" property="travelDay"/>
             <result column="update_time" property="updateTime"/>  
-            <result property="visable" column="visable" javaType="java.lang.Integer"/>
+            <result property="agendaVisable" column="agenda_visable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
             <collection property="arrangeList" ofType="com.netease.yixing.model.TravelAgendaArrange" column="arrange_id">  
             	<id column="arrange_id" property="arrangeId" javaType="java.lang.Integer"/>  
             	<result column="time_point" property="timePoint"/>
             	<result column="event" property="event"/>  
             	<result column="info" property="info"/> 
-            	<result property="visable" column="visable" javaType="java.lang.Integer"/>
+            	<result property="arrangeVisable" column="arrange_visable" javaType="java.lang.Integer"/>
             	<result property="updateTime" column="update_time" javaType="java.util.Date"/>             	         
         	</collection> 
         	<collection property="hotelList" ofType="com.netease.yixing.model.TravelAgendaHotel" column="arrange_id">  
             	<id column="hotel_id" property="hotelId"/>  
             	<result column="hotelName" property="hotelName"/>
             	<result column="hotelInfo" property="hotelInfo"/>  
-            	<result property="visable" column="visable" javaType="java.lang.Integer"/>
-            	<result property="updateTime" column="update_time" javaType="java.util.Date"/>            	         
+            	<result property="hotelVisable" column="hotel_visable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            	<result property="updateTime" column="update_time" jdbcType="INTEGER" javaType="java.util.Date"/>            	         
         	</collection> 
         </collection>
         <collection property="equipmentList" ofType="com.netease.yixing.model.Equipment" column="id">  
