@@ -153,11 +153,12 @@ public class HandlerEquipmentController {
 			} 
 			
 				List equipList = (List) updataData.get("equipList");
-				if(equipList==null || equipList.size()==0)
+				if(equipList==null)
 				{
 					modelMap.put("success", 1);
 					return modelMap;
 				}
+
 				Map<String,StringBuffer> ud=new HashMap<String,StringBuffer>();
 				ud.put("自定义", new StringBuffer());
 				ud.put("文件资料", new StringBuffer());

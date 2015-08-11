@@ -115,7 +115,8 @@ public class MemberManageController {
 					else
 						sb.append(temp[i] + ";;;");
 				}
-				sb.delete(sb.length() - 3, sb.length());
+				if(sb.length()>2)
+					sb.delete(sb.length() - 3, sb.length());
 				Map<String, String> updateData = new HashMap<String, String>();
 				updateData.put("group_members", sb.toString());
 				updateData.put("scheduleId", String.valueOf(scheduleId));

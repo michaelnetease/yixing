@@ -112,7 +112,7 @@ public class webController{
 		try {
 			for (TravelRecord tr : travelRecordList) {
 				daySeq=(int) ((tr.getUptime().getTime()-firstDay.getTime())/86400000+1);
-				if(daySeq<1 || daySeq>31) daySeq=30;
+				if(daySeq<1 || daySeq>31) daySeq=31;
 				DayHappened dayHappened=dayHappenedMap.get(daySeq);
 				if(dayHappened==null)
 				{
