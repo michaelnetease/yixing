@@ -45,43 +45,12 @@
 	<update id="updateTravelRecord4notvalid" parameterType="int">
 		update travel_record set valid=0 where id = #{id}
  	</update>
-<!-- 
-
-	<select id="getUser"  parameterType="user" resultMap="userResult">
-		select * from user 
-		where 
-		 	username=#{username} and password=#{password}
-	</select>
-	
-	<select id="selectAllUser" resultMap="userResult">
-		select * from user
- 	</select>
-
-	<select id="findUserById" parameterType="int" resultMap="userResult">
-		select *
-		from user where id=#{id}
- 	</select>
- 	<select id="findUserByName" parameterType="String" resultMap="userResult">
-		select *
-		from user where username=#{username}
- 	</select>
-	
-	<insert id="insertUser" parameterType="user">
-	 <![CDATA[
-		insert into
-		user(username,password) values(#{username},#{password})
-		]]>
- 	</insert>
-
-	<update id="updateUser" parameterType="user">
-		update user set
-		username=#{username},password=#{password} where id=#{id}
- 	</update>
  	
-	<delete id="deleteUser" parameterType="int">
-		delete from user where
-		id=#{id}
-	</delete>
- -->
+ 	<update id="removeAllTravelRecordByScheduleId" parameterType="int">
+		update travel_record set valid=0 where travel_id = #{scheduleId}
+ 	</update>
+
+
+
 </mapper>
 

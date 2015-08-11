@@ -51,4 +51,9 @@ public class TravelRecordService implements ITravelRecordService{
 		// TODO Auto-generated method stub
 		return travelRecordDao.queryAllByUserId(travelId,skip,length);
 	}
+
+	@Override
+	public void removeTravelRecordBySheduleId(int scheduleId) {
+		travelRecordDao.removeTravelRecordByScheduleId(scheduleId);		
+	}
 }

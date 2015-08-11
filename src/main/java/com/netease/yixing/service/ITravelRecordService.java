@@ -17,4 +17,6 @@ public interface ITravelRecordService {
 	
 	public List<TravelRecord> queryAllByUserId(int travelId,int skip,int length);
 	
+	public void removeTravelRecordBySheduleId(int scheduleId);
+	
 }

@@ -17,6 +17,7 @@ import com.netease.yixing.model.TravelSchedule;
 import com.netease.yixing.model.TravelScheduleAgenda;
 import com.netease.yixing.model.User;
 import com.netease.yixing.service.IInvitationService;
+import com.netease.yixing.service.ITravelRecordService;
 import com.netease.yixing.service.ITravelScheduleService;
 
 @Service
@@ -36,6 +37,9 @@ public class TravelScheduleService implements ITravelScheduleService {
 	
 	@Autowired
 	private IInvitationService invitationService;
+	
+	@Autowired
+	private ITravelRecordService travelRecordService;
 		
 	public ITravelScheduleDao getTravelScheduleDao() {
 		return travelScheduleDao;
@@ -75,6 +79,14 @@ public class TravelScheduleService implements ITravelScheduleService {
 
 	public void setInvitationService(IInvitationService invitationService) {
 		this.invitationService = invitationService;
+	}
+
+	public ITravelRecordService getTravelRecordService() {
+		return travelRecordService;
+	}
+
+	public void setTravelRecordService(ITravelRecordService travelRecordService) {
+		this.travelRecordService = travelRecordService;
 	}
 
 	@Override
@@ -142,10 +154,12 @@ public class TravelScheduleService implements ITravelScheduleService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteTravelSchedule(TravelSchedule entity) throws Exception {
 		entity.setUpdateTime(new Date());
 		entity.setVisable(false);
 		travelScheduleDao.deleteTravelSchedule(entity);
+		travelRecordService.removeTravelRecordBySheduleId(entity.getScheduleId());
 	}
 
 	@Override

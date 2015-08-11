@@ -57,4 +57,9 @@ public class TravelRecordDao  extends SqlSessionDaoSupport implements ITravelRec
 		map.put("length",length);
 		return getSqlSession().selectList("com.netease.yixing.model.TravelRecord.queryAllTravelRecordByUserId",map); 
 	}
+
+	@Override
+	public void removeTravelRecordByScheduleId(int scheduleId) {
+		getSqlSession().update("com.netease.yixing.model.TravelRecord.removeAllTravelRecordByScheduleId", scheduleId);		
+	}
 }
