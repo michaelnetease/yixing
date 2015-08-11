@@ -10,6 +10,7 @@
 		<result property="endTime" column="end_time" javaType="java.util.Date"/>		
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
 		<result property="groupMembers" column="group_members" />
+		<result property="visable" column="visable" javaType="java.lang.Integer"/>
 		<result property="mark" column="mark" javaType="java.lang.Integer"/>
 		<result property="visit" column="visit" javaType="java.lang.Integer"/>
 		<result property="photo" column="photo"/>
@@ -18,17 +19,20 @@
             <id column="agenda_id" property="agendaId"/>  
             <result column="travel_day" property="travelDay"/>
             <result column="update_time" property="updateTime"/>  
+            <result property="visable" column="visable" javaType="java.lang.Integer"/>
             <collection property="arrangeList" ofType="com.netease.yixing.model.TravelAgendaArrange" column="arrange_id">  
             	<id column="arrange_id" property="arrangeId" javaType="java.lang.Integer"/>  
             	<result column="time_point" property="timePoint"/>
             	<result column="event" property="event"/>  
             	<result column="info" property="info"/> 
+            	<result property="visable" column="visable" javaType="java.lang.Integer"/>
             	<result property="updateTime" column="update_time" javaType="java.util.Date"/>             	         
         	</collection> 
         	<collection property="hotelList" ofType="com.netease.yixing.model.TravelAgendaHotel" column="arrange_id">  
             	<id column="hotel_id" property="hotelId"/>  
             	<result column="hotelName" property="hotelName"/>
             	<result column="hotelInfo" property="hotelInfo"/>  
+            	<result property="visable" column="visable" javaType="java.lang.Integer"/>
             	<result property="updateTime" column="update_time" javaType="java.util.Date"/>            	         
         	</collection> 
         </collection>
@@ -50,7 +54,7 @@
 		select a.*,b.*,c.*,d.*,e.*,f.* 
 		from travel_schedule a left join travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id
 		left join travel_agenda_hotel d on b.agenda_id=d.agenda_id left join equipment e on e.travelId=a.schedule_id left join travel_record f on f.travel_id=a.schedule_id
-		where (a.visable = 1 || a.visable is NULL) and (b.visable = 1 || b.visable is NULL) and (c.visable = 1 || c.visable is NULL) and (d.visable = 1 || d.visable is NULL) and (f.valid = 1 || f.valid is NULL) 
+		where a.visable = 1 
 		 and a.schedule_id=#{scheduleId}  order by a.update_time desc
 	</select>
 	
@@ -88,7 +92,7 @@
 		select a.*,b.*,c.*,d.*,e.*,f.*
 		from travel_schedule a LEFT JOIN travel_schedule_agenda b on a.schedule_id=b.schedule_id left join travel_agenda_arrange c on b.agenda_id=c.agenda_id left join travel_agenda_hotel d on b.agenda_id=d.agenda_id 
 		left join equipment e on a.schedule_id = e.travelId left join travel_record f on a.schedule_id = f.travel_id
-		where (a.visable = 1 || a.visable is NULL) and (b.visable = 1 || b.visable is NULL) and (c.visable = 1 || c.visable is NULL) and (d.visable = 1 || d.visable is NULL) and (f.valid = 1 || f.valid is NULL) 
+		where a.visable = 1 
 		and a.schedule_id in
 		<foreach item="item" index="index" collection="array"
 	             open="(" separator="," close=")">

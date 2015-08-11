@@ -210,29 +210,32 @@ public class TravelScheduleController {
 				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
 				if(agendaList!=null && !agendaList.isEmpty()){
 					for(TravelScheduleAgenda agenda:agendaList){
-						List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
-						List<TravelAgendaHotel> hotelList = agenda.getHotelList();
-						List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
-						List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
-						if(arrangeList!=null && !arrangeList.isEmpty()){
-							for(TravelAgendaArrange arrange : arrangeList){
-								if(arrange.getArrangeId()!=0){
-									arrangeListData.add(arrange);
+						if(agenda.getVisable()==1){
+							List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
+							List<TravelAgendaHotel> hotelList = agenda.getHotelList();
+							List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
+							List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
+							if(arrangeList!=null && !arrangeList.isEmpty()){
+								for(TravelAgendaArrange arrange : arrangeList){
+									if(arrange.getArrangeId()!=0 && arrange.getVisable()==1){
+										arrangeListData.add(arrange);
+									}
 								}
-							}
 
-						}
-						
-						if(hotelList!=null && !hotelList.isEmpty()){
-							for(TravelAgendaHotel hotel: hotelList){
-								if(hotel.getHotelId()!=0){
-									hotelListData.add(hotel);
+							}
+							
+							if(hotelList!=null && !hotelList.isEmpty()){
+								for(TravelAgendaHotel hotel: hotelList){
+									if(hotel.getHotelId()!=0 && hotel.getVisable()==1){
+										hotelListData.add(hotel);
+									}
 								}
 							}
+							
+							agenda.setArrangeList(arrangeListData);
+							agenda.setHotelList(hotelListData);
 						}
-						
-						agenda.setArrangeList(arrangeListData);
-						agenda.setHotelList(hotelListData);
+
 					}
 				}
 				
@@ -267,29 +270,32 @@ public class TravelScheduleController {
 				List<TravelScheduleAgenda> agendaList =  schedule.getAgendaList();
 				if(agendaList!=null && !agendaList.isEmpty()){
 					for(TravelScheduleAgenda agenda:agendaList){
-						List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
-						List<TravelAgendaHotel> hotelList = agenda.getHotelList();
-						List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
-						List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
-						if(arrangeList!=null && !arrangeList.isEmpty()){
-							for(TravelAgendaArrange arrange : arrangeList){
-								if(arrange.getArrangeId()!=0){
-									arrangeListData.add(arrange);
+						if(agenda.getVisable()==1){
+							List<TravelAgendaArrange> arrangeList = agenda.getArrangeList();
+							List<TravelAgendaHotel> hotelList = agenda.getHotelList();
+							List<TravelAgendaArrange> arrangeListData = new ArrayList<TravelAgendaArrange>();
+							List<TravelAgendaHotel> hotelListData = new ArrayList<TravelAgendaHotel>();
+							if(arrangeList!=null && !arrangeList.isEmpty()){
+								for(TravelAgendaArrange arrange : arrangeList){
+									if(arrange.getArrangeId()!=0 && arrange.getVisable()==1){
+										arrangeListData.add(arrange);
+									}
 								}
-							}
 
-						}
-						
-						if(hotelList!=null && !hotelList.isEmpty()){
-							for(TravelAgendaHotel hotel: hotelList){
-								if(hotel.getHotelId()!=0){
-									hotelListData.add(hotel);
+							}
+							
+							if(hotelList!=null && !hotelList.isEmpty()){
+								for(TravelAgendaHotel hotel: hotelList){
+									if(hotel.getHotelId()!=0 && hotel.getVisable()==1){
+										hotelListData.add(hotel);
+									}
 								}
 							}
+							
+							agenda.setArrangeList(arrangeListData);
+							agenda.setHotelList(hotelListData);
 						}
-						
-						agenda.setArrangeList(arrangeListData);
-						agenda.setHotelList(hotelListData);
+
 					}
 				}
 			}

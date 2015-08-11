@@ -3,6 +3,8 @@ package com.netease.yixing.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
  
 public class TravelSchedule implements Serializable{
 
@@ -29,7 +31,8 @@ public class TravelSchedule implements Serializable{
 	
 	private int visit;
 	
-	private boolean visable;
+	@JsonIgnore
+	private int visable;
 	
 	private String photo;
 	
@@ -110,15 +113,15 @@ public class TravelSchedule implements Serializable{
 	public void setVisit(int visit) {
 		this.visit = visit;
 	}
-
-	public boolean isVisable() {
+	
+	public int getVisable() {
 		return visable;
 	}
 
-	public void setVisable(boolean visable) {
+	public void setVisable(int visable) {
 		this.visable = visable;
 	}
-	
+
 	public List<TravelScheduleAgenda> getAgendaList() {
 		return agendaList;
 	}

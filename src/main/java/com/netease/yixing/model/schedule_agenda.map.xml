@@ -7,7 +7,7 @@
 		<id property="agendaId" column="agenda_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
 		<result property="travelDay" column="travel_day" javaType="java.util.Date"/>
 		<result property="updateTime" column="update_time" javaType="java.util.Date"/>
-		<result property="visable" column="visable" javaType="java.lang.Boolean"/>
+		<result property="visable" column="visable" jdbcType="INTEGER" javaType="java.lang.Integer"/>
 		<association property="schedule" javaType="com.netease.yixing.model.TravelSchedule" >
 		    <id column="schedule_id" property="scheduleId"/>
 		    <result property="title" column="title" />
