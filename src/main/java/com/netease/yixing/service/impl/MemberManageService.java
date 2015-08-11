@@ -125,18 +125,24 @@ public class MemberManageService implements IMemberManageService {
 		if(user!=null){
 			String joinScheduleStr = user.getJoinTravelSchedule();
 			String[] schedules = joinScheduleStr.split(";;;");
-			if(schedules.length>0){
-				String latestScheduleId = schedules[schedules.length-1];
-				TravelSchedule latestSchedule = travelScheduleDao.getSimpleScheduleById(Integer.parseInt(latestScheduleId));
-				if(latestSchedule!=null){
-					String groupMembers = memberManageDao.getMembersByTravelId(latestSchedule.getScheduleId());
-					if(groupMembers!=null && !groupMembers.isEmpty()){
-						String[] groupMemberIdStr = groupMembers.split(";;;");
-						int[] groupMemberIds = new int[groupMemberIdStr.length];
-						for(int i=0;i<groupMemberIds.length;i++){
-							groupMemberIds[i] = Integer.parseInt(groupMemberIdStr[i]);
+			if(schedules!=null && schedules.length>0){
+				int[] scheduleIds = new int[schedules.length];
+				for(int i=0;i<schedules.length;i++){
+					scheduleIds[i] = Integer.parseInt(schedules[i]);
+				}
+				List<TravelSchedule> ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);
+				if(ls!=null && ls.size()>0){
+					TravelSchedule latestSchedule = ls.get(0);
+					if(latestSchedule!=null){
+						String groupMembers = memberManageDao.getMembersByTravelId(latestSchedule.getScheduleId());
+						if(groupMembers!=null && !groupMembers.isEmpty()){
+							String[] groupMemberIdStr = groupMembers.split(";;;");
+							int[] groupMemberIds = new int[groupMemberIdStr.length];
+							for(int i=0;i<groupMemberIds.length;i++){
+								groupMemberIds[i] = Integer.parseInt(groupMemberIdStr[i]);
+							}
+							members = loginDao.queryMembersByIds(groupMemberIds);
 						}
-						members = loginDao.queryMembersByIds(groupMemberIds);
 					}
 				}
 				

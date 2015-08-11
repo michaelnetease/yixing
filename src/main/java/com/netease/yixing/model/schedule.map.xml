@@ -122,5 +122,16 @@
 	    where schedule_id = #{scheduleId}
 	</select>
 	
+	 <select id="getAllJoinSimpleSchedules" resultMap="scheduleResult">	    
+		select *
+		from travel_schedule a
+		where a.visable = 1  and a.schedule_id in
+		<foreach item="item" index="index" collection="array"
+	             open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	     order by a.update_time desc
+	</select>
+	
 </mapper>
 

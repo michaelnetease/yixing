@@ -33,4 +33,6 @@ public interface ITravelScheduleService {
 	
 	public void updateJoinSchedule(int userId,int scheduleId);
 	
+	public void removeJoinSchedule(int userId,int scheduleId);
+	
 }

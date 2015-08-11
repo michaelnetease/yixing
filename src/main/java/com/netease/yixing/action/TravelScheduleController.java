@@ -105,10 +105,13 @@ public class TravelScheduleController {
 	
 	@RequestMapping(value="/travel/schedule/delete",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> deleteTravelSchedule(@RequestBody TravelSchedule entity){
+	public Map<String,Object> deleteTravelSchedule(@RequestBody Map map){
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		boolean success = true;
 		String message = Constant.SUCCESS_MESSAGE;
+		int scheduleId = (Integer)map.get("scheduleId");
+		TravelSchedule entity = new TravelSchedule();
+		entity.setScheduleId(scheduleId);
 		try {
 			travelScheduleServ.deleteTravelSchedule(entity);
 		} catch (Exception e) {
