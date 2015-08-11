@@ -1,5 +1,6 @@
 package com.netease.yixing.service.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -156,18 +157,19 @@ public class TravelScheduleService implements ITravelScheduleService {
 			String joinSchedulesStr = user.getJoinTravelSchedule();
 			if(joinSchedulesStr!=null && !joinSchedulesStr.isEmpty()){
 				String[] joinSchedules = joinSchedulesStr.split(";;;");
-				length = joinSchedules.length < length? joinSchedules.length : length;
-				int[] scheduleIds = new int[length];
-				int index = 0;
-				for(int i=scheduleIds.length-1;i>=0;i--){
-					if(i>=startIndex && i<startIndex+length){
-						scheduleIds[index++] = Integer.parseInt(joinSchedules[i]);
-					}			
+				List<String> tempList = new ArrayList<String>();
+				for(int i=startIndex; i < startIndex + length && i<joinSchedules.length;i++){
+					tempList.add(joinSchedules[i]);
 				}
-				ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);		
+				if(!tempList.isEmpty()){
+					int[] scheduleIds = new int[tempList.size()];				
+					for(int i=0;i<tempList.size();i++){
+						scheduleIds[i] = Integer.parseInt(tempList.get(i));	
+					}
+					ls = travelScheduleDao.getAllJoinTravelSchedules(scheduleIds);	
+				}	
 			}
 		}
-
 		return ls;
 	}
 
@@ -217,12 +219,15 @@ public class TravelScheduleService implements ITravelScheduleService {
 	@Override
 	public int getJoinUserNumbersInSchedule(int scheduleId) {
 		TravelSchedule schedule = travelScheduleDao.getJoinUserNumbersInSchedule(scheduleId);
-		String groupMemeberStr = schedule.getGroupMembers();
 		int num = 0;
-		if(groupMemeberStr!=null){
-			String[] groupMembers = groupMemeberStr.split(";;;");
-			num = groupMembers.length;
-		}		
+		if(schedule!=null){
+			String groupMemeberStr = schedule.getGroupMembers();
+			if(groupMemeberStr!=null){
+				String[] groupMembers = groupMemeberStr.split(";;;");
+				num = groupMembers.length;
+			}	
+		}
+		
 		return num;	
 	}
 
@@ -242,7 +247,7 @@ public class TravelScheduleService implements ITravelScheduleService {
 		boolean flag = false;
 		if(user!=null){
 			String schedules = user.getJoinTravelSchedule();
-			if(schedules==null || schedules.length()==0){
+			if(schedules==null || schedules.isEmpty()){
 				schedules = ""+ scheduleId;
 			}else{
 				String[] schedule = schedules.split(";;;");
@@ -257,8 +262,11 @@ public class TravelScheduleService implements ITravelScheduleService {
 					schedules+= ";;;"+ scheduleId;
 				}				
 			}
-			user.setJoinTravelSchedule(schedules);
-			loginDao.updateJoinSchedule(user);
+			
+			if(!flag){
+				user.setJoinTravelSchedule(schedules);
+				loginDao.updateJoinSchedule(user);
+			}
 		}		
 	}	
 	
