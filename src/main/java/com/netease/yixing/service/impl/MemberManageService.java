@@ -85,7 +85,8 @@ public class MemberManageService implements IMemberManageService {
 		String addId = String.valueOf(userId);
 		String oldId = getMembersByTravelId(scheduleId);
 		boolean isNum = addId.matches("[0-9]*");
-		if (!isNum  || oldId==null  ||  oldId.contains(addId)) {
+		if(oldId.contains(addId))return;
+		if (!isNum  || oldId==null) {
 			throw new Exception();
 		} else {
 			String temp = oldId + ";;;" + addId;

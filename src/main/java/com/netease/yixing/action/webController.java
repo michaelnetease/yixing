@@ -237,7 +237,12 @@ public class webController{
 			int userId = Integer.parseInt(uid);
 			int schedule_id = Integer.parseInt(travelId);
 			memberManageService.addMember(userId, schedule_id);
-			TravelSchedule schedule = travelScheduleService.queryScheduleDetailsByScheduleId(schedule_id);
+			TravelSchedule schedule = travelScheduleService.getSimpleScheduleById(schedule_id);
+			if(schedule == null){
+				modelMap.put("success", 0);
+				modelMap.put("message", "行程不存在");
+				return modelMap;
+			}
 			String title = schedule.getTitle();
 			modelMap.put("success", 1);
 			modelMap.put("title", title);
