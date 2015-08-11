@@ -98,7 +98,7 @@ body {
 
 									<tr>
 										<td  align="center">
-										<table width="90%" border="0">
+										<table width="90%" border="0" height="40px">
                                           <tr>
                                             <td width="16%"><img src="${record.iconUrl}"   alt="I am" style="border-radius:50px"/> </td>
                                             <td width="66%"><span class="STYLE21">${record.author}</span></td>
@@ -137,7 +137,7 @@ body {
 										<td align="center" >
 										  <table width="90%" border="0">
                                             <tr>
-                                              <td><span class="STYLE21">${record.text}</span></td>
+                                              <td style="word-break:break-all"><span class="STYLE21">${record.text}</span></td>
                                             </tr>
                                           </table></td>
 									
