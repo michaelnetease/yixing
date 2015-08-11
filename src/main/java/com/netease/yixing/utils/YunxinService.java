@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class YunxinService {
-	 static String AppKey="f4e77b4a002beae6c45e2c240abd2e1d";
-	 static String AppSecret="df3e9b36f2f7";
+	 static String AppKey="1d5aa608c356529a2cf84befbf0af4e7";
+	 static String AppSecret="e9a7c878ee07";
 	 static String CreateURI="https://api.netease.im/nimserver/user/create.action";
 	 static String UpdateURI="https://api.netease.im/nimserver/user/update.action";
 	
