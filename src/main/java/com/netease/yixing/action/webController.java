@@ -111,7 +111,13 @@ public class webController{
 		Map<Integer, DayHappened> dayHappenedMap=new HashMap<Integer, DayHappened>();
 		try {
 			for (TravelRecord tr : travelRecordList) {
-				daySeq=(int) ((tr.getUptime().getTime()-firstDay.getTime())/86400000+1);
+				long l1=tr.getUptime().getTime();
+				int h1=tr.getUptime().getHours();
+				int m1=tr.getUptime().getMinutes();
+				long l2=firstDay.getTime();
+				int h2=firstDay.getHours();
+				int m2=firstDay.getMinutes();
+				daySeq=(int)(((l1-(h1*60+m1)*60*1000)-(l2-(h2*60+m2)*60*1000))/86400000)+1;
 				if(daySeq<1 || daySeq>31) daySeq=32;
 				DayHappened dayHappened=dayHappenedMap.get(daySeq);
 				if(dayHappened==null)

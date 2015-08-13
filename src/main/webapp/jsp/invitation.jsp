@@ -84,7 +84,7 @@ body {
 		
 					<tr height="15%" >
 							<td width="50%"><div align="left"><a href="FourthIOSMiniProject://${id}"><img height="90%" width="90%" src="../image/number_accept.png" /></a></div></td>
-	                        <td  width="50%"><div align="right"><a href="FourthIOSMiniProject://$suijima"><img height="90%" width="90%" src="../image/web_download.png" /></a></div></td>
+	                        <td  width="50%"><div align="right"><a href="http://nos.netease.com/cs-public/pb_46hy0c0vb5s9vs_ec8z-bq___1439339231_11015.html"><img height="90%" width="90%" src="../image/web_download.png" /></a></div></td>
 					</tr>
 			</table>
 		  </td>
