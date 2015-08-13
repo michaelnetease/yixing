@@ -133,6 +133,7 @@
 	                    <constructor-arg name="port" value="6379" />
 	                    <constructor-arg name="timeout" value="300" />
 	                    <constructor-arg name="weight" value="1" />
+	                     <property name="password" value="mini4redis906040111"></property> 
 	                </bean>
 	            </list>
 	        </constructor-arg>
