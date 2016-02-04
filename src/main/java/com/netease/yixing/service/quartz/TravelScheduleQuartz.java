@@ -16,6 +16,7 @@ public class TravelScheduleQuartz {
 
 	public void setRedisDao(ITravelScheduleRedisDao redisDao) {
 		this.redisDao = redisDao;
+		System.out.println("这是dev分支自动merge的一次修改");
 	}
 
 
