@@ -93,7 +93,7 @@ public class webController{
 
 	@RequestMapping(value="/publish",method=RequestMethod.GET)
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("这个文件中做了一些bug修改");
+		System.out.println("这个文件中做了其他的一些bug修改");
 	    Map<String,Object> model=new HashMap<String,Object>();
 		int travelId=Integer.parseInt(String.valueOf(request.getParameter("travelId")));
 		List<TravelRecord> travelRecordList=travelRecordService.queryByTravelId(travelId);
