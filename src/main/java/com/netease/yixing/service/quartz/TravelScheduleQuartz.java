@@ -22,6 +22,7 @@ public class TravelScheduleQuartz {
 	public void cleanTopKTravelScheduleInMemory(){
 		redisDao.cleanTopKMarkedTravelScheduleInMemory(Constant.TOP_K_TRAVEL_SCHEDULE);
 		redisDao.cleanTopKVisitedTravelScheduleInMemory(Constant.TOP_K_TRAVEL_SCHEDULE);
+		System.out.println("这是branch dev做的一次修改");
 	}
 	
 	
