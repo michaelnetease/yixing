@@ -24,6 +24,9 @@ public class TravelScheduleQuartz {
 		redisDao.cleanTopKMarkedTravelScheduleInMemory(Constant.TOP_K_TRAVEL_SCHEDULE);
 		redisDao.cleanTopKVisitedTravelScheduleInMemory(Constant.TOP_K_TRAVEL_SCHEDULE);
 		System.out.println("这是合并分支后做的最后修改");
+		
+		System.out.println("newdev已经开始做了一些开发工作");
+		System.out.println("newdev完成新功能特性的开发");
 	}
 	
 	
